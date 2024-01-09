@@ -4,7 +4,7 @@ import path from 'path';
 
 import { WebSocketServer } from 'ws';
 
-const mdxDir = path.join('src', 'astra');
+const mdxDir = path.join('src', 'mdx');
 const clients = new Set();
 
 fs.watch(mdxDir, { persistent: true, recursive: true }, async () => {

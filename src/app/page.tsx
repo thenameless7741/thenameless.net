@@ -1,6 +1,6 @@
-import Astrum from '@/ui/astrum';
+import Stella from '@/ui/stella';
 
 const Page = async () => {
-  return <Astrum path="ia.mdx" />;
+  return <Stella path="ia.mdx" />;
 };
 export default Page;

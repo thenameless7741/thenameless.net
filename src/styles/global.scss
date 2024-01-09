@@ -1,0 +1,38 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  background: inherit;
+  color: inherit;
+  font: inherit;
+}
+
+html {
+  block-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  block-size: 100%;
+}
+
+audio,
+canvas,
+iframe,
+img,
+picture,
+svg,
+video {
+  display: inline-block;
+  block-size: auto;
+  max-inline-size: 100%;
+  vertical-align: middle;
+}

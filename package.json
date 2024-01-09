@@ -2,6 +2,7 @@
   "name": "thenameless.net",
   "scripts": {
     "dev": "next dev",
+    "dev:watch": "concurrently 'next dev' 'bun ./scripts/watcher.js' --kill-others",
     "prebuild": "next telemetry disable",
     "build": "next build"
   },
@@ -15,11 +16,13 @@
     "@types/node": "^20.10.7",
     "@types/react": "^18.2.47",
     "@types/react-dom": "^18.2.18",
+    "concurrently": "^8.2.2",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.0.4",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.1.1",
     "sass": "^1.69.7",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "ws": "^8.16.0"
   }
 }

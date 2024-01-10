@@ -1,6 +1,4 @@
-import Stella from '@/ui/stella';
-
 const Page = async () => {
-  return <Stella path="ia.mdx" />;
+  return 'Hello, world!';
 };
 export default Page;

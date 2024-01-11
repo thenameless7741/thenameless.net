@@ -1,9 +1,17 @@
+import { Zen_Kurenaido } from 'next/font/google';
 import localFont from 'next/font/local';
 
-const bodyRegular = localFont({
+const title = Zen_Kurenaido({
+  display: 'swap',
+  subsets: ['latin'],
+  variable: '--font-title',
+  weight: '400',
+});
+
+const body = localFont({
   display: 'swap',
   src: '../../public/fonts/afacad-latin-400.woff2',
-  variable: '--font-body-regular',
+  variable: '--font-body',
 });
 const bodyBold = localFont({
   display: 'swap',
@@ -18,9 +26,17 @@ const bodyItalic = localFont({
   weight: '600',
 });
 
+const label = localFont({
+  display: 'swap',
+  src: '../../public/fonts/montserrat-latin-600.woff2',
+  variable: '--font-label',
+});
+
 const font = {
-  bodyRegular,
+  title,
+  body,
   bodyBold,
   bodyItalic,
+  label,
 };
 export default font;

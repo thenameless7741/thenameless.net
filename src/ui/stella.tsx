@@ -4,7 +4,7 @@ import p from 'path';
 import matter from 'gray-matter';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
-import markdown from './markdown';
+import mdx from './mdx';
 import s from './stella.module.scss';
 
 interface StellaProps {
@@ -19,10 +19,7 @@ const Stella = async ({ path }: StellaProps) => {
 
   return (
     <div className={s.stella}>
-      {Object.entries(data).map(([k, v], i) => (
-        <div key={i}>{`${k}: ${v}`}</div>
-      ))}
-      <MDXRemote components={markdown} source={content} />
+      <MDXRemote components={mdx} source={content} />
     </div>
   );
 };

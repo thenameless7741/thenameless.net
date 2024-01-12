@@ -32,11 +32,18 @@ const label = localFont({
   variable: '--font-label',
 });
 
+const code = localFont({
+  display: 'swap',
+  src: '../../public/fonts/sometype-mono-latin-400.woff2',
+  variable: '--font-code',
+});
+
 const font = {
   title,
   body,
   bodyBold,
   bodyItalic,
   label,
+  code,
 };
 export default font;

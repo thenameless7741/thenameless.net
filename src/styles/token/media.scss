@@ -1,0 +1,34 @@
+$_base: 16;
+$_offset: 0.001rem;
+
+$_sp: 320 / $_base * 1rem;
+$_tb: 640 / $_base * 1rem;
+$_lt: 1280 / $_base * 1rem;
+$_pc: 1920 / $_base * 1rem;
+
+$breakpoints: (
+  lsp: $_sp - $_offset,
+  sp: $_sp,
+  ltb: $_tb - $_offset,
+  tb: $_tb,
+  llt: $_lt - $_offset,
+  lt: $_lt,
+  lpc: $_pc - $_offset,
+  pc: $_pc,
+);
+
+@mixin device($breakpoint) {
+  @each $bp, $w in $breakpoints {
+    @if $breakpoint == $bp {
+      @if str-length($bp) == 3 {
+        @media (max-width: $w) {
+          @content;
+        }
+      } @else {
+        @media (min-width: $w) {
+          @content;
+        }
+      }
+    }
+  }
+}

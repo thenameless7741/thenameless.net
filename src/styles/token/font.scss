@@ -1,0 +1,15 @@
+$font-title: var(--font-title), sans-serif;
+$font-body: var(--font-body), sans-serif;
+$font-body-bold: var(--font-body-bold), sans-serif;
+$font-body-italic: var(--font-body-italic), sans-serif;
+$font-label: var(--font-label), sans-serif;
+$font-code: var(--font-code), monospace;
+
+@mixin font($size, $lead, $kern: 0) {
+  font-size: #{($size / 16)}rem;
+  @if $kern != 0 {
+    letter-spacing: #{$kern}em;
+  }
+  line-height: #{($lead / $size)};
+  overflow-wrap: break-word;
+}

@@ -1,0 +1,46 @@
+@use '@/styles/token' as t;
+
+.link {
+  @include t.outline-start;
+  color: t.$violet-5;
+  text-decoration-color: t.$purple-1;
+  text-underline-offset: 0.25em;
+  transition:
+    t.$outline-transition,
+    color 300ms,
+    text-decoration-color 150ms;
+
+  & > svg {
+    position: relative;
+    top: -0.2em;
+    block-size: 0.8em;
+    inline-size: 0.8em;
+    margin-inline-start: 0.2em;
+    color: t.$purple-2;
+  }
+
+  &:focus-visible {
+    @include t.outline-end;
+  }
+  @supports not selector(&:focus-visible) {
+    &:focus {
+      @include t.outline-end;
+    }
+  }
+
+  &:hover,
+  &:active,
+  &:focus,
+  &:focus-visible {
+    color: t.$violet-6;
+    text-decoration-color: t.$purple-2;
+
+    & > svg {
+      color: t.$purple-3;
+    }
+  }
+}
+
+.arxiv {
+  overflow: visible; /* cut-off edges */
+}

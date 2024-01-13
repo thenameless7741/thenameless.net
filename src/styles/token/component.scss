@@ -1,0 +1,20 @@
+@use './color.scss' as t;
+
+$ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+$outline-transition: outline-offset $ease-out-expo 750ms;
+
+@mixin outline-start() {
+  border-radius: 1px;
+  outline-offset: 6px;
+}
+@mixin outline-end() {
+  outline: 2px solid t.$purple-3;
+  outline-offset: 2px;
+}
+@mixin outline() {
+  @include outline-start;
+
+  &[data-focus-visible] {
+    @include outline-end;
+  }
+}

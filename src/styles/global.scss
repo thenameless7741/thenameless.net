@@ -1,3 +1,5 @@
+@use '@/styles/token' as t;
+
 *,
 ::before,
 ::after {
@@ -22,6 +24,10 @@ html {
 
 body {
   block-size: 100%;
+}
+
+::selection {
+  background-color: t.$gray-1;
 }
 
 audio,

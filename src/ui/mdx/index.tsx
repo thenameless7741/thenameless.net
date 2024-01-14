@@ -1,8 +1,10 @@
 import { MDXProvider } from '@mdx-js/react';
-import Link from 'next/link';
+import Image from 'next/image';
 import Prism from 'react-syntax-highlighter/dist/esm/prism';
 
 import prism from '@/styles/prism';
+import Link from '@/ui/link';
+import Resource from './resource';
 import s from './index.module.scss';
 
 const mdx: React.ComponentProps<typeof MDXProvider>['components'] = {
@@ -10,7 +12,6 @@ const mdx: React.ComponentProps<typeof MDXProvider>['components'] = {
    * components: block-level
    */
   blockquote: (props) => <blockquote {...props} className={s.blockquote} />,
-  h1: (props) => <h1 {...props} className={s.h1} />,
   h2: (props) => <h2 {...props} className={s.h2} />,
   h3: (props) => <h3 {...props} className={s.h3} />,
   h4: (props) => <h4 {...props} className={s.h4} />,
@@ -42,12 +43,15 @@ const mdx: React.ComponentProps<typeof MDXProvider>['components'] = {
     ),
   code: (props) => <code {...props} className={s.code} />,
   em: (props) => <em {...props} className={s.em} />,
-  img: (props) => <img {...props} className={s.img} />,
+  img: ({ alt, src }) => (
+    <Image className={s.img} alt={alt ?? ''} src={src as string} />
+  ),
   strong: (props) => <strong {...props} className={s.strong} />,
 
   /**
    * custom components: block-level
    */
+  Resource,
 
   /**
    * custom components: inline-level

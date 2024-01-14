@@ -5,6 +5,7 @@ import matter from 'gray-matter';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 import mdx from './mdx';
+import Header from './mdx/header';
 import s from './stella.module.scss';
 
 interface StellaProps {
@@ -19,6 +20,7 @@ const Stella = async ({ path }: StellaProps) => {
 
   return (
     <div className={s.stella}>
+      <Header data={data} />
       <MDXRemote components={mdx} source={content} />
     </div>
   );

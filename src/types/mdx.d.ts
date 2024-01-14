@@ -1,3 +1,13 @@
+export interface Metadata {
+  title: string;
+  subtitle?: string;
+  type: 'pattern';
+  stage: 'atom' | 'nebula' | 'star';
+  topics: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Resource {
   content: {
     text: string;

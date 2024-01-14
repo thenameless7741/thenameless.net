@@ -1,0 +1,113 @@
+@use '@/styles/token' as t;
+
+.header {
+  --secondary: #{t.$gray-5};
+  grid-column: 1 / -1 !important; /* override parent's value */
+  display: grid;
+  gap: t.$space-1;
+  inline-size: min(100%, 80ch);
+  margin-block: t.$space-8;
+  margin-inline: auto;
+
+  @include t.device(tb) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      'type-stage type-stage .'
+      'title      title      title'
+      'subtitle   subtitle   subtitle'
+      'hr         hr         hr'
+      'topics     topics     updated-at';
+    align-items: baseline;
+  }
+}
+
+.label {
+  @include t.font(10, 10, 0.1);
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}
+
+.type-stage {
+  @extend .label;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: t.$space-3;
+  color: var(--secondary);
+
+  @include t.device(tb) {
+    grid-area: type-stage;
+  }
+}
+
+.title {
+  @include t.font(40, 46);
+  font-family: t.$font-title;
+  letter-spacing: -0.02em;
+  text-wrap: pretty;
+
+  @include t.device(tb) {
+    grid-area: title;
+  }
+}
+
+.subtitle {
+  @include t.font(18, 22);
+  margin-block-start: t.$space-1;
+  color: t.$gray-6;
+  font-family: t.$font-title;
+  text-wrap: pretty;
+
+  @include t.device(tb) {
+    grid-area: subtitle;
+  }
+}
+
+.hr {
+  margin-block-start: t.$space-3;
+  margin-block-end: t.$space-1;
+  border: none;
+  border-block-start: 1px solid t.$gray-1;
+
+  @include t.device(tb) {
+    grid-area: hr;
+  }
+}
+
+.topics {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: t.$space-3;
+
+  @include t.device(tb) {
+    grid-area: topics;
+  }
+}
+
+.topic {
+  color: var(--secondary);
+  font-family: t.$font-body;
+}
+
+.updated-at {
+  color: var(--secondary);
+
+  @include t.device(ltb) {
+    margin-block-start: t.$space-3;
+  }
+  @include t.device(tb) {
+    grid-area: updated-at;
+    justify-self: end;
+  }
+
+  &-label {
+    font-family: t.$font-body;
+
+    @include t.device(tb) {
+      display: none;
+    }
+  }
+
+  &-value {
+    @extend .label;
+  }
+}

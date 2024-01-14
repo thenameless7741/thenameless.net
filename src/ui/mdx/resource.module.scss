@@ -1,0 +1,35 @@
+@use '@/styles/token' as t;
+
+.resource {
+  --secondary: #{t.$gray-5};
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-block-end: t.$space-2;
+  color: var(--secondary);
+}
+
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: t.$space-2;
+}
+
+.author {
+  color: var(--secondary); /* link override */
+}
+
+.tag {
+  @include t.font(10, 12, 0.1);
+  font-family: t.$font-label;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  &:not(:first-child) {
+    margin-inline-start: t.$space-2;
+  }
+
+  &::before {
+    content: '#';
+  }
+}

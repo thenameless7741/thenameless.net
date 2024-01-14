@@ -3,6 +3,7 @@ import {
   ArrowUpRight,
   GithubLogo,
   TwitterLogo,
+  YoutubeLogo,
 } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 
@@ -26,6 +27,8 @@ const Component = ({ href, children, className, showIcon = true }: Props) => {
       Icon = GithubLogo;
     } else if (exps.twitter.test(href)) {
       Icon = TwitterLogo;
+    } else if (exps.youtube.test(href)) {
+      Icon = YoutubeLogo;
     } else {
       Icon = ArrowUpRight;
     }
@@ -50,6 +53,7 @@ const exps = {
   arxiv: /^https?:\/\/(www\.)?arxiv\.org/,
   github: /^https?:\/\/(www\.)?github\.com/,
   twitter: /^https?:\/\/(www\.)?(x\.com|twitter\.com|t\.co)/,
+  youtube: /^https?:\/\/(www\.)?(youtu\.be|youtube\.com|t\.co)/,
 };
 
 const ArxivLogo = ({ fill = false }: { fill?: boolean }) => {

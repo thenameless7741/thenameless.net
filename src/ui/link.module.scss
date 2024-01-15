@@ -17,6 +17,7 @@
     inline-size: 0.8em;
     margin-inline-start: 0.2em;
     color: t.$purple-2;
+    transition: all 150ms;
   }
 
   &:focus-visible {
@@ -43,4 +44,5 @@
 
 .arxiv {
   overflow: visible; /* cut-off edges */
+  stroke-width: 2;
 }

@@ -47,7 +47,7 @@ const components: React.ComponentProps<typeof MDXProvider>['components'] = {
   pre: (props) => {
     const code = props.children as React.ReactElement;
     const { children, className } = code.props;
-    const language = className.replace('language-', '');
+    const language = className?.replace('language-', '');
 
     return (
       <Prism className={s.pre} style={prism} language={language}>

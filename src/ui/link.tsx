@@ -1,7 +1,9 @@
 import { Icon as PhosphorIcon } from '@phosphor-icons/react';
 import {
   ArrowUpRight,
+  BookOpen,
   GithubLogo,
+  RedditLogo,
   TwitterLogo,
   YoutubeLogo,
 } from '@phosphor-icons/react/dist/ssr';
@@ -25,8 +27,12 @@ const Component = ({ href, children, className, showIcon = true }: Props) => {
       Icon = ArxivLogo;
     } else if (exps.github.test(href)) {
       Icon = GithubLogo;
+    } else if (exps.reddit.test(href)) {
+      Icon = RedditLogo;
     } else if (exps.twitter.test(href)) {
       Icon = TwitterLogo;
+    } else if (exps.wikipedia.test(href)) {
+      Icon = BookOpen;
     } else if (exps.youtube.test(href)) {
       Icon = YoutubeLogo;
     } else {
@@ -52,7 +58,9 @@ export default Component;
 const exps = {
   arxiv: /^https?:\/\/(www\.)?arxiv\.org/,
   github: /^https?:\/\/(www\.)?github\.com/,
+  reddit: /^https?:\/\/(www\.)?(old\.)?reddit\.com/,
   twitter: /^https?:\/\/(www\.)?(x\.com|twitter\.com|t\.co)/,
+  wikipedia: /^https?:\/\/([a-z]{1,3}\.)?wikipedia\.org/,
   youtube: /^https?:\/\/(www\.)?(youtu\.be|youtube\.com|t\.co)/,
 };
 

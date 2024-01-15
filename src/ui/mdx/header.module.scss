@@ -5,7 +5,7 @@
   grid-column: 1 / -1 !important; /* override parent's value */
   display: grid;
   gap: t.$space-1;
-  inline-size: min(100%, 80ch);
+  inline-size: min(100%, 40rem);
   margin-block: t.$space-8;
   margin-inline: auto;
 

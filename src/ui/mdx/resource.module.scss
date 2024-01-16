@@ -1,12 +1,11 @@
 @use '@/styles/token' as t;
 
 .resource {
-  --secondary: #{t.$gray-5};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-block-end: t.$space-2;
-  color: var(--secondary);
+  color: #{t.$gray-5};
 }
 
 .metadata {
@@ -16,7 +15,14 @@
 }
 
 .author {
-  color: var(--secondary); /* link override */
+  --primary-color: #{t.$gray-5} !important; /* link override */
+
+  &:hover,
+  &:active,
+  &:focus,
+  &:focus-visible {
+    --primary-color: #{t.$gray-6} !important; /* link override */
+  }
 }
 
 .tag {

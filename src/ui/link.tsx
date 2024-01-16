@@ -51,7 +51,7 @@ const Component = ({ href, children, className, showIcon = true }: Props) => {
       target={internal ? undefined : '_blank'}
     >
       {children}
-      {!!Icon && <Icon weight="bold" />}
+      {!!Icon && <Icon className={s.icon} weight="bold" />}
     </Link>
   );
 };
@@ -72,7 +72,7 @@ const ArxivLogo = ({ color = 'currentColor' }: { color?: string }) => {
 
   return (
     <svg
-      className={s.arxiv}
+      className={[s.icon, s.arxiv].join(' ')}
       viewBox="0 0 17.732 24.269"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -97,7 +97,7 @@ const ArxivLogo = ({ color = 'currentColor' }: { color?: string }) => {
 const HuggingFaceLogo = ({ color = 'currentColor' }: { color?: string }) => {
   return (
     <svg
-      className={s.huggingface}
+      className={[s.icon, s.huggingface].join(' ')}
       viewBox="0 0 32 32"
       xmlns="http://www.w3.org/2000/svg"
     >

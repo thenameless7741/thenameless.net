@@ -7,8 +7,10 @@ export const generateStaticParams = async () => {
   const mdxDir = p.join(process.cwd(), 'src', 'mdx');
   const mdxRegExp = /\.mdx?$/;
 
-  const files = fs.readdirSync(mdxDir).filter((f) => mdxRegExp.test(f));
-  return files.map((f) => f.replace(mdxRegExp, '')).map((slug) => ({ slug }));
+  const paths = fs.readdirSync(mdxDir).filter((path) => mdxRegExp.test(path));
+  return paths
+    .map((path) => path.replace(mdxRegExp, ''))
+    .map((slug) => ({ slug }));
 };
 
 interface Props {

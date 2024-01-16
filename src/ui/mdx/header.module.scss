@@ -12,11 +12,11 @@
   @include t.device(tb) {
     grid-template-columns: repeat(3, 1fr);
     grid-template-areas:
-      'type-stage type-stage .'
-      'title      title      title'
-      'subtitle   subtitle   subtitle'
-      'hr         hr         hr'
-      'topics     topics     updated-at';
+      'nav      nav      .'
+      'title    title    title'
+      'subtitle subtitle subtitle'
+      'hr       hr       hr'
+      'topics   topics   updated-at';
     align-items: baseline;
   }
 }
@@ -27,15 +27,33 @@
   text-transform: uppercase;
 }
 
-.type-stage {
+.nav {
   @extend .label;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   column-gap: t.$space-3;
   color: var(--secondary);
 
   @include t.device(tb) {
-    grid-area: type-stage;
+    grid-area: nav;
+  }
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+}
+
+.back-icon {
+  color: t.$purple-2;
+
+  .back:hover &,
+  .back:active &,
+  .back:focus &,
+  .back:focus-visible & {
+    color: t.$purple-3;
   }
 }
 

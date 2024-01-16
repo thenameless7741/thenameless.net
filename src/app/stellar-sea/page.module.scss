@@ -1,0 +1,55 @@
+@use '@/styles/token' as t;
+
+.stellar-sea {
+  max-inline-size: 40rem;
+  margin-inline: auto;
+}
+
+.title {
+  @include t.font(40, 46);
+  margin-block-start: t.$space-12;
+  margin-block-end: t.$space-8;
+  font-family: t.$font-title;
+  letter-spacing: -0.02em;
+}
+
+.stellae {
+  &:not(:first-child) {
+    margin-block-start: t.$space-8;
+  }
+}
+
+.type {
+  @include t.font(12, 16, 0.1);
+  margin-block-end: t.$space-2;
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-2;
+}
+
+.link {
+  @include t.font(17, 25);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: t.$space-2;
+  font-family: t.$font-body;
+  list-style: none;
+}
+
+.updated-at {
+  @include t.font(10, 12, 0.1);
+  color: t.$gray-5;
+  font-family: t.$font-label;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  &::before {
+    content: '#';
+  }
+}

@@ -3,13 +3,9 @@
 .stella {
   color: t.$gray-9;
 
-  @include t.device(ltb) {
-    padding: t.$space-3;
-  }
   @include t.device(tb) {
     display: grid;
     grid-template-columns: 1fr min(40rem, 100%) 1fr;
-    padding: t.$space-6;
 
     & > * {
       grid-column: 2;

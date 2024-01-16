@@ -1,4 +1,7 @@
+import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
+
 import { Metadata } from '@/types/mdx';
+import Link from '@/ui/link';
 import s from './header.module.scss';
 
 interface Props {
@@ -10,7 +13,11 @@ const Header = ({ data }: Props) => {
 
   return (
     <header className={s.header}>
-      <div className={s['type-stage']}>
+      <div className={s.nav}>
+        <Link className={s.back} href="/stellar-sea">
+          <CaretLeft className={s['back-icon']} size={14} weight="bold" />
+          stellar-sea
+        </Link>
         <div className={s.type}>#{m.type}</div>
         <div className={s.stage}>#{m.stage}</div>
       </div>

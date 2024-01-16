@@ -1,7 +1,7 @@
 export interface Metadata {
   title: string;
   subtitle?: string;
-  type: 'pattern';
+  type: 'pattern' | 'reference';
   stage: 'atom' | 'nebula' | 'star';
   topics: string[];
   createdAt: string;

@@ -1,0 +1,12 @@
+@use '@/styles/token' as t;
+
+.layout {
+  color: t.$gray-9;
+
+  @include t.device(ltb) {
+    padding: t.$space-3;
+  }
+  @include t.device(tb) {
+    padding: t.$space-6;
+  }
+}

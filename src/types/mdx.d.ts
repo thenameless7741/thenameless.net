@@ -8,14 +8,16 @@ export interface Metadata {
   updatedAt: string;
 }
 
+export interface Link {
+  text: string;
+  url: string;
+}
+
 export interface Resource {
-  content: {
-    text: string;
-    url: string;
-  };
+  content: Link;
+  extras?: Link[];
   description?: string;
-  author?: {
-    text: string;
+  author?: Link & {
     url?: string;
   };
   tags?: string[];

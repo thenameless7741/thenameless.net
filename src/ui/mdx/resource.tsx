@@ -1,20 +1,7 @@
 import Link from '@/ui/link';
 
+import { Resource as Props } from '@/types/mdx';
 import s from './resource.module.scss';
-
-interface Link {
-  text: string;
-  url: string;
-}
-interface Props {
-  content: Link;
-  extras?: Link[];
-  description?: string;
-  author?: Link & {
-    url?: string;
-  };
-  tags?: string[];
-}
 
 const Resource = (r: Props) => {
   return (

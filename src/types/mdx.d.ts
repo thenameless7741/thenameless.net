@@ -16,6 +16,7 @@ export interface Link {
 export interface Resource {
   content: Link;
   extras?: Link[];
+  summary?: string;
   description?: string;
   author?: Link & {
     url?: string;

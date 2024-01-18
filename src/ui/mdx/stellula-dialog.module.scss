@@ -1,0 +1,39 @@
+@use '@/styles/token' as t;
+
+.stellula-dialog {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  background-color: white;
+
+  @include t.device(ltb) {
+    padding: t.$space-3;
+  }
+  @include t.device(tb) {
+    padding: t.$space-6;
+  }
+}
+
+.header {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: 'close title .';
+  align-items: center;
+  max-inline-size: 40rem;
+  margin-inline: auto;
+}
+
+.close {
+  grid-area: close;
+  justify-self: start;
+  position: relative;
+  left: -1 * t.$space-2; /* alignment */
+}
+
+.title {
+  @include t.font(14, 14, 0.1);
+  grid-area: title;
+  justify-self: center;
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}

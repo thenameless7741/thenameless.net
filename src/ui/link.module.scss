@@ -33,9 +33,9 @@
   }
 
   &:hover,
-  &:active,
   &:focus,
-  &:focus-visible {
+  &:focus-visible,
+  &:active {
     --primary-color: #{t.$violet-6};
     --secondary-color: #{t.$purple-3};
     --tertiary-color: #{t.$purple-2};

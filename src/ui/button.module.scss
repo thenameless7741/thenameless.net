@@ -1,0 +1,43 @@
+@use '@/styles/token' as t;
+
+.button {
+  --primary-color: #{t.$violet-5};
+  --secondary-color: #{t.$cyan-2};
+  --tertiary-color: #{t.$cyan-1};
+  @include t.outline-start;
+
+  /* reset */
+  border: none;
+  background: none;
+
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: t.$outline-transition;
+
+  &[data-hovered],
+  &[data-focused],
+  &[data-focus-visible],
+  &[data-pressed] {
+    --primary-color: #{t.$violet-6};
+    --secondary-color: #{t.$cyan-3};
+    --tertiary-color: #{t.$cyan-2};
+  }
+
+  &[data-focus-visible] {
+    @include t.outline-end;
+  }
+
+  &[data-pressed] {
+    outline-offset: -2px;
+  }
+
+  &[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}

@@ -1,9 +1,9 @@
 import fs from 'fs';
 import p from 'path';
 
-import matter from 'gray-matter';
-import { MDXRemote } from 'next-mdx-remote/rsc';
+import { compileMDX } from 'next-mdx-remote/rsc';
 
+import { Metadata } from '@/types/mdx';
 import components from './mdx/components';
 import Header from './mdx/header';
 import s from './stella.module.scss';
@@ -16,12 +16,17 @@ const Stella = async ({ path }: StellaProps) => {
   const mdxDir = p.join(process.cwd(), 'src', 'mdx');
   const filePath = p.join(mdxDir, path);
   const source = fs.readFileSync(filePath).toString();
-  const { content, data } = matter(source);
+
+  const { content, frontmatter } = await compileMDX<Metadata>({
+    source,
+    components,
+    options: { parseFrontmatter: true },
+  });
 
   return (
     <div className={s.stella}>
-      <Header data={data} />
-      <MDXRemote components={components} source={content} />
+      <Header data={frontmatter} />
+      {content}
     </div>
   );
 };

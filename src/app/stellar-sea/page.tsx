@@ -1,7 +1,7 @@
 import fs from 'fs';
 import p from 'path';
 
-import matter from 'gray-matter';
+import { compileMDX } from 'next-mdx-remote/rsc';
 
 import { Metadata } from '@/types/mdx';
 import Link from '@/ui/link';
@@ -13,16 +13,22 @@ const Page = async () => {
 
   const paths = fs.readdirSync(mdxDir).filter((f) => mdxRegExp.test(f));
 
-  const stellae = paths.map((path) => {
-    const filePath = p.join(mdxDir, path);
-    const source = fs.readFileSync(filePath).toString();
-    const { data } = matter(source);
+  const stellae = await Promise.all(
+    paths.map(async (path) => {
+      const filePath = p.join(mdxDir, path);
+      const source = fs.readFileSync(filePath).toString();
 
-    return {
-      slug: path.replace(mdxRegExp, ''),
-      ...(data as Metadata),
-    };
-  });
+      const { frontmatter } = await compileMDX<Metadata>({
+        source,
+        options: { parseFrontmatter: true },
+      });
+
+      return {
+        slug: path.replace(mdxRegExp, ''),
+        ...frontmatter,
+      };
+    }),
+  );
 
   const stellaeByType = stellae.reduce(
     (map, s) => {

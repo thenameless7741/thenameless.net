@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import s from './layout.module.scss';
 
 export const metadata: Metadata = {
-  title: 'stellar-sea | [the]nameless',
+  title: 'stellar-sea',
   description: 'A collection of notes from my interstellar journeys.',
 };
 

@@ -44,7 +44,7 @@ const Page = async () => {
 
   return (
     <div className={s['stellar-sea']}>
-      <h1 className={s.title}>stellar-sea</h1>
+      <h1 className={s.title}>Stellar Sea</h1>
 
       {Object.entries(stellaeByType).map(([type, stellae]) => (
         <div key={type} className={s.stellae}>

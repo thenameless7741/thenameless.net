@@ -5,7 +5,7 @@ type: 'pattern'
 stage: 'aether'
 topics: ['Generative AI', 'RAG', 'Vector Store']
 createdAt: '2024-01-13'
-updatedAt: '2024-01-19'
+updatedAt: '2024-01-22'
 ---
 
 ## Resources
@@ -19,7 +19,29 @@ This is an uncurated collection of learning materials, featuring articles, books
 - Articles:
   - <Resource
       content={{
-        text: 'Sentence Embeddings',
+        text: 'Sentence Embeddings: Cross-encoders and Re-ranking',
+        url: 'https://osanseviero.github.io/hackerllama/blog/posts/sentence_embeddings2',
+      }}
+      author={{
+        text: 'Omar Sanseviero',
+        url: 'https://twitter.com/osanseviero',
+      }}
+      tags={['2024-01-20']}
+    />
+  - <Resource
+      content={{
+        text: 'How to build a terrible RAG system',
+        url: 'https://jxnl.github.io/blog/writing/2024/01/07/inverted-thinking-rag',
+      }}
+      author={{
+        text: 'Jason Liu',
+        url: 'https://twitter.com/jxnlco',
+      }}
+      tags={['2024-01-07']}
+    />
+  - <Resource
+      content={{
+        text: 'Sentence Embeddings: Introduction',
         url: 'https://osanseviero.github.io/hackerllama/blog/posts/sentence_embeddings',
       }}
       author={{
@@ -249,6 +271,17 @@ This is an uncurated collection of learning materials, featuring articles, books
       }}
       description="evaluation framework for RAG systems"
       tags={['python']}
+    />
+  - <Resource
+      content={{
+        text: 'Kernel Memory',
+        url: 'https://github.com/microsoft/kernel-memory',
+      }}
+      extras={[
+        { text: 'Docs', url: 'https://microsoft.github.io/kernel-memory' },
+      ]}
+      description="a service for document indexing and information retrieval"
+      tags={['dotnet']}
     />
 
 ### Vector Store

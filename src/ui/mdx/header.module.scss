@@ -57,11 +57,16 @@
   }
 }
 
-.title {
-  @include t.font(40, 46);
+.heading {
   font-family: t.$font-title;
   letter-spacing: -0.02em;
-  text-wrap: pretty;
+  text-wrap: balance;
+}
+
+.title {
+  @include t.font(40, 46);
+  @extend .heading;
+  margin-block: t.$space-3;
 
   @include t.device(tb) {
     grid-area: title;
@@ -70,10 +75,8 @@
 
 .subtitle {
   @include t.font(18, 22);
-  margin-block-start: t.$space-1;
+  @extend .heading;
   color: t.$gray-6;
-  font-family: t.$font-title;
-  text-wrap: pretty;
 
   @include t.device(tb) {
     grid-area: subtitle;

@@ -11,6 +11,7 @@
   margin-block-end: calc(1em / var(--gr) / 2 * var(--scale));
   font-family: t.$font-title;
   letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .body {

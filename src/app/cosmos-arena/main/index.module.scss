@@ -1,0 +1,28 @@
+@use '@/styles/token' as t;
+
+.main {
+  @include t.device(ltb) {
+    display: flex;
+    flex-direction: column;
+    gap: t.$space-4;
+  }
+
+  @include t.device(tb) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: 'average    average';
+    /*'arc        hellaswag'
+      'mmlu       truthfulqa'
+      'winogrande gsm8k';*/
+    align-items: start;
+    gap: t.$space-4;
+  }
+
+  @include t.device(lt) {
+    grid-template-columns: 22rem repeat(2, minmax(0, 1fr));
+    grid-template-areas: 'filter     average   average';
+    /* 'arc        hellaswag  mmlu'
+      'truthfulqa winogrande gsm8k'; */
+    row-gap: t.$space-8;
+  }
+}

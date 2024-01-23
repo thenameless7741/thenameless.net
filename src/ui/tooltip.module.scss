@@ -1,0 +1,71 @@
+@use '@/styles/token' as t;
+
+.tooltip {
+  --background-color: black;
+  --foreground-color: white;
+  @include t.font(14, 18);
+  max-inline-size: min(50%, 20rem);
+  padding-block: t.$space-2;
+  padding-inline: t.$space-3;
+  border-radius: 4px;
+  background-color: var(--background-color);
+  color: var(--foreground-color);
+  cursor: help;
+  font-family: t.$font-body;
+  outline: none;
+
+  &[data-placement='top'] {
+    --origin: translateY(4px);
+    margin-block-end: t.$space-2;
+  }
+  &[data-placement='bottom'] {
+    --origin: translateY(-4px);
+    margin-block-start: t.$space-2;
+
+    & .overlay svg {
+      transform: rotate(180deg);
+    }
+  }
+  &[data-placement='right'] {
+    --origin: translateX(-4px);
+    margin-inline-start: t.$space-2;
+
+    & .overlay svg {
+      transform: rotate(90deg);
+    }
+  }
+  &[data-placement='left'] {
+    --origin: translateX(4px);
+    margin-inline-end: t.$space-2;
+
+    & .overlay svg {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &[data-entering] {
+    animation: slide 300ms;
+  }
+
+  &[data-exiting] {
+    animation: slide 200ms reverse ease-in;
+  }
+}
+
+@keyframes slide {
+  from {
+    transform: var(--origin);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.overlay svg {
+  display: block;
+  fill: var(--background-color);
+  background-color: var(--foreground-color);
+}

@@ -1,0 +1,15 @@
+@use '@/styles/token' as t;
+@use './button.module.scss';
+
+.button {
+  flex-shrink: 0;
+  inline-size: max-content;
+  border-radius: 50%;
+
+  @include t.device(lpb) {
+    padding: t.$space-3;
+  }
+  @include t.device(lpb) {
+    padding: t.$space-1;
+  }
+}

@@ -1,0 +1,59 @@
+@use '@/styles/token' as t;
+
+.search {
+  --primary-color: #{t.$violet-5};
+  --secondary-color: #{t.$gray-2};
+  --tertiary-color: #{t.$gray-1};
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.label {
+  position: absolute;
+  left: t.$space-2;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex; /* vertically center in Chromium */
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.input {
+  @include t.font(16, 20);
+  padding-block: 0.5em;
+  padding-inline: 2em;
+  border: none;
+  font-family: t.$font-body;
+  transition-property: outline-offset;
+  transition-duration: 150ms;
+
+  @supports selector(&:focus-visible) {
+    &:focus {
+      outline: none;
+    }
+  }
+  @include t.outline(); /* include after support check */
+
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+  }
+}
+
+.clear {
+  position: absolute;
+  top: 50%;
+  right: t.$space-2;
+  transform: translateY(-50%);
+  display: flex; /* vertically center in Chromium */
+  border: none;
+  background: none;
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.description {
+}
+
+.error {
+}

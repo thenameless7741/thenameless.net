@@ -1,0 +1,212 @@
+@use '@/styles/token' as t;
+
+.table {
+  --block-pad: #{1.5 * t.$space-1};
+  --inline-pad: #{t.$space-3};
+  inline-size: 100%;
+  padding-block-end: t.$space-3; /* scrollbar */
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  &:nth-of-type(1) {
+    grid-area: average;
+    display: block;
+    max-inline-size: fit-content;
+    overflow-x: auto;
+  }
+  &:nth-of-type(2) {
+    grid-area: average;
+  }
+  &:nth-of-type(3) {
+    grid-area: arc;
+  }
+  &:nth-of-type(4) {
+    grid-area: hellaswag;
+  }
+  &:nth-of-type(5) {
+    grid-area: mmlu;
+  }
+  &:nth-of-type(6) {
+    grid-area: truthfulqa;
+  }
+  &:nth-of-type(7) {
+    grid-area: winogrande;
+  }
+  &:nth-of-type(8) {
+    grid-area: gsm8k;
+  }
+}
+
+.table:nth-of-type(1) {
+  @include t.device(ltb) {
+    display: none;
+  }
+}
+.table:nth-of-type(2) {
+  @include t.device(tb) {
+    display: none;
+  }
+}
+
+.sticky-header {
+  --max-size: 18rem; /* ~fit 1440w */
+  position: sticky;
+  left: 0;
+  z-index: 1; /* above tooltip */
+  max-inline-size: var(--max-size);
+  padding-inline-start: var(--page-pad);
+  backdrop-filter: blur(8px);
+  background-color: hsla(0deg, 0%, 100%, 0.8);
+
+  /* TODO: use &[data-hovered] when fixed/implemented */
+  @media (hover: hover) {
+    .row:hover > & {
+      background-color: t.$violet-0;
+    }
+  }
+}
+
+.header {
+  @include t.outline();
+  @include t.font(16, 20);
+  padding-block: var(--block-pad);
+  padding-inline: var(--inline-pad);
+  font-family: t.$font-body;
+  white-space: nowrap;
+
+  &:first-child {
+    text-align: start;
+
+    @include t.device(ltb) {
+      --average: 3.5rem;
+      inline-size: calc(100dvw - var(--average) - 2 * var(--page-pad));
+    }
+  }
+  &:not(:first-child) {
+    text-align: end;
+  }
+
+  &:has(> .header-content) {
+  }
+
+  &.sticky {
+    @extend .sticky-header;
+  }
+}
+
+.header-content {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-center;
+  gap: t.$space-1;
+}
+
+.row {
+  @include t.outline();
+  border-block-start: 1px dotted #eee;
+
+  /* TODO: use &[data-hovered] when fixed/implemented */
+  @media (hover: hover) {
+    &:hover {
+      background-color: t.$violet-0;
+    }
+    &:has(> .total):hover {
+      background-color: revert;
+    }
+  }
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cell {
+  @include t.outline();
+  @extend .ellipsis;
+  padding-block: var(--block-pad);
+  padding-inline: var(--inline-pad);
+  text-align: end;
+}
+
+.body {
+  @extend .cell;
+  @include t.font(16, 20);
+  font-family: t.$font-body;
+}
+
+.code {
+  @extend .cell;
+  @include t.font(14, 16);
+  font-family: t.$font-code;
+}
+
+.model {
+  @extend .body;
+  padding-inline-start: var(--page-pad);
+  text-align: start;
+
+  &.sticky {
+    @extend .sticky-header;
+    border-block-start: 1px dotted #ddd;
+  }
+
+  & > a {
+    --primary-color: #{t.$gray-9} !important; /* link override */
+  }
+}
+
+.empty {
+  @extend .body;
+  --block-pad: #{t.$space-3};
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.top {
+  @extend .body;
+  font-family: t.$font-body-bold;
+}
+
+.value {
+  @extend .body;
+  color: #666;
+}
+
+.pin-base {
+  & > button {
+    display: inline-block;
+    margin-inline: auto;
+    padding-inline: t.$space-3;
+    border-radius: 1px;
+  }
+}
+
+.pin {
+  @extend .pin-base;
+  color: darkgray;
+
+  & > button {
+    /* TODO: use &[data-hovered] when fixed/implemented */
+    @media (hover: hover) {
+      &:hover {
+        color: black;
+      }
+    }
+  }
+}
+
+.pin-active {
+  @extend .pin-base;
+  color: black;
+}
+
+.total {
+  @extend .body;
+  --block-pad: #{t.$space-2};
+  padding-inline-start: var(--page-pad);
+  color: gray;
+  text-align: start;
+  white-space: nowrap;
+}

@@ -1,0 +1,13 @@
+@use '@/styles/token' as t;
+
+.app {
+  padding-block: var(--page-pad);
+  color: t.$gray-9;
+
+  @include t.device(ltb) {
+    --page-pad: #{t.$space-3};
+  }
+  @include t.device(tb) {
+    --page-pad: #{t.$space-6};
+  }
+}

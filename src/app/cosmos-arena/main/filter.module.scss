@@ -1,0 +1,65 @@
+@use '@/styles/token' as t;
+
+.form {
+  padding-inline-start: var(--page-pad);
+
+  @include t.device(llt) {
+    display: none;
+  }
+
+  code {
+    @include t.font(14, 16);
+    font-family: t.$font-code;
+  }
+}
+
+.hr {
+  block-size: 1px;
+  border: none;
+  background-color: #eee;
+
+  .main & {
+    margin-block: var(--space);
+
+    @include t.device(ltb) {
+      --space: #{t.$space-6};
+    }
+    @include t.device(tb) {
+      --space: #{t.$space-4};
+    }
+  }
+}
+
+.main {
+  margin-block-start: t.$space-2; /* alignment */
+
+  & > div[role='group'] > div {
+    row-gap: t.$space-3;
+    color: #666;
+  }
+}
+
+.footer {
+  display: flex;
+  margin-block-end: t.$space-3;
+}
+
+/* sync with checkbox-group */
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-6;
+}
+
+.group-label {
+  @include t.font(12, 16, 0.1);
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}
+
+.group-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: t.$space-6;
+}

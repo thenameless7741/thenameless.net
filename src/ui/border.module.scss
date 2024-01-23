@@ -1,0 +1,71 @@
+@use '@/styles/token' as t;
+
+.border {
+  --bg-color: white;
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border: 1px solid var(--tertiary-color);
+  border-radius: 1px;
+  transition: border-color 150ms;
+
+  &::before {
+    $offset: 3px;
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: $offset;
+    left: $offset;
+    block-size: calc(100% - 2 * $offset);
+    inline-size: calc(100% - 2 * $offset);
+    background-color: t.$violet-0;
+    opacity: 0.5;
+  }
+}
+
+.gap {
+  position: absolute;
+  background-color: var(--bg-color);
+}
+
+$offset: -2px;
+$size: 4px;
+$hr: t.$space-4, 20%, t.$space-8;
+$vr: t.$space-2, 30%, t.$space-4;
+
+.gap-1 {
+  @extend .gap;
+  top: $offset;
+  left: 12%;
+  block-size: $size;
+  inline-size: clamp(#{$hr});
+}
+
+.gap-2 {
+  @extend .gap;
+  bottom: 24%;
+  right: $offset;
+  block-size: clamp(#{$vr});
+  inline-size: $size;
+}
+
+.gap-3 {
+  @extend .gap;
+  display: inline-block;
+  bottom: $offset - 0.5px;
+  right: 12%;
+  block-size: $size;
+  inline-size: clamp(#{$hr});
+  border-block: 1.5px solid var(--bg-color);
+  border-inline: 2px solid var(--bg-color);
+  background-color: var(--secondary-color);
+  transition: border-color 150ms;
+}
+
+.gap-4 {
+  @extend .gap;
+  top: 24%;
+  left: $offset;
+  block-size: clamp(#{$vr});
+  inline-size: $size;
+}

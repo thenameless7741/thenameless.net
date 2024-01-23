@@ -1,0 +1,89 @@
+@use '@/styles/token' as t;
+
+.dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 2; /* above sticky headers */
+  overflow-y: auto;
+  background-color: hsla(0deg, 0%, 100%, 0.8);
+  backdrop-filter: blur(8px);
+
+  @include t.device(ltb) {
+    padding-inline: t.$space-3;
+    padding-block: t.$space-6;
+  }
+  @include t.device(tb) {
+    padding: t.$space-6;
+  }
+}
+
+.form {
+  max-inline-size: 40rem;
+  margin-inline: auto;
+
+  code {
+    @include t.font(14, 16);
+    font-family: t.$font-code;
+  }
+}
+
+.header {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: 'close heading .';
+}
+
+.close {
+  grid-area: close;
+  justify-self: start;
+}
+
+.heading {
+  @include t.font(14, 20, 0.1);
+  grid-area: heading;
+  justify-self: center;
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}
+
+.hr {
+  block-size: 1px;
+  margin-block: t.$space-2;
+  border: none;
+  background-color: #eee;
+
+  .main & {
+    margin-block: t.$space-6;
+  }
+}
+
+.main {
+  margin-block: t.$space-12;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: t.$space-1;
+  margin-block-start: t.$space-3;
+}
+
+/* sync with checkbox-group */
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-6;
+}
+
+.group-label {
+  @include t.font(12, 16, 0.1);
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}
+
+.group-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: t.$space-6;
+}

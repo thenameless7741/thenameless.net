@@ -1,0 +1,26 @@
+@use '@/styles/token' as t;
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space);
+
+  @include t.device(ltb) {
+    --space: #{t.$space-6};
+  }
+  @include t.device(tb) {
+    --space: #{t.$space-4};
+  }
+}
+
+.label {
+  @include t.font(12, 16, 0.1);
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}
+
+.checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space);
+}

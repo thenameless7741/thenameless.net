@@ -1,4 +1,3 @@
-const Page = async () => {
-  return 'Hello, world!';
-};
-export default Page;
+import AstralExpress from './astral-express';
+
+export default AstralExpress;

@@ -1,0 +1,37 @@
+@use '@/styles/token' as t;
+
+.astral-express {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-areas:
+    '.      .      .'
+    '.      logo   .'
+    'footer footer footer';
+  block-size: 100%;
+  padding: t.$space-6;
+}
+
+.logo {
+  grid-area: logo;
+  justify-self: center;
+  align-self: center;
+  max-inline-size: 80dvw;
+}
+
+.footer {
+  grid-area: footer;
+  justify-self: center;
+  align-self: center;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: t.$space-6;
+}
+
+.link {
+  @include t.font(17, 25);
+  font-family: t.$font-body;
+}

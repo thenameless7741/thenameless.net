@@ -31,13 +31,7 @@ export const headers: Header[] = [
   'MoE',
 ];
 
-export const types: Type[] = [
-  'pretrained',
-  'fine-tuned',
-  'instruction-tuned',
-  'RL-tuned',
-  '',
-];
+export const types: Type[] = ['pretrained', 'chat', 'fine-tuned', 'merge', ''];
 
 export const weightTypes: WeightType[] = ['original', 'adapter', 'delta', ''];
 

@@ -26,9 +26,9 @@ export interface Model {
 
 export type Type =
   | 'pretrained'
-  | 'fine-tuned'
-  | 'instruction-tuned'
-  | 'RL-tuned'
+  | 'chat' // chat models (RLHF, DPO, IFT, ...)
+  | 'fine-tuned' // fine-tuned on domain-specific datasets
+  | 'merge' // base merges and moerges
   | '';
 
 export type WeightType = 'original' | 'adapter' | 'delta' | '';

@@ -76,6 +76,17 @@ const loadModels = async () => {
 
       const values = split(l);
 
+      let type: Model['type'] | string = values[9];
+      if (type === 'chat models (RLHF, DPO, IFT, ...)') {
+        type = 'chat';
+      } else if (type === 'fine-tuned on domain-specific datasets') {
+        type = 'fine-tuned';
+      } else if (type === 'base merges and moerges') {
+        type = 'merge';
+      } else if (type !== 'pretrained' && type !== '') {
+        console.error(`unexpected type value: ${type}`);
+      }
+
       let architecture = values[10];
       if (architecture === '?') {
         architecture = '';
@@ -91,9 +102,6 @@ const loadModels = async () => {
       }
 
       let license = values[14];
-      if (!license) {
-        // console.log('problem: license', l);
-      }
       if (['?', 'other', 'unknown'].includes(license)) {
         license = '';
       } else if (license.startsWith('[')) {
@@ -109,9 +117,6 @@ const loadModels = async () => {
       const param = +values[15];
 
       let paramGroup: ParamGroup;
-      if (isNaN(param)) {
-        console.log('problem: param', l);
-      }
       if (param === 0) {
         paramGroup = '0';
       } else if (param < 1) {
@@ -156,7 +161,7 @@ const loadModels = async () => {
         truthfulqa: +values[6],
         winogrande: +values[7],
         gsm8k: +values[8],
-        type: values[9] as Model['type'],
+        type,
         architecture,
         weightType: values[11].toLowerCase() as WeightType,
         precision: values[12] as Model['precision'],

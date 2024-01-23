@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   description: 'An alternative UI for Open LLM Leaderboard.',
 };
 
-const Tool = async () => {
+const Page = async () => {
   const models = await loadModels();
 
   return <App models={models} />;
 };
-export default Tool;
+export default Page;
 
 const loadModels = async () => {
   const baseUrl = process.env.NEXT_PUBLIC_CF_R2_BASE_URL;
@@ -44,100 +44,136 @@ const loadModels = async () => {
     return value;
   };
 
-  const models: Model[] = lines.map((l) => {
-    const values = l.split(',');
+  const csvRegex = /(?:,|^)(?:"((?:[^"]|"")*)"|([^",]*))/g;
+  const split = (l: string) => {
+    let match;
+    const values = [];
+    let lastIndex = 0;
 
-    let architecture = values[10];
-    if (architecture === '?') {
-      architecture = '';
-    }
-
-    let architectureGroup: Model['architectureGroup'] = 'other';
-    if (architecture.includes('Mistral')) {
-      architectureGroup = 'Mistral';
-    } else if (architecture.includes('Llama')) {
-      architectureGroup = 'Llama';
-    } else if (architecture.includes('CausalLM')) {
-      architectureGroup = 'CausalLM';
-    }
-
-    let license = values[14];
-    if (['?', 'other', 'unknown'].includes(license)) {
-      license = '';
-    } else if (license.startsWith('[')) {
-      const licenses: string[] = JSON.parse(license.replaceAll("'", '"'));
-      license = licenses.length > 0 ? licenses[0] : '';
-    }
-
-    const regex =
-      /^apache|^bigcode|^bigscience|^bsd|^cc|^creativeml|gpl|^llama|^mit$|^openrail/;
-    const matches = license.match(regex);
-    const licenseGroup = ((matches && matches[0]) || '') as LicenseGroup;
-
-    const param = +values[15];
-
-    let paramGroup: ParamGroup;
-    if (param === 0) {
-      paramGroup = '0';
-    } else if (param < 1) {
-      paramGroup = '< 1';
-    } else {
-      const p = Math.round(param);
-
-      if (p < 4) {
-        paramGroup = '1-3';
-      } else if (p < 8) {
-        paramGroup = '4-7';
-      } else if (p < 14) {
-        paramGroup = '8-13';
-      } else if (p < 34) {
-        paramGroup = '14-33';
-      } else if (p < 71) {
-        paramGroup = '34-70';
-      } else {
-        paramGroup = '> 70';
+    while ((match = csvRegex.exec(l))) {
+      // check if the match starts immediately after the last match to detect empty values
+      if (match.index !== lastIndex) {
+        values.push('');
       }
+      // if the value is quoted, replace double quotes with a single quote
+      values.push(
+        match[1] !== undefined ? match[1].replace(/""/g, '"') : match[2],
+      );
+      lastIndex = csvRegex.lastIndex;
     }
 
-    let onHub: Model['onHub'] = '';
-    if (values[17] === 'True') {
-      onHub = 'Y';
-    } else if (values[17] === 'False') {
-      onHub = 'N';
+    // handle the case where the last value is empty
+    if (l.endsWith(',')) {
+      values.push('');
     }
 
-    let sha = values[18];
-    if (sha === 'N/A') {
-      sha = '';
-    }
+    return values;
+  };
 
-    return {
-      // symbol: values[0], skip
-      name: values[1],
-      average: +values[2],
-      arc: +values[3],
-      hellaswag: +values[4],
-      mmlu: +values[5],
-      truthfulqa: +values[6],
-      winogrande: +values[7],
-      gsm8k: +values[8],
-      type: values[9] as Model['type'],
-      architecture,
-      weightType: values[11].toLowerCase() as WeightType,
-      precision: values[12] as Model['precision'],
-      merged: parseBoolean(values[13]),
-      license,
-      param,
-      like: +values[16],
-      onHub,
-      sha,
-      flagged: parseBoolean(values[19]),
-      moe: parseBoolean(values[20]),
-      licenseGroup,
-      paramGroup,
-      architectureGroup,
-    };
-  });
+  const models: Model[] = lines
+    .map((l) => {
+      if (l.startsWith(',baseline')) return null;
+
+      const values = split(l);
+
+      let architecture = values[10];
+      if (architecture === '?') {
+        architecture = '';
+      }
+
+      let architectureGroup: Model['architectureGroup'] = 'other';
+      if (architecture.includes('Mistral')) {
+        architectureGroup = 'Mistral';
+      } else if (architecture.includes('Llama')) {
+        architectureGroup = 'Llama';
+      } else if (architecture.includes('CausalLM')) {
+        architectureGroup = 'CausalLM';
+      }
+
+      let license = values[14];
+      if (!license) {
+        // console.log('problem: license', l);
+      }
+      if (['?', 'other', 'unknown'].includes(license)) {
+        license = '';
+      } else if (license.startsWith('[')) {
+        const licenses: string[] = JSON.parse(license.replaceAll("'", '"'));
+        license = licenses.length > 0 ? licenses[0] : '';
+      }
+
+      const regex =
+        /^apache|^bigcode|^bigscience|^bsd|^cc|^creativeml|gpl|^llama|^mit$|^openrail/;
+      const matches = license.match(regex);
+      const licenseGroup = ((matches && matches[0]) || '') as LicenseGroup;
+
+      const param = +values[15];
+
+      let paramGroup: ParamGroup;
+      if (isNaN(param)) {
+        console.log('problem: param', l);
+      }
+      if (param === 0) {
+        paramGroup = '0';
+      } else if (param < 1) {
+        paramGroup = '< 1';
+      } else {
+        const p = Math.round(param);
+
+        if (p < 4) {
+          paramGroup = '1-3';
+        } else if (p < 8) {
+          paramGroup = '4-7';
+        } else if (p < 14) {
+          paramGroup = '8-13';
+        } else if (p < 34) {
+          paramGroup = '14-33';
+        } else if (p < 71) {
+          paramGroup = '34-70';
+        } else {
+          paramGroup = '> 70';
+        }
+      }
+
+      let onHub: Model['onHub'] = '';
+      if (values[17] === 'True') {
+        onHub = 'Y';
+      } else if (values[17] === 'False') {
+        onHub = 'N';
+      }
+
+      let sha = values[18];
+      if (sha === 'N/A') {
+        sha = '';
+      }
+
+      return {
+        // symbol: values[0], skip
+        name: values[1],
+        average: +values[2],
+        arc: +values[3],
+        hellaswag: +values[4],
+        mmlu: +values[5],
+        truthfulqa: +values[6],
+        winogrande: +values[7],
+        gsm8k: +values[8],
+        type: values[9] as Model['type'],
+        architecture,
+        weightType: values[11].toLowerCase() as WeightType,
+        precision: values[12] as Model['precision'],
+        merged: parseBoolean(values[13]),
+        license,
+        param,
+        like: +values[16],
+        onHub,
+        sha,
+        flagged: parseBoolean(values[19]),
+        moe: parseBoolean(values[20]),
+        licenseGroup,
+        paramGroup,
+        architectureGroup,
+      };
+    })
+    .filter((m): m is Model => !!m);
 
   return models;
 };

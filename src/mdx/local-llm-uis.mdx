@@ -1,0 +1,367 @@
+---
+title: 'Local LLM UIs'
+type: 'reference'
+stage: 'nebula'
+topics: ['Generative AI', 'LLM', 'Local-first']
+createdAt: '2024-01-23'
+updatedAt: '2024-01-23'
+---
+
+Sorted by user agents, supported model formats, and programming languages used to build the interface:
+
+- **User agents**: web/desktop/mobile/smartwatch app, browser extension, editor plugin, chat app bots, digital assistant, SMS, email, terminal
+- **Model formats**: GGUF, Safetensors (HF, AWQ, GPTQ, ExLlamaV2), MLC, UI-only
+
+Note:
+
+1. "UI-only" entries require a separate install of model backend (e.g. llama.cpp)
+2. I'm not sure if this organization makes sense
+
+Please file an [issue](https://github.com/thenameless7741/thenameless.net) or send me a DM on [Twitter](https://twitter.com/thenameless7741) if you have any feedback.
+
+## Web
+
+### Multiple model formats
+
+- <Resource
+    content={{
+      text: 'Text generation web UI',
+      url: 'https://github.com/oobabooga/text-generation-webui',
+    }}
+    extras={[
+      {
+        text: 'docs',
+        url: 'https://github.com/oobabooga/text-generation-webui/wiki',
+      },
+    ]}
+    description="A Gradio web UI for Large Language Models. Supports transformers, GPTQ, AWQ, EXL2, llama.cpp (GGUF), Llama models."
+    tags={['python', 'gradio']}
+  />
+- <Resource
+    content={{
+      text: 'LocalGPT',
+      url: 'https://github.com/PromtEngineer/localGPT',
+    }}
+    description="Chat with your documents on your local device using GPT models."
+    tags={['python', 'js']}
+  />
+- <Resource
+    content={{
+      text: 'h2oGPT',
+      url: 'https://github.com/h2oai/h2ogpt',
+    }}
+    extras={[
+      { text: 'demo 1', url: 'https://gpt.h2o.ai/' },
+      { text: 'demo 2', url: 'https://codellama.h2o.ai' },
+    ]}
+    description="Private Q&A and summarization of documents+images or chat with local GPT, 100% private, Apache 2.0. Supports LLaMa2, llama.cpp, and more."
+    tags={['python', 'gradio']}
+  />
+- <Resource
+    content={{
+      text: 'LoLLMS Web UI',
+      url: 'https://github.com/ParisNeo/lollms-webui',
+    }}
+    extras={[{ text: 'docs', url: 'https://parisneo.github.io/lollms-webui' }]}
+    description="Lord of Large Language Models Web User Interface."
+    tags={['python', 'vue']}
+  />
+- <Resource
+    content={{
+      text: 'SillyTavern',
+      url: 'https://github.com/SillyTavern/SillyTavern',
+    }}
+    extras={[{ text: 'docs', url: 'https://docs.sillytavern.app' }]}
+    description="LLM Frontend for Power Users."
+    tags={['js']}
+  />
+- <Resource
+    content={{
+      text: 'ExUI',
+      url: 'https://github.com/turboderp/exui',
+    }}
+    description="Web UI for ExLlamaV2."
+    tags={['python', 'js']}
+  />
+
+### GGUF
+
+- <Resource
+    content={{
+      text: 'PrivateGPT',
+      url: 'https://github.com/imartinez/privateGPT',
+    }}
+    extras={[{ text: 'docs', url: 'https://docs.privategpt.dev' }]}
+    description="Interact with your documents using the power of GPT, 100% privately, no data leaks."
+    tags={['python', 'gradio']}
+  />
+- <Resource
+    content={{
+      text: 'Serge',
+      url: 'https://github.com/serge-chat/serge',
+    }}
+    extras={[{ text: 'site', url: 'https://serge.chat' }]}
+    description="A web interface for chatting with Alpaca through llama.cpp. Fully dockerized, with an easy to use API."
+    tags={['ts', 'svelte', 'python']}
+  />
+- <Resource
+    content={{
+      text: 'Chat UI',
+      url: 'https://github.com/huggingface/chat-ui',
+    }}
+    extras={[{ text: 'demo', url: 'https://huggingface.co/chat' }]}
+    description="Open source codebase powering the HuggingChat app."
+    tags={['ts', 'svelte']}
+  />
+- <Resource
+    content={{
+      text: 'KoboldAI',
+      url: 'https://github.com/KoboldAI/KoboldAI-Client',
+    }}
+    description="Your gateway to GPT writing."
+    tags={['python', 'js']}
+  />
+- <Resource
+    content={{
+      text: 'CatAI',
+      url: 'https://github.com/withcatai/catai',
+    }}
+    extras={[{ text: 'docs', url: 'https://withcatai.github.io/catai' }]}
+    description="UI for Lllama model. Run AI assistant locally."
+    tags={['ts', 'svelte']}
+  />
+- <Resource
+    content={{
+      text: '++camalL',
+      url: 'https://github.com/mounta11n/plusplus-caMalL',
+    }}
+    description="Nice UI for ggerganov's llama.cpp server."
+    tags={['js']}
+  />
+
+### MLC
+
+- <Resource
+    content={{
+      text: 'Web LLM',
+      url: 'https://github.com/mlc-ai/web-llm',
+    }}
+    extras={[{ text: 'docs', url: 'https://webllm.mlc.ai' }]}
+    description="Bringing large-language models and chat to web browsers."
+    tags={['ts']}
+  />
+
+### UI-only
+
+- <Resource
+    content={{
+      text: 'big-AGI',
+      url: 'https://github.com/enricoros/big-agi',
+    }}
+    extras={[{ text: 'site', url: 'https://big-agi.com' }]}
+    description="Personal AI application powered by GPT-4 and beyond, with AI personas, AGI functions, text-to-image, voice, response streaming, code highlighting and execution, PDF import, presets for developers, much more."
+    tags={['ts', 'next']}
+  />
+- <Resource
+    content={{
+      text: 'mikugg',
+      url: 'https://github.com/miku-gg/miku',
+    }}
+    extras={[{ text: 'docs', url: 'https://docs.miku.gg' }]}
+    description='mikugg is a Frontend for "Generative Visual Novels".'
+    tags={['ts']}
+  />
+- <Resource
+    content={{
+      text: 'Amica',
+      url: 'https://github.com/semperai/amica',
+    }}
+    extras={[{ text: 'docs', url: 'https://docs.heyamica.com' }]}
+    description="Amica is an open source interface for interactive communication with 3D characters with voice synthesis and speech recognition."
+    tags={['ts', 'next']}
+  />
+- <Resource
+    content={{
+      text: 'mikupad',
+      url: 'https://github.com/lmg-anon/mikupad',
+    }}
+    extras={[
+      {
+        text: 'demo',
+        url: 'https://lmg-anon.github.io/mikupad/mikupad.html',
+      },
+    ]}
+    description="LLM Frontend in a single html file."
+    tags={['js']}
+  />
+- <Resource
+    content={{
+      text: 'Clipboard conqueror',
+      url: 'https://github.com/aseichter2007/ClipboardConqueror',
+    }}
+    description="Clipboard conqueror is a novel front end designed to bring your very own LLM AI copilot assistant to any text field."
+    tags={['js']}
+  />
+- <Resource
+    content={{
+      text: 'LLM Workbench',
+      url: 'https://github.com/knoopx/llm-workbench',
+    }}
+    extras={[{ text: 'demo', url: 'https://knoopx.github.io/llm-workbench' }]}
+    description="Unleash the power of FOSS language models on your local machine."
+    tags={['ts', 'react']}
+  />
+- <Resource
+    content={{
+      text: 'llm-multitool',
+      url: 'https://github.com/sedwards2009/llm-multitool',
+    }}
+    description="Web UI for working with large language models."
+    tags={['ts', 'react', 'go']}
+  />
+
+## Desktop
+
+### Multiple model format
+
+- <Resource
+    content={{
+      text: 'AI-Messenger',
+      url: 'https://github.com/shinomakoi/ai-messenger',
+    }}
+    description="A QT GUI for large language models."
+    tags={['python', 'qt']}
+  />
+
+### GGUF
+
+- <Resource
+    content={{
+      text: 'gpt4all',
+      url: 'https://github.com/nomic-ai/gpt4all',
+    }}
+    extras={[
+      { text: 'site', url: 'https://gpt4all.io' },
+      { text: 'docs', url: 'https://docs.gpt4all.io' },
+    ]}
+    description="Open-source LLM chatbots that you can run anywhere."
+    tags={['cpp', 'qt']}
+  />
+- <Resource
+    content={{
+      text: 'KoboldCpp',
+      url: 'https://github.com/LostRuins/koboldcpp',
+    }}
+    extras={[{ text: 'demo', url: 'https://lite.koboldai.net' }]}
+    description="A simple one-file way to run various GGML and GGUF models with KoboldAI's UI."
+    tags={['c', 'ctk']}
+  />
+- <Resource
+    content={{
+      text: 'FreeChat',
+      url: 'https://github.com/psugihara/FreeChat',
+    }}
+    description="llama.cpp based AI chat app for macOS."
+    tags={['swift']}
+  />
+
+### UI-only
+
+- <Resource
+    content={{
+      text: 'IlluStory',
+      url: 'https://github.com/Julian-adv/IlluStory',
+    }}
+    description="Chat client for LLMs."
+    tags={['python', 'js', 'svelte']}
+  />
+
+## Mobile
+
+### GGUF
+
+- <Resource
+    content={{
+      text: 'LLM.swift',
+      url: 'https://github.com/eastriverlee/LLM.swift',
+    }}
+    description="LLM.swift is a simple, and readable library which lets you locally interact with LLMs with ease for macOS, iOS, visionOS, watchOS, tvOS."
+    tags={['swift']}
+  />
+
+## Terminal
+
+### Multiple model formats
+
+- <Resource
+    content={{
+      text: 'LocalAI',
+      url: 'https://github.com/mudler/LocalAI',
+    }}
+    extras={[{ text: 'site', url: 'https://localai.io/' }]}
+    description="LocalAI act as a drop-in replacement REST API that’s compatible with OpenAI API specifications for local inferencing."
+    tags={['cpp']}
+  />
+
+### GGUF
+
+- <Resource
+    content={{
+      text: 'llama.cpp',
+      url: 'https://github.com/ggerganov/llama.cpp',
+    }}
+    description="Port of Facebook's LLaMA model in C/C++."
+    tags={['c']}
+  />
+- <Resource
+    content={{
+      text: 'Ollama',
+      url: 'https://github.com/jmorganca/ollama',
+    }}
+    extras={[{ text: 'site', url: 'https://ollama.ai' }]}
+    description="Get up and running with Llama 2 and other large language models locally."
+    tags={['go']}
+  />
+- <Resource
+    content={{
+      text: 'llm',
+      url: 'https://github.com/simonw/llm',
+    }}
+    extras={[{ text: 'docs', url: 'https://llm.datasette.io/en/stable' }]}
+    description="Access large language models from the command-line."
+    tags={['python']}
+  />
+
+### Safetensors
+
+- <Resource
+    content={{
+      text: 'ExLlamaV2',
+      url: 'https://github.com/turboderp/exllamav2',
+    }}
+    description="A fast inference library for running LLMs locally on modern consumer-class GPUs."
+    tags={['python']}
+  />
+
+## Multi-platform
+
+- <Resource
+    content={{
+      text: 'MLC LLM',
+      url: 'https://github.com/mlc-ai/mlc-llm',
+    }}
+    extras={[
+      { text: 'site', url: 'https://llm.mlc.ai' },
+      { text: 'docs', url: 'https://llm.mlc.ai/docs' },
+    ]}
+    description="Enable everyone to develop, optimize and deploy AI models natively on everyone's devices."
+    tags={['python']}
+  />
+
+## Collections
+
+- [plurality](https://atorie.xyz/crafts/plurality): UIs with OpenAI API (archived on 2023/08/07)
+- [Awesome ML / Tools](https://github.com/underlines/awesome-ml/blob/master/llm-tools.md#tools)
+- [Awesome LLM WebUIs](https://github.com/JShollaj/Awesome-LLM-Web-UI)
+- [Ollama / Community Integrations](https://github.com/jmorganca/ollama#community-integrations)
+- [UI comparison](https://github.com/h2oai/h2ogpt/blob/main/docs/README_LangChain.md#what-is-h2ogpts-langchain-integration-like) (vs. h2oGPT)

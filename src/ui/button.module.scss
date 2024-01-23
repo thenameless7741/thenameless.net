@@ -2,8 +2,8 @@
 
 .button {
   --primary-color: #{t.$violet-5};
-  --secondary-color: #{t.$cyan-2};
-  --tertiary-color: #{t.$cyan-1};
+  --secondary-color: #{t.$purple-2};
+  --tertiary-color: #{t.$purple-1};
   @include t.outline-start;
 
   /* reset */
@@ -24,8 +24,8 @@
   &[data-focus-visible],
   &[data-pressed] {
     --primary-color: #{t.$violet-6};
-    --secondary-color: #{t.$cyan-3};
-    --tertiary-color: #{t.$cyan-2};
+    --secondary-color: #{t.$purple-3};
+    --tertiary-color: #{t.$purple-2};
   }
 
   &[data-focus-visible] {

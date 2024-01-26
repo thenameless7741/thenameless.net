@@ -9,9 +9,16 @@ import Filter from './filter';
 import s from './index.module.scss';
 
 const Header = () => {
+  const updatedAt = store((s) => s.updatedAt);
+
   return (
     <header className={s.header}>
       <div className={s.form}>
+        <div className={s.arena}>
+          <h1 className={s.title}>Open LLM</h1>
+          <span className={s['updated-at']}>{updatedAt}</span>
+        </div>
+
         <SearchField
           className={s.search}
           aria-label="search"

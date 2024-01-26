@@ -16,7 +16,30 @@
   @include t.device(lt) {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    grid-template-areas: '. search icons';
+    grid-template-areas: 'arena search icons';
+  }
+}
+
+.arena {
+  display: inline-flex;
+  flex-direction: column;
+
+  @include t.device(lt) {
+    grid-area: arena;
+  }
+}
+
+.title {
+  @include t.font(16, 22);
+  font-family: t.$font-title;
+}
+
+.updated-at {
+  @include t.font(10, 14);
+  font-family: t.$font-body;
+
+  &::before {
+    content: 'v';
   }
 }
 
@@ -29,9 +52,10 @@
   }
 
   @include t.device(tb) {
-    inline-size: 20rem;
+    inline-size: 16rem;
   }
   @include t.device(lt) {
+    inline-size: 20rem;
     grid-area: search;
   }
 }

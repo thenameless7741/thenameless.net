@@ -10,8 +10,9 @@ export const metadata: Metadata = {
 
 const Page = async () => {
   const models = await loadModels();
+  const updatedAt = new Date().toISOString().slice(0, 10);
 
-  return <App models={models} />;
+  return <App models={models} updatedAt={updatedAt} />;
 };
 export default Page;
 

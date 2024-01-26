@@ -14,6 +14,7 @@ import {
 
 export interface Store {
   models: Model[];
+  updatedAt: string;
   filteredModels: Model[];
   headers: Header[];
   resetHeaders: () => void;
@@ -50,6 +51,7 @@ const store = create<Store>()(
   persist(
     (set, get) => ({
       models: [],
+      updatedAt: '',
       filteredModels: [],
       headers: [...defaultHeaders],
       resetHeaders: () => set(() => ({ headers: [...defaultHeaders] })),
@@ -79,7 +81,7 @@ const store = create<Store>()(
     }),
     {
       name: 'cosmos-arena',
-      partialize: ({ headers, pins }) => ({ headers, pins }),
+      partialize: ({ updatedAt, headers, pins }) => ({ headers, pins }),
     },
   ),
 );

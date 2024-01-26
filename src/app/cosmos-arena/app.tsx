@@ -8,11 +8,13 @@ import s from './app.module.scss';
 
 interface Props {
   models: Model[];
+  updatedAt: string;
 }
 
-const App = ({ models }: Props) => {
+const App = ({ models, updatedAt }: Props) => {
   store.setState({
     models,
+    updatedAt,
     filteredModels: models,
   });
 

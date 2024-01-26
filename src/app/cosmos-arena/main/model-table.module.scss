@@ -92,6 +92,28 @@
   &.sticky {
     @extend .sticky-header;
   }
+
+  &.sortable {
+    --primary-color: #{t.$violet-5};
+    --tertiary-color: #{t.$purple-1};
+
+    color: var(--primary-color);
+    cursor: s-resize;
+    text-decoration: underline;
+    text-decoration-color: var(--tertiary-color);
+    text-underline-offset: 0.275em;
+    transition:
+      color 300ms,
+      text-decoration-color 150ms;
+
+    &[data-hovered],
+    &[data-focused],
+    &[data-focus-visible],
+    &[data-pressed] {
+      --primary-color: #{t.$violet-6};
+      --tertiary-color: #{t.$purple-2};
+    }
+  }
 }
 
 .header-content {

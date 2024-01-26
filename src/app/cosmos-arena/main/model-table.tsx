@@ -1,10 +1,12 @@
 'use client';
 
 import { Circle, PushPin, X } from '@phosphor-icons/react/dist/ssr';
+import { useMemo, useState } from 'react';
 import {
   Cell,
   Column,
   Row,
+  SortDescriptor,
   Table,
   TableBody,
   TableHeader,
@@ -17,31 +19,23 @@ import Link from '@/ui/link';
 import { headerDescriptions } from '../header/form-data';
 import store from '../store';
 import { key } from '../utils';
-import type { Header, Model } from '../types';
+import type { Header, Model, Sortable } from '../types';
 import s from './model-table.module.scss';
 
 interface Props {
-  models: Model[];
+  deduped: Model[];
+  pinned: Model[];
   headers: Header[];
   meta: {
     total: number;
-    topKeys: {
-      // relative to filtered models
-      average: string;
-      arc: string;
-      hellaswag: string;
-      mmlu: string;
-      truthfulqa: string;
-      winogrande: string;
-      gsm8k: string;
-    };
   };
   showPin?: boolean;
   sticky?: boolean;
 }
 
 const ModelTable = ({
-  models,
+  deduped,
+  pinned,
   headers,
   meta,
   showPin = false,
@@ -49,6 +43,30 @@ const ModelTable = ({
 }: Props) => {
   const pins = store((s) => s.pins);
   const togglePin = store((s) => s.togglePin);
+
+  const [sortDesc, setSortDesc] = useState<SortDescriptor>({
+    column: 'average',
+    direction: 'descending',
+  });
+
+  const n = 20;
+
+  const { sorted, topKeys } = useMemo(() => {
+    const sortFn = (m1: Model, m2: Model) => {
+      const first = m1[sortDesc.column as Sortable];
+      const second = m2[sortDesc.column as Sortable];
+      return second - first; // always desc
+    };
+
+    const merged = [...pinned.sort(sortFn), ...deduped.sort(sortFn)];
+    const sorted = merged.slice(0, n);
+    const topKeys = calculateTopKeys(sorted);
+
+    return {
+      sorted,
+      topKeys,
+    };
+  }, [deduped, pinned, sortDesc]);
 
   // affects column ordering
   const activeHeaders: { [k in Header]: boolean } = {
@@ -80,27 +98,50 @@ const ModelTable = ({
 
   const round = (n: number) => Math.round(n * 10) / 10; // 1 decimal place
 
-  const { total, topKeys } = meta;
+  const { total } = meta;
   const pinnedKeySet = new Set(pins);
+
+  const propertyByHeader: { [h in Header]?: Sortable } = {
+    Average: 'average',
+    ARC: 'arc',
+    HellaSwag: 'hellaswag',
+    MMLU: 'mmlu',
+    TruthfulQA: 'truthfulqa',
+    Winogrande: 'winogrande',
+    GSM8k: 'gsm8k',
+  };
 
   return (
     <>
-      <Table className={s.table} aria-label="Models">
+      <Table
+        className={s.table}
+        aria-label="Models"
+        sortDescriptor={sortDesc}
+        onSortChange={setSortDesc}
+      >
         <TableHeader>
           {actives.map(([header, _], i) => (
             <Column
               key={header}
-              className={[s.header, i == 0 && sticky ? s.sticky : ''].join(' ')}
+              id={propertyByHeader[header]}
+              allowsSorting={!!propertyByHeader[header]}
+              className={[
+                s.header,
+                i == 0 && sticky ? s.sticky : '',
+                propertyByHeader[header] ? s.sortable : '',
+              ].join(' ')}
               isRowHeader={i === 0}
             >
-              {headerDescriptions[header] ? (
-                <span className={s['header-content']}>
-                  {header}
-                  <Info>{headerDescriptions[header]}</Info>
-                </span>
-              ) : (
-                header
-              )}
+              {({ allowsSorting, sortDirection }) =>
+                headerDescriptions[header] ? (
+                  <span className={s['header-content']}>
+                    {header}
+                    <Info>{headerDescriptions[header]}</Info>
+                  </span>
+                ) : (
+                  header
+                )
+              }
             </Column>
           ))}
 
@@ -115,7 +156,7 @@ const ModelTable = ({
             </p>
           )}
         >
-          {models.map((m) => {
+          {sorted.map((m) => {
             const k = key(m);
             const pinned = pinnedKeySet.has(k);
             // exceptions: baseline, gpt2, gpt2-large, gpt2-medium, gpt2-xl
@@ -231,10 +272,10 @@ const ModelTable = ({
           })}
 
           {/* TODO: use caption/tfoot when implemented */}
-          {models.length > 0 && (
+          {sorted.length > 0 && (
             <Row className={s.row}>
               <Cell className={s.total}>
-                Displaying 1-{models.length} of {total} models
+                Displaying 1-{sorted.length} of {total} models
               </Cell>
 
               {Array.from(
@@ -256,3 +297,19 @@ const formatBoolean = (v: boolean) => {
   const Icon = v ? Circle : X;
   return <Icon size={14} weight="bold" />;
 };
+
+const top = (models: Model[], property: Sortable) =>
+  models.reduce(
+    (top, m) => (m[property] > top[property] ? m : top),
+    models[0] || '',
+  );
+
+const calculateTopKeys = (models: Model[]) => ({
+  average: key(top(models, 'average')),
+  arc: key(top(models, 'arc')),
+  hellaswag: key(top(models, 'hellaswag')),
+  mmlu: key(top(models, 'mmlu')),
+  truthfulqa: key(top(models, 'truthfulqa')),
+  winogrande: key(top(models, 'winogrande')),
+  gsm8k: key(top(models, 'gsm8k')),
+});

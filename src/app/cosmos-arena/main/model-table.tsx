@@ -127,7 +127,7 @@ const ModelTable = ({
               allowsSorting={!!propertyByHeader[header]}
               className={[
                 s.header,
-                i == 0 && sticky ? s.sticky : '',
+                i == 0 && sticky ? s['sticky-column'] : '',
                 propertyByHeader[header] ? s.sortable : '',
               ].join(' ')}
               isRowHeader={i === 0}
@@ -174,16 +174,21 @@ const ModelTable = ({
               // pinned is added to force a re-render when the value has changed
               <Row key={k + '.' + pinned} className={s.row}>
                 {hf ? (
-                  <Cell className={[s.model, sticky ? s.sticky : ''].join(' ')}>
-                    <Link
-                      href={`https://huggingface.co/${m.name}`}
-                      showIcon={false}
-                    >
-                      {name}
-                    </Link>
+                  <Cell className={sticky ? s['sticky-column'] : ''}>
+                    {/* wrap content in div to adjust its width */}
+                    <div className={s.model}>
+                      <Link
+                        href={`https://huggingface.co/${m.name}`}
+                        showIcon={false}
+                      >
+                        {name}
+                      </Link>
+                    </div>
                   </Cell>
                 ) : (
-                  <Cell className={s.model}>{name}</Cell>
+                  <Cell>
+                    <div className={s.model}>{name}</div>
+                  </Cell>
                 )}
                 {activeHeaders['Params'] && (
                   <Cell className={s.body}>{param}</Cell>

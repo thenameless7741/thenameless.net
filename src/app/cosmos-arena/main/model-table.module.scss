@@ -48,14 +48,11 @@
   }
 }
 
-.sticky-header {
-  --max-size: 18rem; /* ~fit 1440w */
+.sticky-column {
   position: sticky;
   left: 0;
   z-index: 1; /* above tooltip */
-  max-inline-size: var(--max-size);
   padding-inline-start: var(--page-pad);
-  backdrop-filter: blur(8px);
   background-color: hsla(0deg, 0%, 100%, 0.8);
 
   /* TODO: use &[data-hovered] when fixed/implemented */
@@ -86,11 +83,8 @@
     text-align: end;
   }
 
-  &:has(> .header-content) {
-  }
-
-  &.sticky {
-    @extend .sticky-header;
+  &.sticky-column {
+    padding-inline-start: var(--page-pad);
   }
 
   &.sortable {
@@ -166,12 +160,11 @@
 
 .model {
   @extend .body;
-  padding-inline-start: var(--page-pad);
   text-align: start;
 
-  &.sticky {
-    @extend .sticky-header;
-    border-block-start: 1px dotted #ddd;
+  .sticky-column > & {
+    inline-size: 18rem; /* ~fit 1440w */
+    padding-inline-start: 0; /* use sticky's padding */
   }
 
   & > a {

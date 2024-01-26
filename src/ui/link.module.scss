@@ -7,7 +7,7 @@
   @include t.outline-start;
   color: var(--primary-color);
   text-decoration-color: var(--tertiary-color);
-  text-underline-offset: 0.25em;
+  text-underline-offset: 0.275em;
   transition:
     t.$outline-transition,
     color 300ms,

@@ -42,16 +42,18 @@ const Page = async () => {
     {} as { [k in Metadata['type']]: typeof stellae },
   );
 
+  const types: (keyof typeof stellaeByType)[] = ['pattern', 'reference', 'log'];
+
   return (
     <div className={s['stellar-sea']}>
       <h1 className={s.title}>Stellar Sea</h1>
 
-      {Object.entries(stellaeByType).map(([type, stellae]) => (
+      {types.map((type) => (
         <div key={type} className={s.stellae}>
           <h2 className={s.type}>{`${type}s`}</h2>
 
           <ul className={s.links}>
-            {stellae.map(({ slug, ...m }) => (
+            {stellaeByType[type].map(({ slug, ...m }) => (
               <li key={slug} className={s.link}>
                 <Link href={`/stellar-sea/${slug}`}>{m.title}</Link>
 

@@ -111,10 +111,18 @@
 }
 
 .header-content {
+  position: relative;
   display: flex;
   justify-content: flex-end;
   align-items: flex-center;
   gap: t.$space-1;
+}
+
+.sort-icon {
+  position: absolute;
+  top: 0.7em;
+  left: -0.8em;
+  transform: translateY(-50%);
 }
 
 .row {
@@ -163,7 +171,7 @@
   text-align: start;
 
   .sticky-column > & {
-    inline-size: 18rem; /* ~fit 1440w */
+    inline-size: 16rem; /* ~fit 1440w */
     padding-inline-start: 0; /* use sticky's padding */
   }
 

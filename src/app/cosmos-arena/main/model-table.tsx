@@ -1,6 +1,6 @@
 'use client';
 
-import { Circle, PushPin, X } from '@phosphor-icons/react/dist/ssr';
+import { Circle, PushPin, CaretDown, X } from '@phosphor-icons/react/dist/ssr';
 import { useMemo, useState } from 'react';
 import {
   Cell,
@@ -72,7 +72,7 @@ const ModelTable = ({
   const activeHeaders: { [k in Header]: boolean } = {
     Model: true,
     Params: false,
-    Average: false,
+    Average: true,
     MMLU: false,
     ARC: false,
     GSM8k: false,
@@ -135,6 +135,13 @@ const ModelTable = ({
               {({ allowsSorting, sortDirection }) =>
                 headerDescriptions[header] ? (
                   <span className={s['header-content']}>
+                    {allowsSorting && sortDirection && (
+                      <CaretDown
+                        className={s['sort-icon']}
+                        size={12}
+                        weight="bold"
+                      />
+                    )}
                     {header}
                     <Info>{headerDescriptions[header]}</Info>
                   </span>

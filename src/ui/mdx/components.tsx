@@ -43,9 +43,6 @@ const components: React.ComponentProps<typeof MDXProvider>['components'] = {
     ),
   code: (props) => <code {...props} className={s.code} />,
   em: (props) => <em {...props} className={s.em} />,
-  img: ({ alt, src }) => (
-    <Image className={s.img} alt={alt ?? ''} src={src as string} />
-  ),
   strong: (props) => <strong {...props} className={s.strong} />,
 
   /**
@@ -56,5 +53,14 @@ const components: React.ComponentProps<typeof MDXProvider>['components'] = {
   /**
    * custom components: inline-level
    */
+  Image: ({ alt, src, width, height }) => (
+    <Image
+      className={s.image}
+      alt={alt ?? ''}
+      src={src as string}
+      width={width}
+      height={height}
+    />
+  ),
 };
 export default components;

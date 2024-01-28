@@ -23,7 +23,7 @@
 .arena {
   display: inline-grid;
   grid-template-columns: repeat(2, auto);
-  grid-template-areas: 'title switch' 'updated-at switch';
+  grid-template-areas: 'switch title' 'switch updated-at';
   justify-content: start;
   align-items: center;
   column-gap: t.$space-3;

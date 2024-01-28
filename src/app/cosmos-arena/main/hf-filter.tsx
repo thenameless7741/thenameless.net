@@ -13,9 +13,9 @@ import {
   precisions as allPrecisions,
   types as allTypes,
 } from '../header/form-data';
-import s from './filter.module.scss';
+import s from './hf-filter.module.scss';
 
-const Filter = () => {
+const HFFilter = () => {
   const models = hfStore((s) => s.models);
   const types = hfStore((s) => s.types);
   const weightTypes = hfStore((s) => s.weightTypes);
@@ -230,4 +230,4 @@ const Filter = () => {
     </form>
   );
 };
-export default Filter;
+export default HFFilter;

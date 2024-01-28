@@ -1,12 +1,12 @@
 import dynamic from 'next/dynamic';
 
-import Filter from './filter';
+import Filters from './filters';
 import s from './index.module.scss';
 
 const Main = () => {
   return (
     <main className={s.main}>
-      <Filter />
+      <Filters />
       <LazyModelTables />
     </main>
   );

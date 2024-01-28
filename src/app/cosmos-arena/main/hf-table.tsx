@@ -20,7 +20,7 @@ import { headerDescriptions } from '../header/form-data';
 import { hfStore } from '../store';
 import { key } from '../utils';
 import { HF } from '../types';
-import s from './model-table.module.scss';
+import s from './hf-table.module.scss';
 
 interface Props {
   deduped: HF.Model[];
@@ -33,7 +33,7 @@ interface Props {
   sticky?: boolean;
 }
 
-const ModelTable = ({
+const HFTable = ({
   deduped,
   pinned,
   headers,
@@ -303,7 +303,7 @@ const ModelTable = ({
     </>
   );
 };
-export default ModelTable;
+export default HFTable;
 
 const formatBoolean = (v: boolean) => {
   const Icon = v ? Circle : X;

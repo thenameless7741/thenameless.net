@@ -7,25 +7,35 @@ import { Dialog, DialogTrigger, Modal } from 'react-aria-components';
 
 import BorderButton from '@/ui/border-button';
 import SearchField from '@/ui/search-field';
-import { hfStore } from '../store';
+import store, { hfStore } from '../store';
 import Customize from './customize';
 import Filter from './filter';
 import s from './index.module.scss';
 
 const Header = () => {
+  const arena = store((s) => s.arena);
   const updatedAt = hfStore((s) => s.updatedAt);
 
   return (
     <header className={s.header}>
       <div className={s.form}>
         <div className={s.arena}>
-          <h1 className={s.title}>Open LLM</h1>
+          <h1 className={s.title}>
+            {arena === 'hf' ? 'Open LLM' : 'Chatbot Arena'}
+          </h1>
 
           <span className={s['updated-at']}>{updatedAt}</span>
 
-          <BorderButton className={s.switch}>
+          <BorderButton
+            className={s.switch}
+            onPress={() =>
+              store.setState((curr) => ({
+                arena: curr.arena === 'hf' ? 'lmsys' : 'hf',
+              }))
+            }
+          >
             <ArrowsLeftRight size={14} weight="bold" />
-            Switch
+            Arena
           </BorderButton>
         </div>
 
@@ -39,29 +49,30 @@ const Header = () => {
           type="text" /* search (default) is difficult to style */
         />
 
-        <div className={s.icons}>
-          <DialogTrigger>
-            <BorderButton className={s.filter}>
-              <FunnelSimple size={14} weight="bold" />
-              Filter
-            </BorderButton>
+        {arena == 'hf' && (
+          <div className={s.icons}>
+            <DialogTrigger>
+              <BorderButton className={s.filter}>
+                <FunnelSimple size={14} weight="bold" />
+                Filter
+              </BorderButton>
 
-            <Modal>
-              <Dialog>{({ close }) => <Filter close={close} />}</Dialog>
-            </Modal>
-          </DialogTrigger>
+              <Modal>
+                <Dialog>{({ close }) => <Filter close={close} />}</Dialog>
+              </Modal>
+            </DialogTrigger>
+            <DialogTrigger>
+              <BorderButton className={s.customize}>
+                <Faders size={14} weight="bold" />
+                Customize
+              </BorderButton>
 
-          <DialogTrigger>
-            <BorderButton className={s.customize}>
-              <Faders size={14} weight="bold" />
-              Customize
-            </BorderButton>
-
-            <Modal>
-              <Dialog>{({ close }) => <Customize close={close} />}</Dialog>
-            </Modal>
-          </DialogTrigger>
-        </div>
+              <Modal>
+                <Dialog>{({ close }) => <Customize close={close} />}</Dialog>
+              </Modal>
+            </DialogTrigger>
+          </div>
+        )}
       </div>
     </header>
   );

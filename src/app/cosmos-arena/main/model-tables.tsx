@@ -1,11 +1,19 @@
 import { memo, useMemo } from 'react';
 
-import { hfStore } from '../store';
+import store, { hfStore } from '../store';
 import { HF } from '../types';
 import { fuzzySearch, key, useDebounce } from '../utils';
-import ModelTable from './model-table';
+import HFTable from './hf-table';
+import LMSYSTable from './lmsys-table';
 
 const ModelTables = () => {
+  const arena = store((s) => s.arena);
+
+  return arena === 'hf' ? <HFSearchContainer /> : <LMSYSTable />;
+};
+export default ModelTables;
+
+const HFSearchContainer = () => {
   const filteredModels = hfStore((s) => s.filteredModels);
   const search = hfStore((s) => s.search);
 
@@ -15,15 +23,10 @@ const ModelTables = () => {
     return fuzzySearch(filteredModels, debouncedSearch);
   }, [filteredModels, debouncedSearch]);
 
-  return <Average searched={searched} />;
+  return <HFSearch searched={searched} />;
 };
-export default ModelTables;
 
-interface AverageProps {
-  searched: HF.Model[];
-}
-
-const equal = (o: AverageProps, n: AverageProps): boolean => {
+const hfEqual = (o: HFProps, n: HFProps): boolean => {
   if (o.searched.length !== n.searched.length) return false;
   if (n.searched.length === 0) return true;
 
@@ -33,7 +36,11 @@ const equal = (o: AverageProps, n: AverageProps): boolean => {
   return true;
 };
 
-const Average = memo(({ searched }: AverageProps) => {
+interface HFProps {
+  searched: HF.Model[];
+}
+
+const HFSearch = memo(({ searched }: HFProps) => {
   const models = hfStore((s) => s.models);
   const headers = hfStore((s) => s.headers);
   const pins = hfStore((s) => s.pins);
@@ -54,7 +61,7 @@ const Average = memo(({ searched }: AverageProps) => {
   };
 
   return (
-    <ModelTable
+    <HFTable
       deduped={deduped}
       pinned={pinned}
       headers={headers}
@@ -63,5 +70,5 @@ const Average = memo(({ searched }: AverageProps) => {
       sticky
     />
   );
-}, equal);
-Average.displayName = 'Average';
+}, hfEqual);
+HFSearch.displayName = 'HFSearch';

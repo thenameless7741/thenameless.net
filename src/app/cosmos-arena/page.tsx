@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 const Page = async () => {
   const updatedAt = new Date().toISOString().slice(0, 10);
   const hfModels = await loadHFModels();
-  // const hfModels: HF.Model[] = [];
   const lmsysModels: LMSYS.Model[] = await loadLMSYSModel();
 
   return (
@@ -190,7 +189,6 @@ const loadHFModels = async () => {
 
 const loadLMSYSModel = async () => {
   const baseUrl = process.env.NEXT_PUBLIC_CF_R2_BASE_URL;
-  // const baseUrl = 'http://localhost:3001';
   const res = await fetch(`${baseUrl}/cosmos-arena/chatbot-arena.json`, {
     headers: {
       cache: 'no-store',
@@ -198,5 +196,20 @@ const loadLMSYSModel = async () => {
     },
   });
   const models: LMSYS.Model[] = await res.json();
+
+  const urls: { [m: LMSYS.Model['name']]: string } = {
+    'Mixtral-8x7b-Instruct-v0.1':
+      'https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1',
+    'Koala-13B': 'https://huggingface.co/TheBloke/koala-13B-HF',
+    'Alpaca-13B': 'https://huggingface.co/chansung/gpt4-alpaca-lora-13b',
+    'LLaMA-13B': 'https://huggingface.co/TheBloke/LLaMa-13B-GGML',
+  };
+
+  models.forEach((m) => {
+    if (urls[m.name]) {
+      m.url = urls[m.name];
+    }
+  });
+
   return models;
 };

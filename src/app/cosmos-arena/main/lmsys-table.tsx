@@ -72,9 +72,7 @@ const LMSYSTable = ({}: Props) => {
                 <Cell className={s['sticky-column']}>
                   {/* wrap content in div to adjust its width */}
                   <div className={s.model}>
-                    <Link href={m.url} showIcon={false}>
-                      {m.name}
-                    </Link>
+                    <Link href={m.url}>{m.name}</Link>
                   </div>
                 </Cell>
 

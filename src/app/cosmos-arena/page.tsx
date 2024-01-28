@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import App from './app';
-import { HF } from './types';
+import { HF, LMSYS } from './types';
 
 export const metadata: Metadata = {
   title: 'Cosmos Arena',
@@ -11,8 +11,12 @@ export const metadata: Metadata = {
 const Page = async () => {
   const updatedAt = new Date().toISOString().slice(0, 10);
   const hfModels = await loadHFModels();
+  // const hfModels: HF.Model[] = [];
+  const lmsysModels: LMSYS.Model[] = await loadLMSYSModel();
 
-  return <App updatedAt={updatedAt} hfModels={hfModels} />;
+  return (
+    <App updatedAt={updatedAt} hfModels={hfModels} lmsysModels={lmsysModels} />
+  );
 };
 export default Page;
 
@@ -181,5 +185,18 @@ const loadHFModels = async () => {
     })
     .filter((m): m is HF.Model => !!m);
 
+  return models;
+};
+
+const loadLMSYSModel = async () => {
+  const baseUrl = process.env.NEXT_PUBLIC_CF_R2_BASE_URL;
+  // const baseUrl = 'http://localhost:3001';
+  const res = await fetch(`${baseUrl}/cosmos-arena/chatbot-arena.json`, {
+    headers: {
+      cache: 'no-store',
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  });
+  const models: LMSYS.Model[] = await res.json();
   return models;
 };

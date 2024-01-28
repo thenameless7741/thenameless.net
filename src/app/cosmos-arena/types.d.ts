@@ -1,20 +1,20 @@
 export namespace HF {
   export interface Store {
     updatedAt: string;
-    models: HF.Model[];
-    filteredModels: HF.Model[];
-    headers: HF.Header[];
+    models: Model[];
+    filteredModels: Model[];
+    headers: Header[];
     resetHeaders: () => void;
     pins: string[];
     togglePin: (pin: string) => void;
     search: string;
 
-    types: HF.Type[];
-    weightTypes: HF.WeightType[];
-    precisions: HF.Precision[];
-    licenseGroups: HF.LicenseGroup[];
-    paramGroups: HF.ParamGroup[];
-    architectureGroups: HF.ArchitectureGroup[];
+    types: Type[];
+    weightTypes: WeightType[];
+    precisions: Precision[];
+    licenseGroups: LicenseGroup[];
+    paramGroups: ParamGroup[];
+    architectureGroups: ArchitectureGroup[];
     exclusions: {
       merged: boolean;
       flagged: boolean;
@@ -126,4 +126,21 @@ export namespace HF {
     | 'param'
     | 'like'
   >;
+}
+
+export namespace LMSYS {
+  export interface Store {
+    updatedAt: string;
+    models: Model[];
+  }
+
+  export interface Model {
+    name: string;
+    rank: number;
+    elo: number;
+    ci: string;
+    votes: number;
+    organization: string;
+    license: string;
+  }
 }

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { HF } from './types';
+import { HF, LMSYS } from './types';
 
 const hfDefaultHeaders: HF.Header[] = [
   'Model',
@@ -47,8 +47,21 @@ export const hfStore = create<HF.Store>()(
       },
     }),
     {
-      name: 'cosmos-arena',
-      partialize: ({ updatedAt, headers, pins }) => ({ headers, pins }),
+      name: 'cosmos-arena-hf',
+      partialize: ({ headers, pins }) => ({ headers, pins }),
+    },
+  ),
+);
+
+export const lmsysStore = create<LMSYS.Store>()(
+  persist(
+    (set, get) => ({
+      updatedAt: '',
+      models: [],
+    }),
+    {
+      name: 'cosmos-arena-lmysys',
+      partialize: () => ({}),
     },
   ),
 );

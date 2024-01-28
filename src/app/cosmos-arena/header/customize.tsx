@@ -5,7 +5,7 @@ import Checkbox from '@/ui/checkbox';
 import CheckboxGroup from '@/ui/checkbox-group';
 import LabelButton from '@/ui/label-button';
 import { iconProps } from '@/ui/icon';
-import store from '../store';
+import { hfStore as store } from '../store';
 import { headers as allHeaders } from './form-data';
 import s from './dialog.module.scss';
 

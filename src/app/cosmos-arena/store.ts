@@ -1,41 +1,9 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import {
-  ArchitectureGroup,
-  Header,
-  Model,
-  LicenseGroup,
-  ParamGroup,
-  Precision,
-  Type,
-  WeightType,
-} from './types';
+import { HF } from './types';
 
-export interface Store {
-  models: Model[];
-  updatedAt: string;
-  filteredModels: Model[];
-  headers: Header[];
-  resetHeaders: () => void;
-  pins: string[];
-  togglePin: (pin: string) => void;
-  search: string;
-
-  types: Type[];
-  weightTypes: WeightType[];
-  precisions: Precision[];
-  licenseGroups: LicenseGroup[];
-  paramGroups: ParamGroup[];
-  architectureGroups: ArchitectureGroup[];
-  exclusions: {
-    merged: boolean;
-    flagged: boolean;
-    moe: boolean;
-  };
-}
-
-const defaultHeaders: Header[] = [
+const hfDefaultHeaders: HF.Header[] = [
   'Model',
   'Average',
   'ARC',
@@ -46,15 +14,14 @@ const defaultHeaders: Header[] = [
   'GSM8k',
   'Params',
 ];
-
-const store = create<Store>()(
+export const hfStore = create<HF.Store>()(
   persist(
     (set, get) => ({
-      models: [],
       updatedAt: '',
+      models: [],
       filteredModels: [],
-      headers: [...defaultHeaders],
-      resetHeaders: () => set(() => ({ headers: [...defaultHeaders] })),
+      headers: [...hfDefaultHeaders],
+      resetHeaders: () => set(() => ({ headers: [...hfDefaultHeaders] })),
       pins: [],
       togglePin: (pin: string) =>
         set(({ pins }) => {
@@ -85,5 +52,3 @@ const store = create<Store>()(
     },
   ),
 );
-
-export default store;

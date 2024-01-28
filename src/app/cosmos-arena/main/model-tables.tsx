@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 
-import store from '../store';
-import type { Model } from '../types';
+import { hfStore as store } from '../store';
+import { HF } from '../types';
 import { fuzzySearch, key, useDebounce } from '../utils';
 import ModelTable from './model-table';
 
@@ -20,7 +20,7 @@ const ModelTables = () => {
 export default ModelTables;
 
 interface AverageProps {
-  searched: Model[];
+  searched: HF.Model[];
 }
 
 const equal = (o: AverageProps, n: AverageProps): boolean => {
@@ -38,7 +38,7 @@ const Average = memo(({ searched }: AverageProps) => {
   const headers = store((s) => s.headers);
   const pins = store((s) => s.pins);
 
-  const modelByKey: { [k: string]: Model } = {};
+  const modelByKey: { [k: string]: HF.Model } = {};
   models.forEach((m) => {
     modelByKey[key(m)] = m;
   });

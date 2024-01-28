@@ -1,11 +1,11 @@
 import uFuzzy from '@leeoniya/ufuzzy';
 import { useEffect, useState } from 'react';
 
-import type { Model } from './types';
+import { HF } from './types';
 
 const u = new uFuzzy();
 
-export const fuzzySearch = (models: Model[], needle: string): Model[] => {
+export const fuzzySearch = (models: HF.Model[], needle: string): HF.Model[] => {
   if (!needle.trim()) return models;
 
   const haystack = models.map((m) => m.name);
@@ -34,4 +34,4 @@ export const useDebounce = <T>(value: T, delay: number) => {
   return debouncedValue;
 };
 
-export const key = (m: Model) => `${m.name}__${m.type}__${m.precision}`;
+export const key = (m: HF.Model) => `${m.name}__${m.type}__${m.precision}`;

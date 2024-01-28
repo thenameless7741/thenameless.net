@@ -1,14 +1,6 @@
-import {
-  ArchitectureGroup,
-  Header,
-  LicenseGroup,
-  ParamGroup,
-  Precision,
-  Type,
-  WeightType,
-} from '../types';
+import { HF } from '../types';
 
-export const headers: Header[] = [
+export const headers: HF.Header[] = [
   'Model',
   'Average',
   'ARC',
@@ -31,11 +23,22 @@ export const headers: Header[] = [
   'MoE',
 ];
 
-export const types: Type[] = ['pretrained', 'chat', 'fine-tuned', 'merge', ''];
+export const types: HF.Type[] = [
+  'pretrained',
+  'chat',
+  'fine-tuned',
+  'merge',
+  '',
+];
 
-export const weightTypes: WeightType[] = ['original', 'adapter', 'delta', ''];
+export const weightTypes: HF.WeightType[] = [
+  'original',
+  'adapter',
+  'delta',
+  '',
+];
 
-export const precisions: Precision[] = [
+export const precisions: HF.Precision[] = [
   'float16',
   'bfloat16',
   '8bit',
@@ -44,7 +47,7 @@ export const precisions: Precision[] = [
   '',
 ];
 
-export const licenseGroups: LicenseGroup[] = [
+export const licenseGroups: HF.LicenseGroup[] = [
   'apache',
   'bigcode',
   'bigscience',
@@ -58,7 +61,7 @@ export const licenseGroups: LicenseGroup[] = [
   '',
 ];
 
-export const paramGroups: ParamGroup[] = [
+export const paramGroups: HF.ParamGroup[] = [
   '< 1',
   '1-3',
   '4-7',
@@ -69,14 +72,14 @@ export const paramGroups: ParamGroup[] = [
   '0',
 ];
 
-export const architectureGroups: ArchitectureGroup[] = [
+export const architectureGroups: HF.ArchitectureGroup[] = [
   'Mistral',
   'Llama',
   'CausalLM',
   'other',
 ];
 
-export const headerDescriptions: { [k in Header]?: string } = {
+export const headerDescriptions: { [k in HF.Header]?: string } = {
   ARC: 'A set of grade-school science questions.',
   HellaSwag:
     'A test of commonsense inference, which is easy for humans (~95%) but challenging for SOTA models.',

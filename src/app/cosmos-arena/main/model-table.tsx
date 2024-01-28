@@ -17,15 +17,15 @@ import IconButton from '@/ui/icon-button';
 import Info from '@/ui/info';
 import Link from '@/ui/link';
 import { headerDescriptions } from '../header/form-data';
-import store from '../store';
+import { hfStore as store } from '../store';
 import { key } from '../utils';
-import type { Header, Model, Sortable } from '../types';
+import { HF } from '../types';
 import s from './model-table.module.scss';
 
 interface Props {
-  deduped: Model[];
-  pinned: Model[];
-  headers: Header[];
+  deduped: HF.Model[];
+  pinned: HF.Model[];
+  headers: HF.Header[];
   meta: {
     total: number;
   };
@@ -52,9 +52,9 @@ const ModelTable = ({
   const n = 20;
 
   const { sorted, topKeys } = useMemo(() => {
-    const sortFn = (m1: Model, m2: Model) => {
-      const first = m1[sortDesc.column as Sortable];
-      const second = m2[sortDesc.column as Sortable];
+    const sortFn = (m1: HF.Model, m2: HF.Model) => {
+      const first = m1[sortDesc.column as HF.Sortable];
+      const second = m2[sortDesc.column as HF.Sortable];
       return second - first; // always desc
     };
 
@@ -69,7 +69,7 @@ const ModelTable = ({
   }, [deduped, pinned, sortDesc]);
 
   // affects column ordering
-  const activeHeaders: { [k in Header]: boolean } = {
+  const activeHeaders: { [k in HF.Header]: boolean } = {
     Model: true,
     Params: false,
     Average: true,
@@ -94,14 +94,14 @@ const ModelTable = ({
   headers.forEach((h) => (activeHeaders[h] = true));
   const actives = Object.entries(activeHeaders).filter(
     ([h, active]) => active, // omit cached deprecated headers
-  ) as [Header, boolean][];
+  ) as [HF.Header, boolean][];
 
   const round = (n: number) => Math.round(n * 10) / 10; // 1 decimal place
 
   const { total } = meta;
   const pinnedKeySet = new Set(pins);
 
-  const propertyByHeader: { [h in Header]?: Sortable } = {
+  const propertyByHeader: { [h in HF.Header]?: HF.Sortable } = {
     Average: 'average',
     ARC: 'arc',
     HellaSwag: 'hellaswag',
@@ -310,13 +310,13 @@ const formatBoolean = (v: boolean) => {
   return <Icon size={14} weight="bold" />;
 };
 
-const top = (models: Model[], property: Sortable) =>
+const top = (models: HF.Model[], property: HF.Sortable) =>
   models.reduce(
     (top, m) => (m[property] > top[property] ? m : top),
     models[0] || '',
   );
 
-const calculateTopKeys = (models: Model[]) => ({
+const calculateTopKeys = (models: HF.Model[]) => ({
   average: key(top(models, 'average')),
   arc: key(top(models, 'arc')),
   hellaswag: key(top(models, 'hellaswag')),

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import App from './app';
-import type { LicenseGroup, Model, ParamGroup, WeightType } from './types';
+import { HF } from './types';
 
 export const metadata: Metadata = {
   title: 'Cosmos Arena',
@@ -9,14 +9,14 @@ export const metadata: Metadata = {
 };
 
 const Page = async () => {
-  const models = await loadModels();
   const updatedAt = new Date().toISOString().slice(0, 10);
+  const hfModels = await loadHFModels();
 
-  return <App models={models} updatedAt={updatedAt} />;
+  return <App updatedAt={updatedAt} hfModels={hfModels} />;
 };
 export default Page;
 
-const loadModels = async () => {
+const loadHFModels = async () => {
   const baseUrl = process.env.NEXT_PUBLIC_CF_R2_BASE_URL;
   const res = await fetch(`${baseUrl}/cosmos-arena/open-llm-leaderboard.csv`, {
     headers: {
@@ -71,13 +71,13 @@ const loadModels = async () => {
     return values;
   };
 
-  const models: Model[] = lines
+  const models: HF.Model[] = lines
     .map((l) => {
       if (l.startsWith(',baseline')) return null;
 
       const values = split(l);
 
-      let type: Model['type'] | string = values[9];
+      let type: HF.Model['type'] | string = values[9];
       if (type === 'chat models (RLHF, DPO, IFT, ...)') {
         type = 'chat';
       } else if (type === 'fine-tuned on domain-specific datasets') {
@@ -93,7 +93,7 @@ const loadModels = async () => {
         architecture = '';
       }
 
-      let architectureGroup: Model['architectureGroup'] = 'other';
+      let architectureGroup: HF.Model['architectureGroup'] = 'other';
       if (architecture.includes('Mistral')) {
         architectureGroup = 'Mistral';
       } else if (architecture.includes('Llama')) {
@@ -113,11 +113,11 @@ const loadModels = async () => {
       const regex =
         /^apache|^bigcode|^bigscience|^bsd|^cc|^creativeml|gpl|^llama|^mit$|^openrail/;
       const matches = license.match(regex);
-      const licenseGroup = ((matches && matches[0]) || '') as LicenseGroup;
+      const licenseGroup = ((matches && matches[0]) || '') as HF.LicenseGroup;
 
       const param = +values[15];
 
-      let paramGroup: ParamGroup;
+      let paramGroup: HF.ParamGroup;
       if (param === 0) {
         paramGroup = '0';
       } else if (param < 1) {
@@ -140,7 +140,7 @@ const loadModels = async () => {
         }
       }
 
-      let onHub: Model['onHub'] = '';
+      let onHub: HF.Model['onHub'] = '';
       if (values[17] === 'True') {
         onHub = 'Y';
       } else if (values[17] === 'False') {
@@ -164,8 +164,8 @@ const loadModels = async () => {
         gsm8k: +values[8],
         type,
         architecture,
-        weightType: values[11].toLowerCase() as WeightType,
-        precision: values[12] as Model['precision'],
+        weightType: values[11].toLowerCase() as HF.WeightType,
+        precision: values[12] as HF.Model['precision'],
         merged: parseBoolean(values[13]),
         license,
         param,
@@ -179,7 +179,7 @@ const loadModels = async () => {
         architectureGroup,
       };
     })
-    .filter((m): m is Model => !!m);
+    .filter((m): m is HF.Model => !!m);
 
   return models;
 };

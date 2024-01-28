@@ -4,7 +4,7 @@ import { useEffect, useTransition } from 'react';
 import Checkbox from '@/ui/checkbox';
 import CheckboxGroup from '@/ui/checkbox-group';
 import IconLabelButton from '@/ui/icon-label-button';
-import store from '../store';
+import { hfStore as store } from '../store';
 import {
   architectureGroups as allArchitectureGroups,
   licenseGroups as allLicenseGroups,

@@ -2,20 +2,20 @@
 
 import Header from './header';
 import Main from './main';
-import store from './store';
-import { Model } from './types';
+import { hfStore } from './store';
+import { HF } from './types';
 import s from './app.module.scss';
 
 interface Props {
-  models: Model[];
   updatedAt: string;
+  hfModels: HF.Model[];
 }
 
-const App = ({ models, updatedAt }: Props) => {
-  store.setState({
-    models,
+const App = ({ updatedAt, hfModels }: Props) => {
+  hfStore.setState({
     updatedAt,
-    filteredModels: models,
+    models: hfModels,
+    filteredModels: hfModels,
   });
 
   return (

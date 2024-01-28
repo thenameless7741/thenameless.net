@@ -7,7 +7,7 @@ import { Dialog, DialogTrigger, Modal } from 'react-aria-components';
 
 import BorderButton from '@/ui/border-button';
 import SearchField from '@/ui/search-field';
-import store from '../store';
+import { hfStore as store } from '../store';
 import Customize from './customize';
 import Filter from './filter';
 import s from './index.module.scss';

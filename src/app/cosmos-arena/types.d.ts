@@ -114,6 +114,7 @@ export namespace HF {
 
   type Include<T, U> = T extends U ? T : never;
 
+  // number only
   export type Sortable = Include<
     keyof Model,
     | 'average'
@@ -136,11 +137,15 @@ export namespace LMSYS {
 
   export interface Model {
     name: string;
-    rank: number;
+    url: string;
     elo: number;
-    ci: string;
     votes: number;
     organization: string;
     license: string;
   }
+
+  export type Header = 'Model' | 'Elo' | 'Votes' | 'Organization' | 'License';
+
+  // number only
+  export type Sortable = Include<keyof Model, 'elo' | 'votes'>;
 }

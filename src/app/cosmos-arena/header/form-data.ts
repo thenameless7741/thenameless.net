@@ -1,4 +1,4 @@
-import { HF } from '../types';
+import { HF, LMSYS } from '../types';
 
 export const headers: HF.Header[] = [
   'Model',
@@ -79,15 +79,17 @@ export const architectureGroups: HF.ArchitectureGroup[] = [
   'other',
 ];
 
-export const headerDescriptions: { [k in HF.Header]?: string } = {
-  ARC: 'A set of grade-school science questions.',
-  HellaSwag:
-    'A test of commonsense inference, which is easy for humans (~95%) but challenging for SOTA models.',
-  MMLU: "A test to measure a text model's multitask accuracy. The test covers 57 tasks including elementary mathematics, US history, computer science, law, and more.",
-  TruthfulQA:
-    'A test to measure a model’s propensity to reproduce falsehoods commonly found online.',
-  Winogrande:
-    'An adversarial and difficult Winograd benchmark at scale, for commonsense reasoning.',
-  GSM8k:
-    "Diverse grade school math word problems to measure a model's ability to solve multi-step mathematical reasoning problems.",
-};
+export const headerDescriptions: { [k in HF.Header | LMSYS.Header]?: string } =
+  {
+    ARC: 'A set of grade-school science questions.',
+    HellaSwag:
+      'A test of commonsense inference, which is easy for humans (~95%) but challenging for SOTA models.',
+    MMLU: "A test to measure a text model's multitask accuracy. The test covers 57 tasks including elementary mathematics, US history, computer science, law, and more.",
+    TruthfulQA:
+      'A test to measure a model’s propensity to reproduce falsehoods commonly found online.',
+    Winogrande:
+      'An adversarial and difficult Winograd benchmark at scale, for commonsense reasoning.',
+    GSM8k:
+      "Diverse grade school math word problems to measure a model's ability to solve multi-step mathematical reasoning problems.",
+    Elo: 'A method for calculating the relative skill levels of players in zero-sum games such as chess, and more recently LLMs.',
+  };

@@ -1,7 +1,7 @@
 import uFuzzy from '@leeoniya/ufuzzy';
 import { useEffect, useState } from 'react';
 
-import { HF } from './types';
+import { HF, LMSYS } from './types';
 
 const u = new uFuzzy();
 
@@ -34,4 +34,7 @@ export const useDebounce = <T>(value: T, delay: number) => {
   return debouncedValue;
 };
 
-export const key = (m: HF.Model) => `${m.name}__${m.type}__${m.precision}`;
+export const keys = {
+  hf: (m: HF.Model) => `${m.name}__${m.type}__${m.precision}`,
+  lmsys: (m: LMSYS.Model) => m.name,
+};

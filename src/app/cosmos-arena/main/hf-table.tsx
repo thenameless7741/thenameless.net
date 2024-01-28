@@ -18,7 +18,7 @@ import Info from '@/ui/info';
 import Link from '@/ui/link';
 import { headerDescriptions } from '../header/form-data';
 import { hfStore } from '../store';
-import { key } from '../utils';
+import { keys } from '../utils';
 import { HF } from '../types';
 import s from './hf-table.module.scss';
 
@@ -164,7 +164,7 @@ const HFTable = ({
           )}
         >
           {sorted.map((m) => {
-            const k = key(m);
+            const k = keys.hf(m);
             const pinned = pinnedKeySet.has(k);
             // exceptions: baseline, gpt2, gpt2-large, gpt2-medium, gpt2-xl
             const hf = m.name.includes('/');
@@ -317,11 +317,11 @@ const top = (models: HF.Model[], property: HF.Sortable) =>
   );
 
 const calculateTopKeys = (models: HF.Model[]) => ({
-  average: key(top(models, 'average')),
-  arc: key(top(models, 'arc')),
-  hellaswag: key(top(models, 'hellaswag')),
-  mmlu: key(top(models, 'mmlu')),
-  truthfulqa: key(top(models, 'truthfulqa')),
-  winogrande: key(top(models, 'winogrande')),
-  gsm8k: key(top(models, 'gsm8k')),
+  average: keys.hf(top(models, 'average')),
+  arc: keys.hf(top(models, 'arc')),
+  hellaswag: keys.hf(top(models, 'hellaswag')),
+  mmlu: keys.hf(top(models, 'mmlu')),
+  truthfulqa: keys.hf(top(models, 'truthfulqa')),
+  winogrande: keys.hf(top(models, 'winogrande')),
+  gsm8k: keys.hf(top(models, 'gsm8k')),
 });

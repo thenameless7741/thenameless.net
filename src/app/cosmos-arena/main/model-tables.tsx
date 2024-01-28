@@ -2,7 +2,7 @@ import { memo, useMemo } from 'react';
 
 import store, { hfStore } from '../store';
 import { HF } from '../types';
-import { fuzzySearch, key, useDebounce } from '../utils';
+import { fuzzySearch, keys, useDebounce } from '../utils';
 import HFTable from './hf-table';
 import LMSYSTable from './lmsys-table';
 
@@ -31,7 +31,7 @@ const hfEqual = (o: HFProps, n: HFProps): boolean => {
   if (n.searched.length === 0) return true;
 
   for (let i = 0; i < n.searched.length; i++) {
-    if (key(o.searched[i]) !== key(n.searched[i])) return false;
+    if (keys.hf(o.searched[i]) !== keys.hf(n.searched[i])) return false;
   }
   return true;
 };
@@ -47,11 +47,11 @@ const HFSearch = memo(({ searched }: HFProps) => {
 
   const modelByKey: { [k: string]: HF.Model } = {};
   models.forEach((m) => {
-    modelByKey[key(m)] = m;
+    modelByKey[keys.hf(m)] = m;
   });
   const pinned = pins.map((k) => modelByKey[k]);
 
-  const searchedKeys = searched.map((m) => key(m));
+  const searchedKeys = searched.map((m) => keys.hf(m));
   const pinnedKeySet = new Set(pins);
   const dedupedKeys = searchedKeys.filter((k) => !pinnedKeySet.has(k));
   const deduped = dedupedKeys.map((k) => modelByKey[k]);

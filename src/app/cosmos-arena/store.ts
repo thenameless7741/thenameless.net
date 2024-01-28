@@ -67,6 +67,12 @@ export const lmsysStore = create<LMSYS.Store>()(
     (set, get) => ({
       updatedAt: '',
       models: [],
+      filteredModels: [],
+
+      onHub: false,
+      exclusions: {
+        toolUse: true,
+      },
     }),
     {
       name: 'cosmos-arena-lmysys',

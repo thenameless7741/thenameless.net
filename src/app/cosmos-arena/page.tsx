@@ -197,7 +197,7 @@ const loadLMSYSModel = async () => {
   });
   const models: LMSYS.Model[] = await res.json();
 
-  const urls: { [m: LMSYS.Model['name']]: string } = {
+  const urlByModel: { [m: LMSYS.Model['name']]: string } = {
     'Mixtral-8x7b-Instruct-v0.1':
       'https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1',
     'Koala-13B': 'https://huggingface.co/TheBloke/koala-13B-HF',
@@ -205,10 +205,17 @@ const loadLMSYSModel = async () => {
     'LLaMA-13B': 'https://huggingface.co/TheBloke/LLaMa-13B-GGML',
   };
 
+  const toolUse: Set<LMSYS.Model['name']> = new Set([
+    'Bard (Gemini Pro)',
+    'pplx-70b-online',
+  ]);
+
   models.forEach((m) => {
-    if (urls[m.name]) {
-      m.url = urls[m.name];
+    if (urlByModel[m.name]) {
+      m.url = urlByModel[m.name];
     }
+    m.onHub = /^https?:\/\/(www\.)?huggingface\.co/.test(m.url);
+    m.toolUse = toolUse.has(m.name);
   });
 
   return models;

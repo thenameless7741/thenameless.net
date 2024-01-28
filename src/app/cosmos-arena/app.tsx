@@ -21,6 +21,7 @@ const App = ({ updatedAt, hfModels, lmsysModels }: Props) => {
   lmsysStore.setState({
     updatedAt,
     models: lmsysModels,
+    filteredModels: lmsysModels,
   });
 
   return (

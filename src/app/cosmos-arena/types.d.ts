@@ -133,6 +133,12 @@ export namespace LMSYS {
   export interface Store {
     updatedAt: string;
     models: Model[];
+    filteredModels: Model[];
+
+    onHub: boolean;
+    exclusions: {
+      toolUse: boolean;
+    };
   }
 
   export interface Model {
@@ -142,9 +148,17 @@ export namespace LMSYS {
     votes: number;
     organization: string;
     license: string;
+    onHub: boolean;
+    toolUse: boolean;
   }
 
-  export type Header = 'Model' | 'Elo' | 'Votes' | 'Organization' | 'License';
+  export type Header =
+    | 'Model'
+    | 'Elo'
+    | 'Votes'
+    | 'Organization'
+    | 'License'
+    | 'Tool-Use';
 
   // number only
   export type Sortable = Include<keyof Model, 'elo' | 'votes'>;

@@ -1,5 +1,6 @@
 'use client';
 
+import { Circle, X } from '@phosphor-icons/react/dist/ssr';
 import {
   Cell,
   Column,
@@ -21,7 +22,10 @@ interface Props {}
 
 const LMSYSTable = ({}: Props) => {
   const models = lmsysStore((s) => s.models);
-  const topKeys = calculateTopKeys(models);
+  const filteredModels = lmsysStore((s) => s.filteredModels);
+  const onHub = lmsysStore((s) => s.onHub);
+
+  const topKeys = calculateTopKeys(filteredModels);
 
   const headers: { [k in LMSYS.Header]: boolean } = {
     Model: true,
@@ -29,6 +33,7 @@ const LMSYSTable = ({}: Props) => {
     Votes: true,
     Organization: true,
     License: true,
+    'Tool-Use': true,
   };
 
   const actives = Object.entries(headers).filter(
@@ -65,14 +70,16 @@ const LMSYSTable = ({}: Props) => {
             </p>
           )}
         >
-          {models.map((m) => {
+          {filteredModels.map((m) => {
             const k = keys.lmsys(m);
             return (
               <Row key={k} className={s.row}>
                 <Cell className={s['sticky-column']}>
                   {/* wrap content in div to adjust its width */}
                   <div className={s.model}>
-                    <Link href={m.url}>{m.name}</Link>
+                    <Link href={m.url} showIcon={!onHub}>
+                      {m.name}
+                    </Link>
                   </div>
                 </Cell>
 
@@ -92,6 +99,9 @@ const LMSYSTable = ({}: Props) => {
                 {headers['License'] && (
                   <Cell className={s.value}>{m.license}</Cell>
                 )}
+                {headers['Tool-Use'] && (
+                  <Cell className={s.body}>{formatBoolean(m.toolUse)}</Cell>
+                )}
               </Row>
             );
           })}
@@ -100,7 +110,7 @@ const LMSYSTable = ({}: Props) => {
           {models.length > 0 && (
             <Row className={s.row}>
               <Cell className={s.total}>
-                Displaying 1-{models.length} of {models.length} models
+                Displaying 1-{filteredModels.length} of {models.length} models
               </Cell>
 
               {Array.from({ length: actives.length - 1 }, (_, i) => (
@@ -114,6 +124,11 @@ const LMSYSTable = ({}: Props) => {
   );
 };
 export default LMSYSTable;
+
+const formatBoolean = (v: boolean) => {
+  const Icon = v ? Circle : X;
+  return <Icon size={14} weight="bold" />;
+};
 
 const top = (models: LMSYS.Model[], property: LMSYS.Sortable) =>
   models.reduce(

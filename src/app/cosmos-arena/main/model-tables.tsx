@@ -1,6 +1,6 @@
 import { memo, useMemo } from 'react';
 
-import store, { hfStore } from '../store';
+import store, { hfStore, lmsysStore } from '../store';
 import { HF } from '../types';
 import { fuzzySearch, keys, useDebounce } from '../utils';
 import HFTable from './hf-table';
@@ -9,7 +9,7 @@ import LMSYSTable from './lmsys-table';
 const ModelTables = () => {
   const arena = store((s) => s.arena);
 
-  return arena === 'hf' ? <HFSearchContainer /> : <LMSYSTable />;
+  return arena === 'hf' ? <HFSearchContainer /> : <LMSYSSearchContainer />;
 };
 export default ModelTables;
 
@@ -26,7 +26,24 @@ const HFSearchContainer = () => {
   return <HFSearch searched={searched} />;
 };
 
-const hfEqual = (o: HFProps, n: HFProps): boolean => {
+const LMSYSSearchContainer = () => {
+  const filteredModels = lmsysStore((s) => s.filteredModels);
+  const search = lmsysStore((s) => s.search);
+
+  const debouncedSearch = useDebounce(search, 500);
+
+  const searched = useMemo(() => {
+    return fuzzySearch(filteredModels, debouncedSearch);
+  }, [filteredModels, debouncedSearch]);
+
+  const sorted = searched.sort((m1, m2) => {
+    return m2.elo - m1.elo; // always desc
+  });
+
+  return <LMSYSTable sorted={sorted} />;
+};
+
+const hfEqual = (o: HFSearchProps, n: HFSearchProps): boolean => {
   if (o.searched.length !== n.searched.length) return false;
   if (n.searched.length === 0) return true;
 
@@ -36,11 +53,11 @@ const hfEqual = (o: HFProps, n: HFProps): boolean => {
   return true;
 };
 
-interface HFProps {
+interface HFSearchProps {
   searched: HF.Model[];
 }
 
-const HFSearch = memo(({ searched }: HFProps) => {
+const HFSearch = memo(({ searched }: HFSearchProps) => {
   const models = hfStore((s) => s.models);
   const headers = hfStore((s) => s.headers);
   const pins = hfStore((s) => s.pins);

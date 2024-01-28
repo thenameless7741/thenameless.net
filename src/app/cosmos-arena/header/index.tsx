@@ -3,11 +3,12 @@ import {
   Faders,
   FunnelSimple,
 } from '@phosphor-icons/react/dist/ssr';
+import { useEffect } from 'react';
 import { Dialog, DialogTrigger, Modal } from 'react-aria-components';
 
 import BorderButton from '@/ui/border-button';
 import SearchField from '@/ui/search-field';
-import store, { hfStore } from '../store';
+import store, { hfStore, lmsysStore } from '../store';
 import Customize from './customize';
 import Filter from './filter';
 import s from './index.module.scss';
@@ -15,6 +16,37 @@ import s from './index.module.scss';
 const Header = () => {
   const arena = store((s) => s.arena);
   const updatedAt = hfStore((s) => s.updatedAt);
+
+  useEffect(() => {
+    if (arena === 'hf') {
+      lmsysStore.setState({
+        search: '',
+
+        // filter
+        onHub: false,
+        exclusions: {
+          toolUse: true,
+        },
+      });
+    } else {
+      hfStore.setState({
+        search: '',
+
+        // filter
+        types: [],
+        weightTypes: [],
+        precisions: [],
+        licenseGroups: [],
+        paramGroups: [],
+        architectureGroups: [],
+        exclusions: {
+          merged: true,
+          flagged: true,
+          moe: false,
+        },
+      });
+    }
+  }, [arena]);
 
   return (
     <header className={s.header}>
@@ -39,15 +71,29 @@ const Header = () => {
           </BorderButton>
         </div>
 
-        <SearchField
-          className={s.search}
-          aria-label="search"
-          onChange={(search) => hfStore.setState({ search })}
-          onClear={() => hfStore.setState({ search: '' })}
-          /* @ts-ignore TODO: implement description */
-          placeholder="Enter model keywords, e.g. mistral, dpo"
-          type="text" /* search (default) is difficult to style */
-        />
+        {arena === 'hf' ? (
+          <SearchField
+            key={arena}
+            className={s.search}
+            aria-label="search"
+            onChange={(search) => hfStore.setState({ search })}
+            onClear={() => hfStore.setState({ search: '' })}
+            /* @ts-ignore TODO: implement description */
+            placeholder="Enter model keywords, e.g. mistral, dpo"
+            type="text" /* search (default) is difficult to style */
+          />
+        ) : (
+          <SearchField
+            key={arena}
+            className={s.search}
+            aria-label="search"
+            onChange={(search) => lmsysStore.setState({ search })}
+            onClear={() => lmsysStore.setState({ search: '' })}
+            /* @ts-ignore TODO: implement description */
+            placeholder="Enter model keywords, e.g. gpt"
+            type="text"
+          />
+        )}
 
         {arena == 'hf' && (
           <div className={s.icons}>

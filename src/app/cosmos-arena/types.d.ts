@@ -134,6 +134,7 @@ export namespace LMSYS {
     updatedAt: string;
     models: Model[];
     filteredModels: Model[];
+    search: string;
 
     onHub: boolean;
     exclusions: {

@@ -18,14 +18,15 @@ import { keys } from '../utils';
 import { LMSYS } from '../types';
 import s from './hf-table.module.scss';
 
-interface Props {}
+interface Props {
+  sorted: LMSYS.Model[];
+}
 
-const LMSYSTable = ({}: Props) => {
+const LMSYSTable = ({ sorted }: Props) => {
   const models = lmsysStore((s) => s.models);
-  const filteredModels = lmsysStore((s) => s.filteredModels);
   const onHub = lmsysStore((s) => s.onHub);
 
-  const topKeys = calculateTopKeys(filteredModels);
+  const topKeys = calculateTopKeys(sorted);
 
   const headers: { [k in LMSYS.Header]: boolean } = {
     Model: true,
@@ -70,7 +71,7 @@ const LMSYSTable = ({}: Props) => {
             </p>
           )}
         >
-          {filteredModels.map((m) => {
+          {sorted.map((m) => {
             const k = keys.lmsys(m);
             return (
               <Row key={k} className={s.row}>
@@ -107,10 +108,10 @@ const LMSYSTable = ({}: Props) => {
           })}
 
           {/* TODO: use caption/tfoot when implemented */}
-          {models.length > 0 && (
+          {sorted.length > 0 && (
             <Row className={s.row}>
               <Cell className={s.total}>
-                Displaying 1-{filteredModels.length} of {models.length} models
+                Displaying 1-{sorted.length} of {models.length} models
               </Cell>
 
               {Array.from({ length: actives.length - 1 }, (_, i) => (

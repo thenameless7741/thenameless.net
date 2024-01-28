@@ -5,7 +5,11 @@ import { HF, LMSYS } from './types';
 
 const u = new uFuzzy();
 
-export const fuzzySearch = (models: HF.Model[], needle: string): HF.Model[] => {
+interface HasName {
+  name: string;
+}
+
+export const fuzzySearch = <T extends HasName>(models: T[], needle: string) => {
   if (!needle.trim()) return models;
 
   const haystack = models.map((m) => m.name);

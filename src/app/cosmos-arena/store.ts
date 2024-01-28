@@ -68,6 +68,7 @@ export const lmsysStore = create<LMSYS.Store>()(
       updatedAt: '',
       models: [],
       filteredModels: [],
+      search: '',
 
       onHub: false,
       exclusions: {

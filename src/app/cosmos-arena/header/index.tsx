@@ -7,13 +7,13 @@ import { Dialog, DialogTrigger, Modal } from 'react-aria-components';
 
 import BorderButton from '@/ui/border-button';
 import SearchField from '@/ui/search-field';
-import { hfStore as store } from '../store';
+import { hfStore } from '../store';
 import Customize from './customize';
 import Filter from './filter';
 import s from './index.module.scss';
 
 const Header = () => {
-  const updatedAt = store((s) => s.updatedAt);
+  const updatedAt = hfStore((s) => s.updatedAt);
 
   return (
     <header className={s.header}>
@@ -32,8 +32,8 @@ const Header = () => {
         <SearchField
           className={s.search}
           aria-label="search"
-          onChange={(search) => store.setState({ search })}
-          onClear={() => store.setState({ search: '' })}
+          onChange={(search) => hfStore.setState({ search })}
+          onClear={() => hfStore.setState({ search: '' })}
           /* @ts-ignore TODO: implement description */
           placeholder="Enter model keywords, e.g. mistral, dpo"
           type="text" /* search (default) is difficult to style */

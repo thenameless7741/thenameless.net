@@ -6,7 +6,7 @@ import Checkbox from '@/ui/checkbox';
 import CheckboxGroup from '@/ui/checkbox-group';
 import LabelButton from '@/ui/label-button';
 import { iconProps } from '@/ui/icon';
-import { hfStore as store } from '../store';
+import { hfStore } from '../store';
 import { fuzzySearch } from '../utils';
 import {
   architectureGroups as allArchitectureGroups,
@@ -23,16 +23,16 @@ interface Props {
 }
 
 const Filter = ({ close }: Props) => {
-  const models = store((s) => s.models);
-  const filteredModels = store((s) => s.filteredModels);
-  const types = store((s) => s.types);
-  const weightTypes = store((s) => s.weightTypes);
-  const precisions = store((s) => s.precisions);
-  const licenseGroups = store((s) => s.licenseGroups);
-  const paramGroups = store((s) => s.paramGroups);
-  const architectureGroups = store((s) => s.architectureGroups);
-  const exclusions = store((s) => s.exclusions);
-  const search = store((s) => s.search);
+  const models = hfStore((s) => s.models);
+  const filteredModels = hfStore((s) => s.filteredModels);
+  const types = hfStore((s) => s.types);
+  const weightTypes = hfStore((s) => s.weightTypes);
+  const precisions = hfStore((s) => s.precisions);
+  const licenseGroups = hfStore((s) => s.licenseGroups);
+  const paramGroups = hfStore((s) => s.paramGroups);
+  const architectureGroups = hfStore((s) => s.architectureGroups);
+  const exclusions = hfStore((s) => s.exclusions);
+  const search = hfStore((s) => s.search);
   const [total, setTotal] = useState(filteredModels.length);
 
   const [_, startTransition] = useTransition();
@@ -69,7 +69,7 @@ const Filter = ({ close }: Props) => {
         ms = ms.filter((m) => !m.moe);
       }
 
-      store.setState({ filteredModels: ms });
+      hfStore.setState({ filteredModels: ms });
 
       const searchedModels = fuzzySearch(ms, search);
       setTotal(searchedModels.length);
@@ -103,7 +103,7 @@ const Filter = ({ close }: Props) => {
           <CheckboxGroup
             label="Types"
             /* @ts-ignore incorrect RAC type */
-            onChange={(types) => store.setState({ types })}
+            onChange={(types) => hfStore.setState({ types })}
             value={types}
           >
             {allTypes.map((t) => (
@@ -118,7 +118,7 @@ const Filter = ({ close }: Props) => {
           <CheckboxGroup
             label="Weight Types"
             /* @ts-ignore incorrect RAC type */
-            onChange={(weightTypes) => store.setState({ weightTypes })}
+            onChange={(weightTypes) => hfStore.setState({ weightTypes })}
             value={weightTypes}
           >
             {allWeightTypes.map((wt) => (
@@ -133,7 +133,7 @@ const Filter = ({ close }: Props) => {
           <CheckboxGroup
             label="Precisions"
             /* @ts-ignore incorrect RAC type */
-            onChange={(precisions) => store.setState({ precisions })}
+            onChange={(precisions) => hfStore.setState({ precisions })}
             value={precisions}
           >
             {allPrecisions.map((p) => (
@@ -148,7 +148,7 @@ const Filter = ({ close }: Props) => {
           <CheckboxGroup
             label="Licenses"
             /* @ts-ignore incorrect RAC type */
-            onChange={(licenseGroups) => store.setState({ licenseGroups })}
+            onChange={(licenseGroups) => hfStore.setState({ licenseGroups })}
             value={licenseGroups}
           >
             {allLicenseGroups.map((lg) => (
@@ -163,7 +163,7 @@ const Filter = ({ close }: Props) => {
           <CheckboxGroup
             label="Params (B)"
             /* @ts-ignore incorrect RAC type */
-            onChange={(paramGroups) => store.setState({ paramGroups })}
+            onChange={(paramGroups) => hfStore.setState({ paramGroups })}
             value={paramGroups}
           >
             {allParamGroups.map((pg) => (
@@ -179,7 +179,7 @@ const Filter = ({ close }: Props) => {
             label="Architectures"
             onChange={(architectureGroups) =>
               /* @ts-ignore incorrect RAC type */
-              store.setState({ architectureGroups })
+              hfStore.setState({ architectureGroups })
             }
             value={architectureGroups}
           >
@@ -199,7 +199,7 @@ const Filter = ({ close }: Props) => {
               <Checkbox
                 isSelected={exclusions.merged}
                 onChange={(merged) => {
-                  store.setState({ exclusions: { ...exclusions, merged } });
+                  hfStore.setState({ exclusions: { ...exclusions, merged } });
                 }}
               >
                 merged
@@ -208,7 +208,7 @@ const Filter = ({ close }: Props) => {
               <Checkbox
                 isSelected={exclusions.flagged}
                 onChange={(flagged) => {
-                  store.setState({ exclusions: { ...exclusions, flagged } });
+                  hfStore.setState({ exclusions: { ...exclusions, flagged } });
                 }}
               >
                 flagged
@@ -217,7 +217,7 @@ const Filter = ({ close }: Props) => {
               <Checkbox
                 isSelected={exclusions.moe}
                 onChange={(moe) => {
-                  store.setState({ exclusions: { ...exclusions, moe } });
+                  hfStore.setState({ exclusions: { ...exclusions, moe } });
                 }}
               >
                 MoE
@@ -231,7 +231,7 @@ const Filter = ({ close }: Props) => {
         <footer className={s.footer}>
           <LabelButton
             onPress={() => {
-              store.setState({
+              hfStore.setState({
                 types: [],
                 weightTypes: [],
                 precisions: [],

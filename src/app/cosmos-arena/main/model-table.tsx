@@ -17,7 +17,7 @@ import IconButton from '@/ui/icon-button';
 import Info from '@/ui/info';
 import Link from '@/ui/link';
 import { headerDescriptions } from '../header/form-data';
-import { hfStore as store } from '../store';
+import { hfStore } from '../store';
 import { key } from '../utils';
 import { HF } from '../types';
 import s from './model-table.module.scss';
@@ -41,8 +41,8 @@ const ModelTable = ({
   showPin = false,
   sticky = false,
 }: Props) => {
-  const pins = store((s) => s.pins);
-  const togglePin = store((s) => s.togglePin);
+  const pins = hfStore((s) => s.pins);
+  const togglePin = hfStore((s) => s.togglePin);
 
   const [sortDesc, setSortDesc] = useState<SortDescriptor>({
     column: 'average',

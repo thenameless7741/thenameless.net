@@ -5,7 +5,7 @@ import Checkbox from '@/ui/checkbox';
 import CheckboxGroup from '@/ui/checkbox-group';
 import LabelButton from '@/ui/label-button';
 import { iconProps } from '@/ui/icon';
-import { hfStore as store } from '../store';
+import { hfStore } from '../store';
 import { headers as allHeaders } from './form-data';
 import s from './dialog.module.scss';
 
@@ -14,8 +14,8 @@ interface Props {
 }
 
 const Customize = ({ close }: Props) => {
-  const headers = store((s) => s.headers);
-  const resetHeaders = store((s) => s.resetHeaders);
+  const headers = hfStore((s) => s.headers);
+  const resetHeaders = hfStore((s) => s.resetHeaders);
 
   return (
     <div className={s.dialog}>
@@ -34,7 +34,7 @@ const Customize = ({ close }: Props) => {
           <CheckboxGroup
             label="Visible Columns"
             /* @ts-ignore incorrect RAC type */
-            onChange={(headers) => store.setState({ headers })}
+            onChange={(headers) => hfStore.setState({ headers })}
             value={headers}
           >
             <Checkbox className={s.checkbox} isDisabled value="Model">

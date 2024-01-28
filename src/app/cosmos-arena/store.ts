@@ -3,6 +3,15 @@ import { persist } from 'zustand/middleware';
 
 import { HF, LMSYS } from './types';
 
+export interface Store {
+  arena: 'hf' | 'lmsys';
+}
+
+const store = create<Store>((set, get) => ({
+  arena: 'hf',
+}));
+export default store;
+
 const hfDefaultHeaders: HF.Header[] = [
   'Model',
   'Average',

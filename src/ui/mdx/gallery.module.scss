@@ -1,0 +1,41 @@
+@use '@/styles/token' as t;
+
+.gallery {
+  grid-column: 1 / -1 !important; /* override parent's value */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  max-inline-size: calc(90rem - 2 * var(--page-pad));
+  margin-block: t.$space-6;
+  margin-inline: auto;
+  column-gap: t.$space-6;
+  row-gap: t.$space-6;
+}
+
+.border {
+  border-radius: 1px;
+  overflow: hidden; /* border-radius */
+}
+
+.figure {
+  &:has(> video) {
+    @extend .border;
+  }
+}
+
+.image {
+  @extend .border;
+}
+
+.video {
+}
+
+.caption {
+  @include t.font(14, 18);
+  margin-block-start: t.$space-2;
+  color: t.$gray-5;
+  font-family: t.$font-body;
+  text-align: center;
+  text-wrap: pretty;
+}

@@ -4,6 +4,7 @@ import Prism from 'react-syntax-highlighter/dist/esm/prism';
 
 import prism from '@/styles/prism';
 import Link from '@/ui/link';
+import Gallery from './gallery';
 import Resource from './resource';
 import s from './components.module.scss';
 
@@ -48,6 +49,7 @@ const components: React.ComponentProps<typeof MDXProvider>['components'] = {
   /**
    * custom components: block-level
    */
+  Gallery,
   Resource,
 
   /**

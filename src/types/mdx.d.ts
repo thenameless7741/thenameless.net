@@ -8,6 +8,23 @@ export interface Metadata {
   updatedAt: string;
 }
 
+type BaseMedia = { path: string; width: number; height: number };
+
+export type Media =
+  | (BaseMedia & {
+      type: 'image';
+      caption?: string;
+    })
+  | (BaseMedia & {
+      type: 'video';
+      caption?: string;
+      posterPath?: string;
+    });
+
+export interface Gallery {
+  media: Media[];
+}
+
 export interface Link {
   text: string;
   url: string;

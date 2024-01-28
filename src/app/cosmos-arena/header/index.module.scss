@@ -21,8 +21,12 @@
 }
 
 .arena {
-  display: inline-flex;
-  flex-direction: column;
+  display: inline-grid;
+  grid-template-columns: repeat(2, auto);
+  grid-template-areas: 'title switch' 'updated-at switch';
+  justify-content: start;
+  align-items: center;
+  column-gap: t.$space-3;
 
   @include t.device(lt) {
     grid-area: arena;
@@ -31,16 +35,23 @@
 
 .title {
   @include t.font(16, 22);
+  grid-area: title;
   font-family: t.$font-title;
 }
 
 .updated-at {
   @include t.font(10, 14);
+  grid-area: updated-at;
   font-family: t.$font-body;
 
   &::before {
     content: 'v';
   }
+}
+
+.switch {
+  @extend .button;
+  grid-area: switch;
 }
 
 .search {

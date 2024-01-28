@@ -1,4 +1,8 @@
-import { Faders, FunnelSimple } from '@phosphor-icons/react/dist/ssr';
+import {
+  ArrowsLeftRight,
+  Faders,
+  FunnelSimple,
+} from '@phosphor-icons/react/dist/ssr';
 import { Dialog, DialogTrigger, Modal } from 'react-aria-components';
 
 import BorderButton from '@/ui/border-button';
@@ -16,7 +20,13 @@ const Header = () => {
       <div className={s.form}>
         <div className={s.arena}>
           <h1 className={s.title}>Open LLM</h1>
+
           <span className={s['updated-at']}>{updatedAt}</span>
+
+          <BorderButton className={s.switch}>
+            <ArrowsLeftRight size={14} weight="bold" />
+            Switch
+          </BorderButton>
         </div>
 
         <SearchField

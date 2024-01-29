@@ -28,13 +28,14 @@ const LMSYSTable = ({ sorted }: Props) => {
 
   const topKeys = calculateTopKeys(sorted);
 
+  // affects column ordering
   const headers: { [k in LMSYS.Header]: boolean } = {
     Model: true,
     Elo: true,
-    Votes: true,
-    Organization: true,
     License: true,
+    Organization: true,
     'Tool-Use': true,
+    Votes: true,
   };
 
   const actives = Object.entries(headers).filter(
@@ -89,20 +90,16 @@ const LMSYSTable = ({ sorted }: Props) => {
                     {m.elo}
                   </Cell>
                 )}
-                {headers['Votes'] && (
-                  <Cell className={topKeys.votes === k ? s.top : s.value}>
-                    {m.votes}
-                  </Cell>
+                {headers['License'] && (
+                  <Cell className={s.value}>{m.license}</Cell>
                 )}
                 {headers['Organization'] && (
                   <Cell className={s.value}>{m.organization}</Cell>
                 )}
-                {headers['License'] && (
-                  <Cell className={s.value}>{m.license}</Cell>
-                )}
                 {headers['Tool-Use'] && (
                   <Cell className={s.body}>{formatBoolean(m.toolUse)}</Cell>
                 )}
+                {headers['Votes'] && <Cell className={s.value}>{m.votes}</Cell>}
               </Row>
             );
           })}
@@ -140,5 +137,4 @@ const top = (models: LMSYS.Model[], property: LMSYS.Sortable) =>
 
 const calculateTopKeys = (models: LMSYS.Model[]) => ({
   elo: keys.lmsys(top(models, 'elo')),
-  votes: keys.lmsys(top(models, 'votes')),
 });

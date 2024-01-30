@@ -1,7 +1,7 @@
 {
   "name": "thenameless.net",
   "scripts": {
-    "dev": "concurrently 'next dev' 'bun ./scripts/watcher.js' --kill-others",
+    "dev": "concurrently 'next dev -p 7741' 'bun ./scripts/watcher.js' --kill-others",
     "prebuild": "next telemetry disable",
     "build": "next build"
   },

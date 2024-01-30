@@ -19,7 +19,7 @@ Install the necessary dependencies and then run the development server:
 bun install
 # run Next.js development server
 bun dev
-# visit http://localhost:3000
+# visit http://localhost:7741
 ```
 
 ## Acknowledgment

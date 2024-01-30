@@ -208,6 +208,7 @@ const loadLMSYSModel = async () => {
   const toolUse: Set<LMSYS.Model['name']> = new Set([
     'Bard (Gemini Pro)',
     'pplx-70b-online',
+    'pplx-7b-online',
   ]);
 
   models.forEach((m) => {

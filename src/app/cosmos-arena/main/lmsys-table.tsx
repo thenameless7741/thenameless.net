@@ -32,10 +32,11 @@ const LMSYSTable = ({ sorted }: Props) => {
   const headers: { [k in LMSYS.Header]: boolean } = {
     Model: true,
     Elo: true,
-    License: true,
-    Organization: true,
+    'Knowledge Cutoff': true,
     'Tool-Use': true,
     Votes: true,
+    License: true,
+    Organization: true,
   };
 
   const actives = Object.entries(headers).filter(
@@ -90,16 +91,21 @@ const LMSYSTable = ({ sorted }: Props) => {
                     {m.elo}
                   </Cell>
                 )}
+                {headers['Knowledge Cutoff'] && (
+                  <Cell className={s.value}>
+                    {m.cutoff === '' ? 'n/a' : m.cutoff}
+                  </Cell>
+                )}
+                {headers['Tool-Use'] && (
+                  <Cell className={s.body}>{formatBoolean(m.toolUse)}</Cell>
+                )}
+                {headers['Votes'] && <Cell className={s.value}>{m.votes}</Cell>}
                 {headers['License'] && (
                   <Cell className={s.value}>{m.license}</Cell>
                 )}
                 {headers['Organization'] && (
                   <Cell className={s.value}>{m.organization}</Cell>
                 )}
-                {headers['Tool-Use'] && (
-                  <Cell className={s.body}>{formatBoolean(m.toolUse)}</Cell>
-                )}
-                {headers['Votes'] && <Cell className={s.value}>{m.votes}</Cell>}
               </Row>
             );
           })}

@@ -149,6 +149,7 @@ export namespace LMSYS {
     votes: number;
     organization: string;
     license: string;
+    cutoff: string;
     onHub: boolean;
     toolUse: boolean;
   }
@@ -159,6 +160,7 @@ export namespace LMSYS {
     | 'Votes'
     | 'Organization'
     | 'License'
+    | 'Knowledge Cutoff'
     | 'Tool-Use';
 
   // number only

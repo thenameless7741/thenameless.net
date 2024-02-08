@@ -222,6 +222,9 @@ const loadLMSYSModel = async () => {
     if (urlByModel[m.name]) {
       m.url = urlByModel[m.name];
     }
+    if (m.cutoff === 'Unknown') {
+      m.cutoff = '';
+    }
     m.onHub = /^https?:\/\/(www\.)?huggingface\.co/.test(m.url);
     m.toolUse = toolUse.has(m.name);
   });

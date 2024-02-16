@@ -205,11 +205,14 @@ const loadLMSYSModel = async () => {
   const models: LMSYS.Model[] = await res.json();
 
   const urlByModel: { [m: LMSYS.Model['name']]: string } = {
+    'Alpaca-13B': 'https://huggingface.co/chansung/gpt4-alpaca-lora-13b',
+    'Koala-13B': 'https://huggingface.co/TheBloke/koala-13B-HF',
+    'LLaMA-13B': 'https://huggingface.co/TheBloke/LLaMa-13B-GGML',
     'Mixtral-8x7b-Instruct-v0.1':
       'https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1',
-    'Koala-13B': 'https://huggingface.co/TheBloke/koala-13B-HF',
-    'Alpaca-13B': 'https://huggingface.co/chansung/gpt4-alpaca-lora-13b',
-    'LLaMA-13B': 'https://huggingface.co/TheBloke/LLaMa-13B-GGML',
+    'Qwen1.5-4B-Chat': 'https://huggingface.co/Qwen/Qwen1.5-4B-Chat',
+    'Qwen1.5-72B-Chat': 'https://huggingface.co/Qwen/Qwen1.5-72B-Chat',
+    'Qwen1.5-7B-Chat': 'https://huggingface.co/Qwen/Qwen1.5-7B-Chat',
   };
 
   const toolUse: Set<LMSYS.Model['name']> = new Set([

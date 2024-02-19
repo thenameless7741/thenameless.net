@@ -82,10 +82,13 @@ const loadHFModels = async () => {
 
       const hf = values[1].includes('/');
       const user = hf ? values[1].split('/')[0] : values[1];
-      const blocked = ['AA05161']
+      const blocked = []
         .map((s) => user.startsWith(s))
         .reduce((b, v) => b || v, false);
       if (blocked) return null;
+
+      const deleted = values[17] !== 'True';
+      if (deleted) return null;
 
       let type: HF.Model['type'] | string = values[9];
       if (type === 'chat models (RLHF, DPO, IFT, ...)') {

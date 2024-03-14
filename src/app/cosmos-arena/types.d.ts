@@ -50,6 +50,7 @@ export namespace HF {
 
   export type Type =
     | 'pretrained'
+    | 'continual' // continuously pretrained
     | 'chat' // chat models (RLHF, DPO, IFT, ...)
     | 'fine-tuned' // fine-tuned on domain-specific datasets
     | 'merge' // base merges and moerges

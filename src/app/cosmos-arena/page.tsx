@@ -97,6 +97,8 @@ const loadHFModels = async () => {
         type = 'fine-tuned';
       } else if (type === 'base merges and moerges') {
         type = 'merge';
+      } else if (type === 'continuously pretrained') {
+        type = 'continual';
       } else if (type !== 'pretrained' && type !== '') {
         console.error(`unexpected type value: ${type}`);
       }

@@ -25,6 +25,7 @@ export const headers: HF.Header[] = [
 
 export const types: HF.Type[] = [
   'pretrained',
+  'continual',
   'chat',
   'fine-tuned',
   'merge',

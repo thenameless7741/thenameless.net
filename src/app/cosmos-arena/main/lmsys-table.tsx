@@ -31,6 +31,8 @@ const LMSYSTable = ({ sorted }: Props) => {
   // affects column ordering
   const headers: { [k in LMSYS.Header]: boolean } = {
     Model: true,
+    Rank: true,
+    CI: true,
     Elo: true,
     'Knowledge Cutoff': true,
     'Tool-Use': true,
@@ -86,6 +88,8 @@ const LMSYSTable = ({ sorted }: Props) => {
                   </div>
                 </Cell>
 
+                {headers['Rank'] && <Cell className={s.value}>{m.rank}</Cell>}
+                {headers['CI'] && <Cell className={s.value}>{m.ci}</Cell>}
                 {headers['Elo'] && (
                   <Cell className={topKeys.elo === k ? s.top : s.value}>
                     {m.elo}

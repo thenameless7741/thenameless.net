@@ -142,9 +142,11 @@ export namespace LMSYS {
   }
 
   export interface Model {
+    rank: number;
     name: string;
     url: string;
     elo: number;
+    ci: string;
     votes: number;
     organization: string;
     license: string;
@@ -155,6 +157,8 @@ export namespace LMSYS {
 
   export type Header =
     | 'Model'
+    | 'Rank'
+    | 'CI'
     | 'Elo'
     | 'Votes'
     | 'Organization'

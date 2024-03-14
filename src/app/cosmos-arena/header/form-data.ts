@@ -91,5 +91,6 @@ export const headerDescriptions: { [k in HF.Header | LMSYS.Header]?: string } =
       'An adversarial and difficult Winograd benchmark at scale, for commonsense reasoning.',
     GSM8k:
       "Diverse grade school math word problems to measure a model's ability to solve multi-step mathematical reasoning problems.",
-    Elo: 'A method for calculating the relative skill levels of players in zero-sum games such as chess, and more recently LLMs.',
+    CI: "Confidence Interval: A statistical range estimating a model's true skill level uncertainty, indicating where the true skill likely falls within a specified confidence level (e.g., 95%). A model will only be ranked higher if its lower-bound rating exceeds the upper-bound of another.",
+    Elo: 'A method for calculating the relative skill levels of players in zero-sum games such as chess, and more recently LLMs. Chatbot Arena has transitioned to use Bradley-Terry model in late 2023.',
   };

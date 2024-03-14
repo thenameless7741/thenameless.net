@@ -87,7 +87,7 @@ const loadHFModels = async () => {
         .reduce((b, v) => b || v, false);
       if (blocked) return null;
 
-      const deleted = values[17] !== 'True';
+      const deleted = values[17] !== 'True'; // onHub
       if (deleted) return null;
 
       let type: HF.Model['type'] | string = values[9];
@@ -155,13 +155,6 @@ const loadHFModels = async () => {
         }
       }
 
-      let onHub: HF.Model['onHub'] = '';
-      if (values[17] === 'True') {
-        onHub = 'Y';
-      } else if (values[17] === 'False') {
-        onHub = 'N';
-      }
-
       let sha = values[18];
       if (sha === 'N/A') {
         sha = '';
@@ -185,7 +178,7 @@ const loadHFModels = async () => {
         license,
         param,
         like: +values[16],
-        onHub,
+        // onHub: values[17], skip
         sha,
         flagged: parseBoolean(values[19]),
         moe: parseBoolean(values[20]),

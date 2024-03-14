@@ -86,7 +86,6 @@ const HFTable = ({
     Merged: false,
     License: false,
     Likes: false,
-    'On Hub': false,
     SHA: false,
     Flagged: false,
     MoE: false,
@@ -256,11 +255,6 @@ const HFTable = ({
                 )}
                 {activeHeaders['Likes'] && (
                   <Cell className={s.body}>{m.like}</Cell>
-                )}
-                {activeHeaders['On Hub'] && (
-                  <Cell className={s.body}>
-                    {m.onHub === '' ? 'n/a' : formatBoolean(!!m.onHub)}
-                  </Cell>
                 )}
                 {activeHeaders['SHA'] && <Cell className={s.code}>{sha}</Cell>}
                 {activeHeaders['Flagged'] && (

@@ -39,7 +39,6 @@ export namespace HF {
     license: string;
     param: number;
     like: number;
-    onHub: 'Y' | 'N' | '';
     sha: string;
     flagged: boolean;
     moe: boolean;
@@ -108,7 +107,6 @@ export namespace HF {
     | 'License'
     | 'Params'
     | 'Likes'
-    | 'On Hub'
     | 'SHA'
     | 'Flagged'
     | 'MoE';

@@ -17,7 +17,6 @@ export const headers: HF.Header[] = [
   'License',
   'Params',
   'Likes',
-  'On Hub',
   'SHA',
   'Flagged',
   'MoE',

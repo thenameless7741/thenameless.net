@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 
 import store, { hfStore, lmsysStore } from '../store';
-import { HF } from '../types';
+import { HF, LMSYS } from '../types';
 import { fuzzySearch, keys, useDebounce } from '../utils';
 import HFTable from './hf-table';
 import LMSYSTable from './lmsys-table';
@@ -40,9 +40,12 @@ const LMSYSSearchContainer = () => {
     return m2.elo - m1.elo; // always desc
   });
 
-  return <LMSYSTable sorted={sorted} />;
+  return <LMSYSSearch sorted={sorted} />;
 };
 
+interface HFSearchProps {
+  searched: HF.Model[];
+}
 const hfEqual = (o: HFSearchProps, n: HFSearchProps): boolean => {
   if (o.searched.length !== n.searched.length) return false;
   if (n.searched.length === 0) return true;
@@ -52,11 +55,6 @@ const hfEqual = (o: HFSearchProps, n: HFSearchProps): boolean => {
   }
   return true;
 };
-
-interface HFSearchProps {
-  searched: HF.Model[];
-}
-
 const HFSearch = memo(({ searched }: HFSearchProps) => {
   const models = hfStore((s) => s.models);
   const headers = hfStore((s) => s.headers);
@@ -89,3 +87,20 @@ const HFSearch = memo(({ searched }: HFSearchProps) => {
   );
 }, hfEqual);
 HFSearch.displayName = 'HFSearch';
+
+interface LMSYSSearchProps {
+  sorted: LMSYS.Model[];
+}
+const lmsysEqual = (o: LMSYSSearchProps, n: LMSYSSearchProps): boolean => {
+  if (o.sorted.length !== n.sorted.length) return false;
+  if (n.sorted.length === 0) return true;
+
+  for (let i = 0; i < n.sorted.length; i++) {
+    if (keys.lmsys(o.sorted[i]) !== keys.lmsys(n.sorted[i])) return false;
+  }
+  return true;
+};
+const LMSYSSearch = memo(({ sorted }: LMSYSSearchProps) => {
+  return <LMSYSTable sorted={sorted} />;
+}, lmsysEqual);
+LMSYSSearch.displayName = 'LMSYSSearch';

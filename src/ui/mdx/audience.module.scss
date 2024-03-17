@@ -1,0 +1,30 @@
+@use '@/styles/token' as t;
+
+.audience {
+  position: relative; /* border */
+  margin-block-start: t.$space-3;
+  margin-block-end: t.$space-6;
+  padding-block: t.$space-1; /* + margin-block: t.$space-2 */
+  padding-inline: t.$space-3;
+}
+
+.border {
+  --secondary-color: #{t.$gray-2};
+  --tertiary-color: #{t.$gray-1};
+
+  &::before {
+    display: none; /* background */
+  }
+}
+
+.label {
+  @include t.font(10, 10, 0.1);
+  position: absolute;
+  top: -1 * t.$space-3;
+  left: 1.5 * t.$space-1; /* alignment with content */
+  padding: t.$space-2;
+  background-color: white; /* background */
+  color: t.$gray-5;
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}

@@ -2,6 +2,7 @@ import { Icon as PhosphorIcon } from '@phosphor-icons/react';
 import {
   ArrowUpRight,
   BookOpen,
+  DiscordLogo,
   GithubLogo,
   RedditLogo,
   TwitterLogo,
@@ -25,6 +26,8 @@ const Component = ({ href, children, className, showIcon = true }: Props) => {
   if (!internal && showIcon) {
     if (exps.arxiv.test(href)) {
       Icon = ArxivLogo;
+    } else if (exps.discord.test(href)) {
+      Icon = DiscordLogo;
     } else if (exps.github.test(href)) {
       Icon = GithubLogo;
     } else if (exps.huggingface.test(href)) {
@@ -59,12 +62,13 @@ export default Component;
 
 const exps = {
   arxiv: /^https?:\/\/(www\.)?arxiv\.org/,
+  discord: /^https?:\/\/(www\.)?(discord\.gg|discordapp\.com)/,
   github: /^https?:\/\/(www\.)?github\.com/,
   huggingface: /^https?:\/\/(www\.)?huggingface\.co/,
   reddit: /^https?:\/\/(www\.)?(old\.)?reddit\.com/,
   twitter: /^https?:\/\/(www\.)?(x\.com|twitter\.com|t\.co)/,
   wikipedia: /^https?:\/\/([a-z]{1,3}\.)?wikipedia\.org/,
-  youtube: /^https?:\/\/(www\.)?(youtu\.be|youtube\.com|t\.co)/,
+  youtube: /^https?:\/\/(www\.)?(youtu\.be|youtube\.com)/,
 };
 
 const ArxivLogo = ({ color = 'currentColor' }: { color?: string }) => {

@@ -5,7 +5,7 @@ type: 'log'
 stage: 'aether'
 topics: ['Generative AI', 'Design']
 createdAt: '2024-03-18'
-updatedAt: '2024-03-18'
+updatedAt: '2024-03-19'
 ---
 
 <Audience>
@@ -43,7 +43,7 @@ updatedAt: '2024-03-18'
   - Specialized tools are separated into different apps.
   - Each app comes with its own widget, seamlessly integrated with the full-featured one.
 - **Personable AI**: codename: Valkyrie
-  - Valkyries are more than just helpful and harmless tools; they are unique, simulated beings with their own names and personalities. A whole new breed.
+  - Valkyrie is a unique being with their own name and personality.
 
 **OKRs**:
 
@@ -61,13 +61,30 @@ updatedAt: '2024-03-18'
 
 ### Hyperion OS
 
-**Metaphor**: Operating System (OS)
+1st metaphor: **operating system**
+
+Hyperion OS **bundles** AI-first applications with familiar iOS-style naming and interface for easy adoption.
+
+Users can **customize** their app dock, keeping only essentials like Messages for chat. These apps integrate seamlessly, sharing **data and preferences** across them while respecting user privacy preferences at a granular level, akin to iOS.
+
+These apps work in unison to **reduce entropy** in users' lives. For example, the Health app might suggest taking a break outdoors after extended use, while the Feeds app streamlines content consumption by highlighting essential and personalized information.
+
+Apps are designed for **continuity**. Each app has its own **widget** that acts as an entry point to the full-fledged app. For example, if users need finer control over translation, like changing tone or honorifics, the Messages app would show a Translate widget with a **deep link** to the Translate app, preserving the translation context.
 
 <Image
   src="https://data-bank.thenameless.net/stellar-sea/anti-entropy-research-log/2024-03-18-hyperion-os-apps.avif"
   width="2242"
   height="1310"
 />
+
+2nd metaphor: **galaxy**
+
+**Data hierarchy**: star → constellation → solar system → galaxy
+→ universe / cosmos
+
+Details: TBD (memory)
+
+---
 
 **Related works**:
 
@@ -78,19 +95,23 @@ updatedAt: '2024-03-18'
 
 **Valkyrie** is an abstration for multi-modal agents.
 
-The first three valkyries draw inspiration from Hyperion's children in Greek mythology—Helios, Selene, and Eos—but with a Japanese flair:
+They are more than just helpful and harmless tools; they are unique **beings** with their own names and personalities. They provide **meaningful interactions** that inspire, entertain, and push users to their best self.
 
-- **Asu** (Amaterasu)
-- **Tsuki** (Tsukiyomi)
-- **Mei** (Uzume)
+The first three valkyries were designed by an Æ researcher (me). However, users can create and personalize their own valkyries.
 
 <Image
-  src="https://data-bank.thenameless.net/stellar-sea/anti-entropy-research-log/2024-03-18-valkyrie-base.avif"
+  src="https://data-bank.thenameless.net/stellar-sea/anti-entropy-research-log/2024-03-19-valkyrie-base.avif"
   width="3200"
-  height="1232"
+  height="1136"
 />
 
+Note: the avatars depict young valkyries because they grow in size as their abilities develop. At this stage, their capabilities are still quite limited.
+
 Additionally, Hyperion OS also comes with a system-level valkyrie named Hyperion **Ai**, who's sole mission is to guide users through all the applications.
+
+Ai's avatar: TBD
+
+These four valkyries can interact with users **individually or simultaneously**. Some may be presence in the **ambience**, appearing when summoned or triggered by events. They manifest in **various forms** across applications, adapting their shapes to suit different use cases.
 
 ---
 
@@ -101,7 +122,7 @@ Additionally, Hyperion OS also comes with a system-level valkyrie named Hyperion
       path: 'anti-entropy-research-log%2f2024-03-18-valkyrie-sketch.avif',
       width: 2692,
       height: 1712,
-      caption: 'An early sketch showcasing what valkyrie can do.',
+      caption: "An early sketch showcasing valkyrie's anatomy.",
     },
   ]}
 />
@@ -109,6 +130,8 @@ Additionally, Hyperion OS also comes with a system-level valkyrie named Hyperion
 ## Development
 
 **Platforms**: web & desktop
+
+**Model providers**: Anthropic, Azure OpenAI, Groq, Mistral AI, OpenAI, Vertex AI, and llama.cpp
 
 ### Progress
 

@@ -1,0 +1,476 @@
+---
+title: 'Autonomous Agent'
+subtitle: "Exploring state-of-the-art agents: a layman's journey"
+type: 'reference'
+stage: 'aether'
+topics: ['Generative AI', 'Agent']
+createdAt: '2024-03-21'
+updatedAt: '2024-03-21'
+---
+
+## Resources
+
+This is an uncurated collection of learning materials, featuring articles, books, academic papers, and courses, gathered to deepen my understanding of the topic.
+
+### Papers
+
+**Survey**:
+
+- <Resource
+    content={{
+      text: 'A Survey on Large Language Model based Autonomous Agents',
+      url: 'https://arxiv.org/abs/2308.11432',
+    }}
+    extras={[
+      {
+        text: 'GitHub',
+        url: 'https://github.com/Paitesanshi/LLM-Agent-Survey',
+      },
+      {
+        text: 'Notion',
+        url: 'https://abyssinian-molybdenum-f76.notion.site/237e9f7515d543c0922c74f4c3012a77',
+      },
+    ]}
+    tags={['2024-03-12', 'survey']}
+  />
+- <Resource
+    content={{
+      text: 'The Rise and Potential of Large Language Model Based Agents: A Survey',
+      url: 'https://arxiv.org/abs/2309.07864',
+    }}
+    tags={['2023-09-19', 'multi-agent-survey']}
+  />
+- <Resource
+    content={{
+      text: 'Multi-Agent Collaboration: Harnessing the Power of Intelligent LLM Agents',
+      url: 'https://arxiv.org/abs/2306.03314',
+    }}
+    tags={['2023-06-05', 'multi-agent-survey']}
+  />
+
+**Tool**:
+
+- <Resource
+    content={{
+      text: 'API-Bank: A Comprehensive Benchmark for Tool-Augmented LLMs',
+      url: 'https://arxiv.org/abs/2304.08244',
+    }}
+    tags={['2023-10-25', 'tool']}
+  />
+- <Resource
+    content={{
+      text: 'TOOLVERIFIER: Generalization to New Tools via Self-Verification',
+      url: 'https://arxiv.org/abs/2402.14158',
+    }}
+    tags={['2024-03-13', 'tool']}
+  />
+- <Resource
+    content={{
+      text: 'ToolRerank: Adaptive and Hierarchy-Aware Reranking for Tool Retrieval',
+      url: 'https://arxiv.org/abs/2403.06551',
+    }}
+    tags={['2024-03-11', 'tool']}
+  />
+
+**Expert**:
+
+- <Resource
+    content={{
+      text: 'ExpertPrompting: Instructing Large Language Models to be Distinguished Experts',
+      url: 'https://arxiv.org/abs/2305.14688',
+    }}
+    tags={['2023-03-24', 'expert']}
+  />
+
+**Personality, character, and role-play**:
+
+- <Resource
+    content={{
+      text: 'Revisiting the Reliability of Psychological Scales on Large Language Models',
+      url: 'https://arxiv.org/abs/2305.19926',
+    }}
+    tags={['2023-12-28', 'personality']}
+  />
+- <Resource
+    content={{
+      text: 'Character-LLM: A Trainable Agent for Role-Playing',
+      url: 'https://arxiv.org/abs/2310.10158',
+    }}
+    tags={['2023-12-14', 'character']}
+  />
+- <Resource
+    content={{
+      text: 'ChatHaruhi: Reviving Anime Character in Reality via Large Language Model',
+      url: 'https://arxiv.org/abs/2308.09597',
+    }}
+    tags={['2023-08-18', 'character']}
+  />
+- <Resource
+    content={{
+      text: 'InCharacter: Evaluating Personality Fidelity in Role-Playing Agents through Psychological Interviews',
+      url: 'https://arxiv.org/abs/2310.17976',
+    }}
+    tags={['2024-02-17', 'role-play']}
+  />
+
+**Collaboration**:
+
+- <Resource
+    content={{
+      text: 'Building Cooperative Embodied Agents Modularly with Large Language Models',
+      url: 'https://arxiv.org/abs/2307.02485',
+    }}
+    tags={['2024-02-17', 'collaboration']}
+  />
+- <Resource
+    content={{
+      text: 'Exploring Collaboration Mechanisms for LLM Agents: A Social Psychology View',
+      url: 'https://arxiv.org/abs/2310.02124',
+    }}
+    tags={['2024-02-26', 'collaboration']}
+  />
+- <Resource
+    content={{
+      text: 'Corex: Pushing the Boundaries of Complex Reasoning through Multi-Model Collaboration',
+      url: 'https://arxiv.org/abs/2310.00280',
+    }}
+    tags={['2023-09-30', 'collaboration']}
+  />
+
+**Dialogue accuracy**:
+
+- <Resource
+    content={{
+      text: 'Improving Factuality and Reasoning in Language Models through Multiagent Debate',
+      url: 'https://arxiv.org/abs/2305.14325',
+    }}
+    tags={['2023-03-23', 'dialogue-accuracy']}
+  />
+- <Resource
+    content={{
+      text: 'Should we be going MAD? A Look at Multi-Agent Debate Strategies for LLMs',
+      url: 'https://arxiv.org/abs/2311.17371',
+    }}
+    tags={['2024-03-14', 'dialogue-accuracy']}
+  />
+- <Resource
+    content={{
+      text: 'ReConcile: Round-Table Conference Improves Reasoning via Consensus among Diverse LLMs',
+      url: 'https://arxiv.org/abs/2309.13007',
+    }}
+    tags={['2024-02-21', 'dialogue-accuracy']}
+  />
+- <Resource
+    content={{
+      text: 'On the Discussion of Large Language Models: Symmetry of Agents and Interplay with Prompts',
+      url: 'https://arxiv.org/abs/2311.07076',
+    }}
+    tags={['2023-11-13', 'dialogue-accuracy']}
+  />
+
+**Competition**:
+
+- <Resource
+    content={{
+      text: 'Improving Language Model Negotiation with Self-Play and In-Context Learning from AI Feedback',
+      url: 'https://arxiv.org/abs/2305.10142',
+    }}
+    tags={['2023-05-17', 'competition']}
+  />
+- <Resource
+    content={{
+      text: 'CompeteAI: Understanding the Competition Behaviors in Large Language Model-based Agents',
+      url: 'https://arxiv.org/abs/2310.17512',
+    }}
+    tags={['2023-10-26', 'competition']}
+  />
+
+**Development**:
+
+- <Resource
+    content={{
+      text: 'AgentVerse: Facilitating Multi-Agent Collaboration and Exploring Emergent Behaviors',
+      url: 'https://arxiv.org/abs/2308.10848',
+    }}
+    tags={['2023-10-23', 'development']}
+  />
+- <Resource
+    content={{
+      text: 'MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework',
+      url: 'https://arxiv.org/abs/2308.00352',
+    }}
+    tags={['2023-11-06', 'development']}
+  />
+- <Resource
+    content={{
+      text: 'ChatEval: Towards Better LLM-based Evaluators through Multi-Agent Debate',
+      url: 'https://arxiv.org/abs/2308.07201',
+    }}
+    tags={['2023-08-14', 'development']}
+  />
+- <Resource
+    content={{
+      text: 'Communicative Agents for Software Development',
+      url: 'https://arxiv.org/abs/2307.07924',
+    }}
+    tags={['2023-12-19', 'development']}
+  />
+- <Resource
+    content={{
+      text: 'AutoDev: Automated AI-Driven Development',
+      url: 'https://arxiv.org/abs/2403.08299',
+    }}
+    tags={['2024-03-13', 'development']}
+  />
+
+**User behavior**:
+
+- <Resource
+    content={{
+      text: 'Generative Agents: Interactive Simulacra of Human Behavior',
+      url: 'https://arxiv.org/abs/2304.03442',
+    }}
+    tags={['2023-08-06', 'user-behavior']}
+  />
+
+- <Resource
+    content={{
+      text: 'User Behavior Simulation with Large Language Model based Agents',
+      url: 'https://arxiv.org/abs/2306.02552',
+    }}
+    tags={['2024-02-15', 'user-behavior']}
+  />
+- <Resource
+    content={{
+      text: 'On Generative Agents in Recommendation',
+      url: 'https://arxiv.org/abs/2310.10108',
+    }}
+    tags={['2023-10-16', 'user-behavior']}
+  />
+
+**Framework**:
+
+- <Resource
+    content={{
+      text: 'CAMEL: Communicative Agents for "Mind" Exploration of Large Language Model Society',
+      url: 'https://arxiv.org/abs/2303.17760',
+    }}
+    tags={['2023-11-02', 'framework']}
+  />
+- <Resource
+    content={{
+      text: 'Generative agent-based modeling with actions grounded in physical, social, or digital space using Concordia',
+      url: 'https://arxiv.org/abs/2312.03664',
+    }}
+    tags={['2023-12-13', 'framework']}
+  />
+- <Resource
+    content={{
+      text: 'AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation',
+      url: 'https://arxiv.org/abs/2308.08155',
+    }}
+    tags={['2023-10-03', 'framework']}
+  />
+
+**Multi-agent system**:
+
+- <Resource
+    content={{
+      text: 'GPT-in-the-Loop: Adaptive Decision-Making for Multiagent Systems',
+      url: 'https://arxiv.org/abs/2308.10435',
+    }}
+    tags={['2023-08-21', 'multi-agent-system']}
+  />
+- <Resource
+    content={{
+      text: 'Controlling Large Language Model-based Agents for Large-Scale Decision-Making: An Actor-Critic Approach',
+      url: 'https://arxiv.org/abs/2311.13884',
+    }}
+    tags={['2024-01-23', 'multi-agent-system']}
+  />
+- <Resource
+    content={{
+      text: 'Hierarchical Auto-Organizing System for Open-Ended Multi-Agent Navigation',
+      url: 'https://arxiv.org/abs/2403.08282',
+    }}
+    tags={['2024-03-18', 'multi-agent-system']}
+  />
+
+**Robot collaboration**:
+
+- <Resource
+    content={{
+      text: 'RoCo: Dialectic Multi-Robot Collaboration with Large Language Models',
+      url: 'https://arxiv.org/abs/2307.04738',
+    }}
+    tags={['2023-07-10', 'robot-collaboration']}
+  />
+
+**Stance detection**:
+
+- <Resource
+    content={{
+      text: 'Stance Detection with Collaborative Role-Infused LLM-Based Agents',
+      url: 'https://arxiv.org/abs/2310.10467',
+    }}
+    tags={['2023-10-16', 'stance-detection']}
+  />
+
+**Theory of Mind**:
+
+- <Resource
+    content={{
+      text: 'Theory of Mind for Multi-Agent Collaboration via Large Language Models',
+      url: 'https://arxiv.org/abs/2310.10701',
+    }}
+    tags={['2023-10-22', 'theory-of-mind']}
+  />
+
+**Consensus**:
+
+- <Resource
+    content={{
+      text: 'Multi-Agent Consensus Seeking via Large Language Models',
+      url: 'https://arxiv.org/abs/2310.20151',
+    }}
+    tags={['2023-10-31', 'consensus']}
+  />
+
+**Finance**:
+
+- <Resource
+    content={{
+      text: 'FinMem: A Performance-Enhanced LLM Trading Agent with Layered Memory and Character Design',
+      url: 'https://arxiv.org/abs/2311.13743',
+    }}
+    tags={['2023-12-03', 'finance']}
+  />
+
+**Simulation**:
+
+- <Resource
+    content={{
+      text: 'MetaAgents: Simulating Interactions of Human Behaviors for LLM-based Task-oriented Coordination via Collaborative Generative Agents',
+      url: 'https://arxiv.org/abs/2310.06500',
+    }}
+    tags={['2023-10-10', 'simulation', 'task']}
+  />
+- <Resource
+    content={{
+      text: 'S3: Social-network Simulation System with Large Language Model-Empowered Agents',
+      url: 'https://arxiv.org/abs/2307.14984',
+    }}
+    tags={['2023-10-19', 'simulation', 'social']}
+  />
+- <Resource
+    content={{
+      text: 'War and Peace (WarAgent): Large Language Model-based Multi-Agent Simulation of World Wars',
+      url: 'https://arxiv.org/abs/2311.17227',
+    }}
+    tags={['2024-01-30', 'simulation', 'international']}
+  />
+- <Resource
+    content={{
+      text: 'Can Large Language Model Agents Simulate Human Trust Behaviors?',
+      url: 'https://arxiv.org/abs/2402.04559',
+    }}
+    tags={['2024-03-10', 'simulation', 'trust']}
+  />
+
+**Game theory**:
+
+- <Resource
+    content={{
+      text: 'ALYMPICS: LLM Agents Meet Game Theory -- Exploring Strategic Decision-Making with AI Agents',
+      url: 'https://arxiv.org/abs/2311.03220',
+    }}
+    tags={['2024-01-16', 'game-theory']}
+  />
+
+**Evaluation**:
+
+- <Resource
+    content={{
+      text: 'On Evaluating the Integration of Reasoning and Action in LLM Agents with Database Question Answering',
+      url: 'https://arxiv.org/abs/2311.09721',
+    }}
+    tags={['2023-11-16', 'evaluation']}
+  />
+
+**Self-correct**:
+
+- <Resource
+    content={{
+      text: 'Large Language Models Cannot Self-Correct Reasoning Yet',
+      url: 'https://arxiv.org/abs/2310.01798',
+    }}
+    tags={['2024-03-14', 'self-correct']}
+  />
+- <Resource
+    content={{
+      text: 'Confidence Matters: Revisiting Intrinsic Self-Correction Capabilities of Large Language Models',
+      url: 'https://arxiv.org/abs/2402.12563',
+    }}
+    tags={['2024-02-27', 'self-correct']}
+  />
+
+**Reasoning**:
+
+- <Resource
+    content={{
+      text: 'RAT: Retrieval Augmented Thoughts Elicit Context-Aware Reasoning in Long-Horizon Generation',
+      url: 'https://arxiv.org/abs/2403.05313',
+    }}
+    tags={['2024-03-08', 'reasoning']}
+  />
+- <Resource
+    content={{
+      text: 'How Far Are We from Intelligent Visual Deductive Reasoning?',
+      url: 'https://arxiv.org/abs/2403.04732',
+    }}
+    tags={['2024-03-08', 'reasoning']}
+  />
+
+**Memory**:
+
+- <Resource
+    content={{
+      text: 'TRAD: Enhancing LLM Agents with Step-Wise Thought Retrieval and Aligned Decision',
+      url: 'https://arxiv.org/abs/2403.06221',
+    }}
+    tags={['2024-03-10', 'memory']}
+  />
+
+**Embodied**:
+
+- <Resource
+    content={{
+      text: 'A generalist AI agent for 3D virtual environments',
+      url: 'https://deepmind.google/discover/blog/sima-generalist-ai-agent-for-3d-virtual-environments/',
+    }}
+    tags={['2024-03-13', 'embodied']}
+  />
+
+**Computer-controlled**:
+
+- <Resource
+    content={{
+      text: 'WorkArena: How Capable Are Web Agents at Solving Common Knowledge Work Tasks?',
+      url: 'https://arxiv.org/abs/2403.07718',
+    }}
+    tags={['2024-03-12', 'computer-controlled']}
+  />
+
+**Acknowledgment**: <br />
+This list was built upon an awesome slide deck by [Masato Ota](https://twitter.com/ottamm_190) below.
+
+### Slides
+
+- <Resource
+    content={{
+      text: 'ＬＬＭ マルチエージェントを俯瞰する',
+      url: 'https://speakerdeck.com/masatoto/llmmarutiezientowofu-kan-suru',
+    }}
+    author={{ text: 'Masato Ota', url: 'https://twitter.com/ottamm_190' }}
+    tags={['2023-12-22']}
+  />

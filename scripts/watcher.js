@@ -4,11 +4,16 @@ import path from 'path';
 
 import { WebSocketServer } from 'ws';
 
-const mdxDir = path.join('src', 'mdx');
+const mdxDirs = [
+  path.join('src', 'mdx'),
+  path.join('src', 'app', 'astral-kit', 'mdx'),
+];
 const clients = new Set();
 
-fs.watch(mdxDir, { persistent: true, recursive: true }, async () => {
-  clients.forEach((ws) => ws.send('refresh'));
+mdxDirs.forEach((mdxDir) => {
+  fs.watch(mdxDir, { persistent: true, recursive: true }, async () => {
+    clients.forEach((ws) => ws.send('refresh'));
+  });
 });
 
 const wss = new WebSocketServer({ port: 8080 });

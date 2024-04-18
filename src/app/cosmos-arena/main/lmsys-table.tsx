@@ -52,7 +52,7 @@ const LMSYSTable = ({ sorted }: Props) => {
           {actives.map(([header, _], i) => (
             <Column
               key={header}
-              className={[s.header, s['sticky-column']].join(' ')}
+              className={[s.header, i == 0 ? s['sticky-column'] : ''].join(' ')}
               isRowHeader={i === 0}
             >
               {headerDescriptions[header] ? (

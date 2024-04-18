@@ -204,11 +204,16 @@ const loadLMSYSModel = async () => {
 
   const urlByModel: { [m: LMSYS.Model['name']]: string } = {
     'Alpaca-13B': 'https://huggingface.co/chansung/gpt4-alpaca-lora-13b',
+    'Command R': 'https://huggingface.co/CohereForAI/c4ai-command-r-v01',
+    'Command R+': 'https://huggingface.co/CohereForAI/c4ai-command-r-plus',
+    'DBRX-Instruct-Preview': 'https://huggingface.co/databricks/dbrx-instruct',
     'Koala-13B': 'https://huggingface.co/TheBloke/koala-13B-HF',
     'LLaMA-13B': 'https://huggingface.co/TheBloke/LLaMa-13B-GGML',
     'Mixtral-8x7b-Instruct-v0.1':
       'https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1',
     'Qwen1.5-4B-Chat': 'https://huggingface.co/Qwen/Qwen1.5-4B-Chat',
+    'Qwen1.5-14B-Chat': 'https://huggingface.co/Qwen/Qwen1.5-14B-Chat',
+    'Qwen1.5-32B-Chat': 'https://huggingface.co/Qwen/Qwen1.5-32B-Chat',
     'Qwen1.5-72B-Chat': 'https://huggingface.co/Qwen/Qwen1.5-72B-Chat',
     'Qwen1.5-7B-Chat': 'https://huggingface.co/Qwen/Qwen1.5-7B-Chat',
   };

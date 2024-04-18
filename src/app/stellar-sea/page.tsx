@@ -42,7 +42,7 @@ const Page = async () => {
     {} as { [k in Metadata['type']]: typeof stellae },
   );
 
-  const types: (keyof typeof stellaeByType)[] = ['pattern', 'reference'];
+  const types: (keyof typeof stellaeByType)[] = ['pattern', 'reference', 'log'];
 
   return (
     <div className={s['stellar-sea']}>

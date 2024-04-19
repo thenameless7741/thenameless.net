@@ -35,12 +35,18 @@ const Page = async () => {
       <h1 className={s.title}>Astral Kit</h1>
 
       <div className={s.stellae}>
+        <h2 className={s.subtitle}>Tutorials</h2>
+
+        <h3 className={s.type}>Prompt Engineering</h3>
+
         <ul className={s.links}>
           {stellae.map(({ slug, ...m }) => (
             <li key={slug} className={s.link}>
               <Link href={`/astral-kit/${slug}`}>{m.title}</Link>
 
-              <div className={s['updated-at']}>{m.updatedAt}</div>
+              <span className={s.tags}>
+                <span className={s.tag}>{m.updatedAt}</span>
+              </span>
             </li>
           ))}
         </ul>

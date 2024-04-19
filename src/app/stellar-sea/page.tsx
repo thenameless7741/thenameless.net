@@ -57,7 +57,7 @@ const Page = async () => {
               <li key={slug} className={s.link}>
                 <Link href={`/stellar-sea/${slug}`}>{m.title}</Link>
 
-                <div className={s['updated-at']}>{m.updatedAt}</div>
+                <div className={s.tag}>{m.updatedAt}</div>
               </li>
             ))}
           </ul>

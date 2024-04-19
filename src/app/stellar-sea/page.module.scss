@@ -13,6 +13,13 @@
   letter-spacing: -0.02em;
 }
 
+.subtitle {
+  @include t.font(34, 40);
+  margin-block: t.$space-8;
+  font-family: t.$font-title;
+  letter-spacing: -0.02em;
+}
+
 .stellae {
   &:not(:first-child) {
     margin-block-start: t.$space-8;
@@ -20,8 +27,9 @@
 }
 
 .type {
-  @include t.font(12, 16, 0.1);
-  margin-block-end: t.$space-2;
+  @include t.font(14, 20, 0.1);
+  margin-block-start: t.$space-8;
+  margin-block-end: t.$space-4;
   font-family: t.$font-label;
   text-transform: uppercase;
 }
@@ -42,7 +50,13 @@
   list-style: none;
 }
 
-.updated-at {
+.tags {
+  display: flex;
+  gap: t.$space-2;
+  flex-wrap: wrap;
+}
+
+.tag {
   @include t.font(10, 12, 0.1);
   color: t.$gray-5;
   font-family: t.$font-label;

@@ -14,10 +14,18 @@
     grid-template-areas:
       'nav      nav      .'
       'title    title    title'
-      'subtitle subtitle subtitle'
       'hr       hr       hr'
       'topics   topics   updated-at';
     align-items: baseline;
+
+    &.has-subtitle {
+      grid-template-areas:
+        'nav      nav      .'
+        'title    title    title'
+        'subtitle subtitle subtitle'
+        'hr       hr       hr'
+        'topics   topics   updated-at';
+    }
   }
 }
 
@@ -76,6 +84,7 @@
 .subtitle {
   @include t.font(18, 22);
   @extend .heading;
+  margin-block-end: t.$space-3;
   color: t.$gray-6;
 
   @include t.device(tb) {
@@ -84,7 +93,6 @@
 }
 
 .hr {
-  margin-block-start: t.$space-3;
   margin-block-end: t.$space-1;
   border: none;
   border-block-start: 1px solid t.$gray-1;

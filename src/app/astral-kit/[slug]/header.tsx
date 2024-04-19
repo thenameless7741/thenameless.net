@@ -12,7 +12,9 @@ const Header = ({ data }: Props) => {
   const m = data as Metadata;
 
   return (
-    <header className={s.header}>
+    <header
+      className={[s.header, m.subtitle ? s['has-subtitle'] : ''].join(' ')}
+    >
       <div className={s.nav}>
         <Link className={s.back} href="/astral-kit">
           <CaretLeft className={s['back-icon']} size={14} weight="bold" />

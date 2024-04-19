@@ -30,26 +30,42 @@ const Page = async () => {
     }),
   );
 
+  type Level = 'Beginner' | 'Intermediate' | 'Advanced';
+
+  const stellaeByLevel = stellae.reduce(
+    (map, s) => {
+      const key = s.topics.at(-1) as Level;
+      if (!map[key]) {
+        map[key] = [];
+      }
+      map[key].push(s);
+      return map;
+    },
+    {} as { [k in Level]: typeof stellae },
+  );
+
   return (
     <div className={s['stellar-sea']}>
-      <h1 className={s.title}>Astral Kit</h1>
+      <h1 className={s.heading1}>Astral Kit</h1>
 
       <div className={s.stellae}>
-        <h2 className={s.subtitle}>Tutorials</h2>
+        <h2 className={s.heading2}>Tutorials</h2>
 
-        <h3 className={s.type}>Prompt Engineering</h3>
+        <h3 className={s.heading3}>[Anthropic] Prompt Engineering</h3>
 
-        <ul className={s.links}>
-          {stellae.map(({ slug, ...m }) => (
-            <li key={slug} className={s.link}>
-              <Link href={`/astral-kit/${slug}`}>{m.title}</Link>
+        {(Object.keys(stellaeByLevel) as Level[]).map((level) => (
+          <>
+            <h4 className={s.heading4}>{level}</h4>
 
-              <span className={s.tags}>
-                <span className={s.tag}>{m.updatedAt}</span>
-              </span>
-            </li>
-          ))}
-        </ul>
+            <ul className={s.links}>
+              {stellaeByLevel[level].map(({ slug, ...m }) => (
+                <li key={slug} className={s.link}>
+                  <Link href={`/astral-kit/${slug}`}>{m.title}</Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        ))}
       </div>
     </div>
   );

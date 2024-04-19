@@ -6,18 +6,45 @@
 }
 
 .title {
+  color: t.$gray-6;
+  font-family: t.$font-title;
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
+  text-wrap: balance;
+}
+
+.heading1 {
+  @extend .title;
   @include t.font(40, 46);
   margin-block-start: t.$space-12;
   margin-block-end: t.$space-8;
-  font-family: t.$font-title;
-  letter-spacing: -0.02em;
 }
 
-.subtitle {
+.heading2 {
+  @extend .title;
   @include t.font(34, 40);
-  margin-block: t.$space-8;
-  font-family: t.$font-title;
-  letter-spacing: -0.02em;
+  margin-block-start: t.$space-8;
+  margin-block-end: t.$space-4;
+}
+
+.heading3 {
+  @extend .title;
+  @include t.font(28, 34);
+  margin-block-start: t.$space-8;
+  margin-block-end: t.$space-4;
+}
+
+.label {
+  color: t.$gray-6;
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}
+
+.heading4 {
+  @extend .label;
+  @include t.font(12, 16, 0.1);
+  margin-block-start: t.$space-6;
+  margin-block-end: t.$space-4;
 }
 
 .stellae {
@@ -26,18 +53,16 @@
   }
 }
 
-.type {
-  @include t.font(14, 20, 0.1);
-  margin-block-start: t.$space-8;
-  margin-block-end: t.$space-4;
-  font-family: t.$font-label;
-  text-transform: uppercase;
-}
-
 .links {
   display: flex;
   flex-direction: column;
   gap: t.$space-2;
+
+  .heading4 ~ & {
+    padding-block: t.$space-1;
+    padding-inline-start: t.$space-3;
+    border-inline-start: 1px solid t.$gray-1;
+  }
 }
 
 .link {

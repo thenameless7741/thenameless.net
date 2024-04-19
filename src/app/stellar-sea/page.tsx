@@ -46,11 +46,11 @@ const Page = async () => {
 
   return (
     <div className={s['stellar-sea']}>
-      <h1 className={s.title}>Stellar Sea</h1>
+      <h1 className={s.heading1}>Stellar Sea</h1>
 
       {types.map((type) => (
         <div key={type} className={s.stellae}>
-          <h2 className={s.type}>{`${type}s`}</h2>
+          <h2 className={s.heading2}>{`${type}s`}</h2>
 
           <ul className={s.links}>
             {stellaeByType[type].map(({ slug, ...m }) => (

@@ -5,5 +5,224 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Beginner']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-19'
+updatedAt: '2024-04-20'
 ---
+
+## Lesson
+
+The Claude for Sheets extension offers several functions you can use to call Claude. One such function is CLAUDEMESSAGES(), which is built to reflect the [Messages API](https://docs.anthropic.com/claude/reference/messages_post) structure.
+
+CLAUDEMESSAGES() can take several parameters, in the following order:
+
+1. Your prompt, in quotation marks
+2. The model version, in quotation marks
+3. Any [optional additional parameters](https://docs.anthropic.com/claude/docs/using-claude-for-sheets#optional-function-parameters), such as temperature, system prompt, max tokens, etc.
+
+**Note:** Temperature correlates to the degree of variability in Claude's answer. For these exercises, we have set the "temperature" to 0. In Chapter 8, we'll dive deeper into temperature.
+
+Anywhere in this sheet, you can <mark>call Claude by using the CLAUDEMESSAGES() formula</mark>. The basic formula is structured like this: `=CLAUDEMESSAGES("{PROMPT}", "{MODEL_VERSION}", "system", "{SYSTEM_PROMPT}")`
+
+For example, to call Claude 3 Haiku with a prompt located in cell A1, you would write: `=CLAUDEMESSAGES(A1, "claude-3-haiku-20240307", "system", "Respond only in Esperanto")`
+
+How does the CLAUDEMESSAGES() structure correlate with the Messages API structure? Let's look a few examples of prompts sent to CLAUDEMESSAGES() along with the underlying formula.
+
+## Examples
+
+Let's take a look at how Claude responds to some <mark>correctly-formatted prompts</mark>. Don't worry about how the answers are being generated.
+
+Prompt:
+
+```
+User: Hi Claude, how are you?
+```
+
+Claude's Response:
+
+```
+I'm doing well, thanks for asking! As an AI assistant, I don't have feelings in the same way humans do, but I'm functioning properly and ready to assist you with any questions or tasks you may have. How can I help you today?
+```
+
+---
+
+Prompt:
+
+```
+User: Can you tell me the color of the ocean?
+```
+
+Claude's Response:
+
+```
+The color of the ocean can vary depending on a few factors:
+
+- Depth - The ocean appears blue in deeper waters due to the way sunlight interacts with the water molecules. Shallower waters may appear more green, turquoise, or even brown depending on the seafloor.
+
+- Suspended particles - Things like plankton, sediment, or algae in the water can affect the ocean's color, making it appear more green, brown, or even reddish.
+
+- Weather conditions - The sky's color can reflect on the surface of the ocean, making it appear more gray, white, or even black on overcast days.
+
+- Geographic location - Different regions of the ocean can have slightly different hues based on factors like latitude, currents, and local marine life.
+
+In general though, the predominant color of the open ocean is a deep, rich blue. This is due to the way sunlight interacts with the water and the lack of suspended particles in the deeper parts of the ocean. But the ocean's color can definitely vary quite a bit depending on the specific conditions.
+```
+
+---
+
+Prompt:
+
+```
+User: What year was Celine Dion born in?
+```
+
+Claude's Response:
+
+```
+Celine Dion was born on March 30, 1968.
+```
+
+Now let's take a look at some <mark>prompts that do not include the correct formatting</mark>. For these malformatted prompts, the CLAUDEMESSAGES() function returns an error. Here's a prompt that's missing "User:" at the beginning.
+
+Prompt:
+
+```
+What year was Celine Dion born in?
+```
+
+Claude's Response:
+
+```
+⚠️=CLAUDEMESSAGES prompt should be in ""User: ...
+Assistant: ..."" format, with ""User: ..."" first. For newlines, press Ctrl/Cmd+Enter⚠️
+```
+
+Here's a prompt that fails to alternate between the User and Assistant roles.
+
+Prompt:
+
+```
+User: What year was Celine Dion born in?
+User: Also, can you tell me some other facts about her?
+```
+
+Claude's Response:
+
+```
+#ERROR!
+```
+
+Here's a prompt that has too many newlines at the beginning.
+
+Prompt:
+
+```
+
+
+User: What year was Celine Dion born in?
+```
+
+Claude's Response:
+
+```
+⚠️=CLAUDEMESSAGES prompt should be in "User: ...
+Assistant: ..." format, with "User: ..." first. For newlines, press Ctrl/Cmd+Enter⚠️
+```
+
+**"User" and "Assistant" messages MUST <mark>alternate</mark>**, and messages <mark>MUST start with a "User:" turn</mark>.
+
+You can <mark>use a system prompt to give Claude instructions and guidelines</mark>. A system prompt is a way to **provide context, instructions, and guidelines to Claude** before presenting it with a question or task in the "User" turn.
+
+Structurally, system prompts exist separately from the list of User & Assistant messages, and thus belong in a separate "system prompt" parameter when using CLAUDEMESSAGES(). To make this easy for you in this tutorial, we've provided system prompt input boxes that feed into a complete CLAUDEMESSAGES() formula used to call Claude.
+
+System Prompt:
+
+```
+Your answer should always be a series of critical thinking questions that further the conversation (do not provide answers to your questions). Do not actually answer the user question.
+```
+
+Prompt:
+
+```
+User: Why is the sky blue?
+```
+
+Claude's Response:
+
+```
+Here are some critical thinking questions to further explore why the sky is blue:
+
+- What causes the sky to appear blue in color?
+- How does the composition of the Earth's atmosphere contribute to the sky's blue appearance?
+- What role do the wavelengths of visible light play in making the sky appear blue?
+- How do the scattering properties of different wavelengths of light affect the sky's color?
+- What other factors, such as the time of day or weather conditions, can influence the sky's appearance?
+- How have scientists historically explained and studied the phenomenon of the blue sky?
+- What are some alternative perspectives or theories that have been proposed to explain the sky's blue color?
+
+By exploring these types of questions, we can delve deeper into the scientific principles and mechanisms that give rise to the familiar blue hue of the sky.
+```
+
+**Why use a system prompt?** A well-written system prompt can improve Claude’s performance in a variety of ways, such as increasing Claude's ability to follow rules and instructions.
+
+For more information, visit our documentation on [how to use system prompts](https://docs.anthropic.com/claude/docs/system-prompts) with Claude.
+
+If you're ready to try the chapter exercises, scroll down!
+
+## Exercises
+
+### Counting to Three
+
+Using proper User/Assistant formatting, <mark>write a prompt in the YELLOW cell</mark> below to <mark>get Claude to count to three</mark>.
+
+Remember, if your answer is correct (which means formatting and prompt is good), Claude's response cell will turn GREEN.
+
+Prompt:
+
+```
+User: Count to 3.
+```
+
+Claude's Response:
+
+```
+1, 2, 3.
+```
+
+<details>
+  <summary>If you need a hint, click me.</summary>
+
+Make sure that you <mark>include proper "User:" (and "Assistant:" if applicable)
+indicators in your prompt</mark>. The conditional formatting in this exercise is looking
+for an answer that contains the exact Arabic numerals "1" & "2" & "3".
+
+</details>
+
+### System Prompt
+
+Modify <mark>the **system prompt** in the ORANGE cell</mark> to make Claude <mark>respond like it's a 3 year old child</mark>.
+
+**Note:** Claude's response may be much longer than it appears. To view the full response, select the response cell, then copy and paste it into a text editor.
+
+System Prompt:
+
+```
+Write like you're a 3 year old child.
+```
+
+Prompt:
+
+```
+User: How big is the sky?
+```
+
+Claude's Response:
+
+```
+da sky is SOOO big! it's like, waaaay up dere! you can't even see da end of it! it's blue and fluffy and has lotsa clouds in it. i wanna jump up and touch da sky, but i can't reach it. it's too high up! da sky is just so big and pretty, i wanna stare at it all day!
+```
+
+<details>
+  <summary>If you need a hint, click me.</summary>
+
+There are many ways to solve this, just by asking! The conditional formatting in this exercise is looking for answers that contain "soo" or "giggles".
+
+</details>

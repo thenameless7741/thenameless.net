@@ -75,7 +75,7 @@
 
 .li {
   @extend .body;
-  @include t.font(17, 25);
+  @include t.font(18, 27);
 
   .ul > & {
     &::before {

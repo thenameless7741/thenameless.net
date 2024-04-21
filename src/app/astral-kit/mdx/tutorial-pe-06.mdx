@@ -5,5 +5,366 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Intermediate']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-19'
+updatedAt: '2024-04-21'
 ---
+
+## Lesson
+
+If someone woke you up and immediately started asking you several complicated questions that you had to respond to right away, how would you do? Probably not as good as if you were given time to <mark>think through your answer first</mark>.
+
+Guess what? Claude is the same way.
+
+**Giving Claude time to think step by step sometimes makes Claude more accurate**, particularly for complex tasks. However, **thinking only counts when it's out loud**. You cannot ask Claude to think but output only the answer - in this case, no thinking has actually occurred.
+
+## Examples
+
+In the movie review prompt below, it's clear to a human reader that the second sentence belies the first. But <mark>Claude takes the word "unrelated" too literally</mark>.
+
+Prompt:
+
+```
+User: Is this movie review sentiment positive or negative?
+
+This movie blew my mind with its freshness and originality. In totally unrelated news, I have been living under a rock since the year 1900.
+```
+
+Claude's Response:
+
+```
+The sentiment of this movie review is positive.
+
+The review states that the movie "blew my mind with its freshness and originality", which indicates a very positive and enthusiastic reaction to the film.
+
+The second part of the review about living under a rock since 1900 is likely meant as a humorous or self-deprecating remark, but it does not negate the overall positive sentiment expressed about the movie's qualities.
+```
+
+To improve Claude's response, let's **allow Claude to think things out first before answering**. We do that by <mark>literally spelling out the steps that Claude should take</mark> in order to process and think through its task. Along with a dash of role prompting, this empowers Claude to understand the review more deeply.
+
+System Prompt:
+
+```
+You are a savvy reader of movie reviews.
+```
+
+Prompt:
+
+```
+User: Is this review sentiment positive or negative? First, write the best arguments for each side in <positive-argument> and <negative-argument> XML tags, then answer.
+
+This movie blew my mind with its freshness and originality. In totally unrelated news, I have been living under a rock since 1900.
+```
+
+Claude's Response:
+
+```
+<positive-argument>
+- The review suggests the movie has a sense of freshness and originality, which can be seen as positive attributes.
+- The reviewer's statement about living under a rock since 1900 could be interpreted as a humorous acknowledgment that the movie's concepts may not be as novel or groundbreaking as they first appeared, indicating an open-minded and self-aware perspective.
+</positive-argument>
+
+<negative-argument>
+- The reviewer's admission of living under a rock since 1900 implies a lack of awareness or exposure to recent trends and developments in the film industry, which could undermine the credibility of their assessment of the movie's "freshness and originality."
+- The sarcastic tone of the statement about living under a rock suggests the reviewer may have found the movie to be unoriginal or derivative, rather than truly fresh and innovative.
+</negative-argument>
+
+Based on the review, the sentiment appears to be more negative than positive. The reviewer's self-deprecating acknowledgment of their limited perspective and the potential sarcasm in their statement suggest that they may not have found the movie to be as fresh and original as they initially claimed.
+```
+
+**Claude is sometimes sensitive to ordering**. This example is on the frontier of Claude's ability to understand nuanced text, and when we <mark>swap the order of the arguments</mark> from the previous example so that <mark>negative is first and positive is second</mark>, this changes <mark>Claude's overall assessment to positive</mark>.
+
+In most situations (but not all, confusingly enough), **Claude is more likely to choose the second of two options**, possibly because in its <mark>training data from the web</mark>, second options were more likely to be correct.
+
+Prompt:
+
+```
+User: Is this review sentiment negative or positive? First write the best arguments for each side in <negative-argument> and <positive-argument> XML tags, then answer.
+
+This movie blew my mind with its freshness and originality. Unrelatedly, I have been living under a rock since 1900.
+```
+
+Claude's Response:
+
+```
+<negative-argument>
+The reviewer's claim that the movie "blew their mind" could be seen as hyperbolic and exaggerated, suggesting a lack of objectivity or critical analysis. Additionally, the reviewer's admission of having lived "under a rock since 1900" raises questions about their familiarity with contemporary cinema, potentially undermining the credibility of their assessment.
+</negative-argument>
+
+<positive-argument>
+The reviewer's enthusiasm for the movie's "freshness and originality" suggests a positive sentiment, indicating that the film offered a unique and engaging experience. The reviewer's self-deprecating remark about living "under a rock" could be interpreted as a lighthearted acknowledgment of their own limited exposure to recent films, which could make their praise for the movie's innovative qualities more compelling.
+</positive-argument>
+
+Based on the review, the sentiment appears to be positive. The reviewer's praise for the movie's "freshness and originality" and the use of the phrase "blew my mind" suggest a very favorable impression of the film, despite the reviewer's admission of limited exposure to contemporary cinema.
+```
+
+**Letting Claude think can shift Claude's answer from incorrect to correct**. It's that simple in many cases where Claude makes mistakes!
+
+Let's go through an example where Claude's answer is incorrect to see how asking Claude to think can fix that.
+
+Prompt:
+
+```
+User: Name a famous movie starring an actor who was born in the year 1956.
+```
+
+Claude's Response:
+
+```
+Here's a famous movie starring an actor born in 1956:
+
+The Shawshank Redemption (1994) starring Tim Robbins. Tim Robbins was born on October 31, 1958.
+```
+
+Let's fix this by asking Claude to think step by step, this time in `<brainstorm>` tags.
+
+Prompt:
+
+```
+User: Name a famous movie starring an actor who was born in the year 1956. First brainstorm about some actors and their birth years in <brainstorm> tags, then give your answer.
+```
+
+Claude's Response:
+
+```
+Here's a brainstorm of some actors and their birth years:
+
+<brainstorm>
+- Tom Hanks (1956)
+- Denzel Washington (1954)
+- Julia Roberts (1967)
+- Harrison Ford (1942)
+- Meryl Streep (1949)
+</brainstorm>
+
+A famous movie starring an actor born in 1956 is:
+
+Forrest Gump, starring Tom Hanks.
+```
+
+If you're ready to try the chapter exercises, scroll down!
+
+## Exercises
+
+### Classifying Emails
+
+In this exercise, we'll be instructing Claude to <mark>sort emails into the following categories</mark>:
+
+- (A) Pre-sale question
+- (B) Broken or defective item
+- (C) Billing question
+- (D) Other (please explain)
+
+For the first part of the exercise, change the prompt in the YELLOW highlighted prompt template box to <mark>make Claude output the correct classification and ONLY the classification</mark>. Your answer needs to <mark>include the letter (A - D) of the correct choice, with the parentheses, as well as the name of the category</mark>.
+
+Refer to the "Correct Classification" in column K to know which emails should be classified under what category. Claude's response will turn GREEN if your prompt yields the correct answer.
+
+**Tip:** Use precognition and other techniques you've learned leading up to this chapter! Remember, **thinking only counts when it's out loud**!
+
+Prompt Template:
+
+```
+User: Please classify this email into the following categories: {{EMAIL}}
+
+Do not include any extra words except the category.
+
+<categories>
+(A) Pre-sale question
+(B) Broken or defective item
+(C) Billing question
+(D) Other (please explain)
+</categories>
+Assistant: (
+```
+
+Input `{{EMAIL}}`:
+
+```
+Hi -- My Mixmaster4000 is producing a strange noise when I operate it. It also smells a bit smoky and plasticky, like burning electronics.  I need a replacement.
+```
+
+Claude's Response:
+
+```
+B) Broken or defective item
+```
+
+Input `{{EMAIL}}`:
+
+```
+Can I use my Mixmaster 4000 to mix paint, or is it only meant for mixing food?
+```
+
+Claude's Response:
+
+```
+D) Other
+```
+
+Input `{{EMAIL}}`:
+
+```
+I HAVE BEEN WAITING 4 MONTHS FOR MY MONTHLY CHARGES TO END AFTER CANCELLING!!  WTF IS GOING ON???
+```
+
+Claude's Response:
+
+```
+C) Billing question
+```
+
+Input `{{EMAIL}}`:
+
+```
+How did I get here I am not good with computer.  Halp.
+```
+
+Claude's Response:
+
+```
+D) Other (Seeking technical assistance)
+```
+
+**BONUS QUESTION:** Time to think like a data scientist! Why is the second email the trickiest one to classify correctly? If the classification is debatable for humans, it's likely also tough for Claude!
+
+<details>
+  <summary>If you need a hint, click me.</summary>
+
+Let's take this exercise step by step:
+
+1. How will Claude know what categories you want to use? Tell it! <mark>Include the four categories you want directly in the prompt</mark>. Be sure to include the parenthetical letters as well for easy classification. Feel free to use XML tags to organize your prompt and make clear to Claude where the categories begin and end.
+2. Try to <mark>cut down on superfluous text so that Claude immediately answers with the classification and ONLY the classification</mark>. There are several ways to do this, from speaking for Claude (providing anything from the beginning of the sentence to a single open parenthesis so that Claude knows you want the parenthetical letter as the first part of the answer) to telling Claude that you want the classification and only the classification, skipping the preamble.
+   - _Refer to Chapters 2 and 5 if you want a refresher on these techniques._
+3. Claude may still be incorrectly categorizing or not including the names of the categories when it answers. Fix this by telling Claude to include the full category name in its answer.
+4. Be sure that you still <mark>have `{{EMAIL}}` somewhere in your prompt</mark> template so that we can properly substitute in emails for Claude to evaluate.
+
+The conditional formatting in this exercise is looking for the correct categorization letter + the closing parentheses and the first letter of the name of the category, such as "C) B" or "B) B" etc.
+
+</details>
+
+<details>
+  <summary>Still stuck? Click me.</summary>
+
+Prompt Template ANSWER:
+
+```
+User: Please classify this email into the following categories: {{EMAIL}}
+
+Do not include any extra words except the category.
+
+<categories>
+(A) Pre-sale question
+(B) Broken or defective item
+(C) Billing question
+(D) Other (please explain)
+</categories>
+Assistant: (
+```
+
+Step in Hint:
+
+1. Include categories
+2. Cut down on superfluous text
+3. Have `{{EMAIL}}` in the prompt for proper substitution
+
+</details>
+
+### Email Classification Formatting
+
+In this exercise, we're going to <mark>refine the output of the above prompt to yield an answer formatted exactly how we want it</mark>.
+
+Use your favorite output formatting technique to <mark>make Claude wrap just the letter of the correct classification in "`<answer></answer>`" tags</mark>. _Refer to the above exercise if you forget which letter is correct for each email._
+
+Claude's response will turn GREEN if your prompt yields the correct answer. For instance, <mark>the answer to the first email should contain the exact string "`<answer>`B`</answer>`"</mark>.
+
+**Tip:** As a first step, <mark>copy the final correct version of your prompt from Exercise 1 down into the highlighted prompt template box below</mark>. Then edit and refine your initial prompt from there.
+
+**Note:** In this exercise, you can see that **Claude in Sheets is a powerful prompt** evaluation tool. Using substitutions, you can <mark>easily check how well a prompt does in multiple contexts</mark> by only modifying one prompt and yielding several responses from Claude as a result. Here, we evaluate the prompt across four instances, but you can easily expand this evaluation to as many rows as needed.
+
+Prompt Template:
+
+```
+User: Please classify this email into the following categories: {{EMAIL}}
+
+Do not include any extra words except the category. Think step by step before you answer.
+
+<categories>
+(A) Pre-sale question
+(B) Broken or defective item
+(C) Billing question
+(D) Other (please explain)
+</categories>
+
+Answer with only the letter of the answer wrapped in <answer> tags, such as <answer>B</answer>.
+```
+
+Input `{{EMAIL}}`:
+
+```
+Hi -- My Mixmaster4000 is producing a strange noise when I operate it. It also smells a bit smoky and plasticky, like burning electronics.  I need a replacement.
+```
+
+Claude's Response:
+
+```
+Analyzing the email step-by-step:
+1. The email is about a problem with the Mixmaster4000 product, indicating a broken or defective item.
+2. The email does not mention any pre-sale questions, billing questions, or other topics.
+
+<answer>B</answer>
+```
+
+Input `{{EMAIL}}`:
+
+```
+Can I use my Mixmaster 4000 to mix paint, or is it only meant for mixing food?
+```
+
+Claude's Response:
+
+```
+To classify this email, I will consider the following:
+
+1. The email is asking about the intended use of a product, the Mixmaster 4000. This suggests it is a pre-sale question, not related to a broken or defective item or a billing issue.
+
+<answer>A</answer>
+```
+
+Input `{{EMAIL}}`:
+
+```
+I HAVE BEEN WAITING 4 MONTHS FOR MY MONTHLY CHARGES TO END AFTER CANCELLING!!  WTF IS GOING ON???
+```
+
+Claude's Response:
+
+```
+Based on the content of the email, the appropriate category is:
+
+<answer>C</answer>
+```
+
+Input `{{EMAIL}}`:
+
+```
+How did I get here I am not good with computer.  Halp.
+```
+
+Claude's Response:
+
+```
+Analyzing the email content:
+- The email does not mention any pre-sale questions, a broken or defective item, or billing questions.
+- The email expresses a general lack of computer skills and a need for help.
+
+Based on the given information, the appropriate category is:
+
+<answer>D</answer>
+```
+
+<details>
+  <summary>If you need a hint, click me.</summary>
+
+Sometimes the simplest way to go about this is to give Claude an example of how you want its output to look. Just don't forget that if you prefill Claude's response with anything, Claude won't actually output that as part of its response.
+
+The conditional formatting in this exercise is looking for only the correct letter wrapped in `<answer>` tags, such as "`<answer>`B`</answer>`". The correct categorization letters are the same as in the above exercise.
+
+</details>

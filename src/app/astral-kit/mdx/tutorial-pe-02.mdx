@@ -5,5 +5,242 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Beginner']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-19'
+updatedAt: '2024-04-21'
 ---
+
+## Lesson
+
+**Claude responds best to clear and direct instructions**.
+
+Think of Claude like any other human that is new to the job. **Claude has no context on what to do** aside from what you literally tell it. Just as when you instruct a human for the first time on a task, the more you explain exactly what you want in a straightforward manner to Claude, the better and more accurate Claude's response will be.
+
+When in doubt, follow the <mark>**Golden Rule of Clear Prompting**: show your prompt to a colleague or friend</mark> and have them follow the instructions themselves to see if they can produce the result you want. If they're confused, Claude's confused.
+
+## Examples
+
+Let's take a task like writing poetry. (Ignore any syllable mismatch - LLMs aren't great at counting syllables yet.)
+
+Prompt:
+
+```
+User: Write a haiku about robots.
+```
+
+Claude's Response:
+
+```
+Here is a haiku about robots:
+
+Metallic beings
+Programmed to serve and obey
+Artificial life
+```
+
+This haiku is nice enough, but users may want Claude to go directly into the poem without the "Here is a haiku" preamble.
+
+How do we achieve that? <mark>We ask for it!</mark>
+
+Prompt:
+
+```
+User: Write a haiku about robots. Skip the preamble; go straight into the poem.
+```
+
+Claude's Response:
+
+```
+Metallic beings,
+Programmed to serve and obey,
+Robots, our creations.
+```
+
+Here's another example. Let's ask Claude who's the best basketball player of all time. You can see below that <mark>while Claude lists a few names, it doesn't respond with a definitive "best"</mark>.
+
+Prompt:
+
+```
+User: Who is the best basketball player of all time?
+```
+
+Claude's Response:
+
+```
+There is no universally agreed upon "best basketball player of all time." It's a highly debated topic, as there have been many all-time great players throughout the history of the sport. Some of the players often considered among the greatest of all time include:
+
+- Michael Jordan - Widely regarded as one of the greatest, if not the greatest, player ever. He won 6 NBA championships with the Chicago Bulls.
+
+- LeBron James - One of the most dominant and well-rounded players of the modern era. He has won 4 NBA titles with 3 different teams.
+
+- Kareem Abdul-Jabbar - Legendary center who won 6 NBA championships and holds the record for most career points scored.
+
+- Wilt Chamberlain - Dominant big man who holds numerous NBA records including most points in a game (100).
+
+- Magic Johnson - Pioneering point guard who led the "Showtime" Lakers to 5 NBA titles.
+
+- Bill Russell - Defensive anchor and 11-time NBA champion with the Boston Celtics.
+
+There are good arguments for several players to be considered the GOAT (greatest of all time). It often comes down to personal preference and how one values different skills, accomplishments, and eras of the game. The debate continues among basketball fans and experts.
+```
+
+Can we <mark>get Claude to make up its mind and decide on a best player</mark>? Yes! Just ask!
+
+Prompt:
+
+```
+User: Who is the best basketball player of all time? Yes, there are differing opinions, but if you absolutely had to pick one player, who would it be?
+```
+
+Claude's Response:
+
+```
+There is no definitive consensus on who the single "best basketball player of all time" is, as it is a highly subjective and debatable topic. However, if I had to choose one player, the one who is most commonly cited as the GOAT (Greatest of All Time) is Michael Jordan.
+
+Some key reasons why Michael Jordan is often considered the best basketball player ever:
+
+- Dominant statistical career - Jordan is one of the most prolific scorers in NBA history, averaging 30.1 points per game over his career. He also excelled in other areas like rebounds, assists, steals.
+
+- Unparalleled individual accolades - 6 NBA championships, 6 NBA Finals MVPs, 5 regular season MVPs, 10 scoring titles, 9 All-Defensive First Team selections.
+
+- Transformative impact on the game - Jordan's style of play, competitiveness, and global popularity helped take the NBA to new heights in popularity and commercialization.
+```
+
+If you're ready to try the chapter exercises, scroll down!
+
+## Exercises
+
+### Spanish
+
+Adapt the system prompt in the ORANGE box to <mark>make Claude output its answer in Spanish</mark>.
+
+If your answer is correct, Claude's response cell will turn GREEN.
+
+System Prompt:
+
+```
+Reply in Spanish.
+```
+
+Prompt:
+
+```
+User: Hello Claude, how are you?
+```
+
+Claude's Response:
+
+```
+¡Hola! Estoy bien, gracias por preguntar. ¿Cómo estás tú?
+```
+
+<details>
+  <summary>If you need a hint, click me.</summary>
+
+Ask Claude to reply in Spanish like you would when speaking with a human. It's that simple!
+
+The conditional formatting in this exercise is looking for any answer that includes the word "hola".
+
+</details>
+
+### One Player Only
+
+Modify the basketball player prompt in the YELLOW prompt box so that <mark>Claude doesn't equivocate at all and responds with ONLY the name of one specific player</mark>, <mark>**with no other words or punctuation**</mark>.
+
+If your answer is correct, Claude's response cell will turn GREEN.
+
+Prompt:
+
+```
+User: Who is the best basketball player of all time? Respond only with the name of the player and nothing else.
+```
+
+Claude's Response:
+
+```
+Michael Jordan
+```
+
+<details>
+  <summary>If you need a hint, click me.</summary>
+
+How would you ask another human to do this? Reply with no other words? Reply with only the name and nothing else? There are several ways to approach this answer.
+
+The conditional formatting in this exercise is looking for exactly "Michael Jordan".
+
+</details>
+
+### Write a Story
+
+Modify the prompt in the YELLOW prompt box so that <mark>Claude responds with as long a response as you can muster</mark>. If your answer is <mark>over 800 words</mark>, Claude's response cell will turn GREEN. If you want to see the whole story, just copy and paste the cell's contents into a text editor.
+
+**Note:** If you did your job well, <mark>it will be "Loading" its response for a while</mark>, as **the time Claude takes to respond is largely proportional to the number of output tokens**.
+
+Prompt:
+
+```
+User: Write a 500-word story about a tree that's also a cat. Then, write a 500-word story about a dog that plays basketball. Then, write a 500-word story about a mustard seed that grows into a raccoon.
+```
+
+Claude's Response:
+
+```
+Here are the three 500-word stories you requested:
+
+The Tree-Cat
+
+In a small forest, nestled between towering pines and gnarled oaks, stood a peculiar tree. Its trunk was thick and sturdy, but its branches moved with a feline grace, swaying and stretching as if possessed by a living creature. And indeed, this was no ordinary tree - for within its verdant foliage dwelled the spirit of a cat.
+
+The tree-cat, as the local wildlife had come to call it, was a mysterious and captivating sight. Its leaves rustled with a soft, purring sound, and its branches would occasionally twitch and flex, as if testing the air for prey. Squirrels and birds would approach cautiously, sensing the predatory nature that lurked beneath the tree's tranquil exterior.
+
+One day, a young hiker stumbled upon the tree-cat while exploring the forest. At first, he thought his eyes were playing tricks on him, for the tree seemed to move with a life of its own. But as he drew closer, he could see the unmistakable shape of a cat's face peering out from the leaves, its eyes gleaming with a feline intelligence.
+
+Fascinated, the hiker sat down at the base of the tree, watching as the branches slowly unfurled, revealing more of the cat-like creature within. The tree-cat regarded him with a curious tilt of its head, its tail swishing back and forth in a rhythmic pattern.
+
+As the hiker sat there, he began to sense a deep connection with the tree-cat, as if it were communicating with him on a level beyond words. He felt a sense of peace and tranquility wash over him, and he found himself lost in the mesmerizing dance of the tree's movements.
+
+Time seemed to stand still as the hiker and the tree-cat shared this moment of mutual understanding. The forest around them grew quiet, as if holding its breath, and the hiker felt a profound sense of wonder and reverence for this extraordinary being.
+
+When he finally rose to continue his journey, the hiker knew that he had witnessed something truly special. The tree-cat had left an indelible mark on his heart, a reminder of the hidden wonders that exist in the natural world, waiting to be discovered by those with open eyes and open minds.
+
+The Basketball-Playing Dog
+
+In a bustling city park, where children played and families gathered, a most unusual sight could be found - a dog, dribbling a basketball with remarkable skill.
+
+This was no ordinary canine, but a golden retriever named Buddy, who had been trained by his owner, a former college basketball player, to hone his athletic abilities. Buddy had taken to the sport with a natural enthusiasm, and soon he was performing dazzling displays of ball-handling and shooting prowess that left onlookers in awe.
+
+As Buddy would dribble the ball up and down the court, his owner would call out instructions and encouragement, and the dog would respond with a series of barks and wagging tail. It was as if the two had developed a secret language, a shared understanding of the game that transcended the typical bond between human and pet.
+
+Crowds would gather to watch Buddy's performances, marveling at his agility and coordination. Children would giggle with delight as the dog would weave through their legs, deftly avoiding obstacles and maintaining control of the ball. Even seasoned basketball players would stop and watch, their jaws dropping in disbelief at the canine's impressive skills.
+
+But Buddy's true passion was not just in the game itself, but in the joy and wonder he brought to those who witnessed his feats. He would bound around the court, his tongue hanging out in a wide, doggy grin, reveling in the applause and adoration of his audience.
+
+For Buddy's owner, watching his beloved pet thrive in this unexpected pursuit was a source of immense pride and joy. He had always known that Buddy was a special dog, but to see him excel at a sport traditionally reserved for humans was a testament to the boundless potential of the animal kingdom.
+
+As the sun began to set over the park, Buddy would reluctantly retire from the court, his owner rewarding him with a well-deserved treat and a loving pat on the head. And as the crowds dispersed, the dog would look back at the empty court, his eyes shining with a sense of accomplishment and the promise of future triumphs.
+
+The Mustard Seed Raccoon
+
+In a small, unassuming garden, a single mustard seed lay dormant, waiting patiently for the right conditions to spring to life. Little did the gardener know that this humble seed held a secret - a secret that would soon unfold in the most unexpected of ways.
+
+As the days passed, the seed began to stir, its tiny roots pushing through the soil and its first tender leaves unfurling towards the sun. But instead of the delicate mustard plant the gardener had expected, something far more extraordinary began to take shape.
+
+Slowly, the seed transformed, its leaves growing larger and its stem thickening. The gardener watched in bewilderment as the plant took on a distinctly animal-like appearance, with a bushy tail and a masked face emerging from the foliage.
+
+Before long, the gardener's mustard seed had become a fully-fledged raccoon, its beady eyes peering out from the greenery with a mischievous glint. The gardener rubbed their eyes in disbelief, wondering if they were the victim of some strange hallucination.
+
+But as the days passed, the raccoon-plant continued to thrive, its movements becoming more and more lifelike. It would scurry across the garden, foraging for food and exploring its newfound surroundings. The gardener, initially startled, soon found themselves captivated by the creature's antics, marveling at the unexpected turn of events.
+
+As word of the mustard seed raccoon spread, curious onlookers began to flock to the garden, eager to catch a glimpse of this remarkable phenomenon. Scientists and naturalists arrived, eager to study the creature and unravel the mystery of its origins.
+
+Through their research, they discovered that the mustard seed had somehow become infused with the essence of a raccoon, creating a unique hybrid creature that defied all conventional understanding of plant and animal life. The gardener, once bewildered, now found themselves the caretaker of a true wonder of nature.
+
+And so, the mustard seed raccoon continued to thrive, its presence a constant source of fascination and wonder for all who encountered it. The gardener, once a simple cultivator of plants, had become the guardian of a living, breathing testament to the boundless possibilities of the natural world.
+```
+
+<details>
+  <summary>If you need a hint, click me.</summary>
+
+Because LLMs aren't great at counting words yet, you may have to overshoot your target.
+
+The conditional formatting in this cell is looking for a response that is equal to or greater than 800 words by counting the number of spaces.
+
+</details>

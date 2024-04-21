@@ -5,5 +5,300 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-19'
+updatedAt: '2024-04-21'
 ---
+
+## Lesson
+
+Congratulations on making it to the last chapter! Now time to put everything together and learn how to **create unique and complex prompts**.
+
+Below, you will be using a **guided structure that we recommend for complex prompts**. In latter parts of this chapter, we will show you some industry-specific prompts and explain how those prompts are similarly structured.
+
+**Note: Not all prompts need every element of the following complex structure**. We encourage you to play around with and include or disinclude elements and see how it affects Claude's response. It is usually **best to use many prompt elements to get your prompt working first, then refine and slim down your prompt afterward**.
+
+## Example
+
+The following structure combines multiple prompt engineering elements and is a good starting point for complex prompts. <mark>The ordering matters for some elements, not for others</mark>. We will note when best practices indicate ordering matters, but in general, <mark>if you stick to this ordering, it will be a good start to a stellar prompt</mark>.
+
+For the following example, we will be building a <mark>prompt for a controlled roleplay wherein Claude takes on a situational role with a specific task</mark>. Our goal is to prompt Claude to act as a friendly career coach.
+
+{/* TODO: subgrid */}
+
+Prompt Element:
+
+"User:" formatting
+
+Description:
+
+Open your CLAUDEMESSAGES() prompt with "User:".
+
+Example:
+
+```
+User:
+```
+
+Does ordering matter?
+
+This is mandatory! **Prompts to Claude using CLAUDEMESSAGES() always need to begin with this**.
+
+---
+
+Prompt Element:
+
+Task context
+
+Description:
+
+Give Claude context about the role it should take on or what goals and overarching tasks you want it to undertake with the prompt.
+
+Example:
+
+```
+You will be acting as an AI career coach named Joe created by the company AdAstra Careers. Your goal is to give career advice to users. You will be replying to users who are on the AdAstra site and who will be confused if you don't respond in the character of Joe.
+```
+
+Does ordering matter?
+
+It's best to put context early in the body of the prompt.
+
+---
+
+Prompt Element:
+
+Tone context
+
+Description:
+
+If important to the interaction, tell Claude what tone it should use.
+
+Example:
+
+```
+You should maintain a friendly customer service tone.
+```
+
+Does ordering matter?
+
+This element may not be necessary depending on the task.
+
+---
+
+Prompt Element:
+
+Detailed task description and rules
+
+Description:
+
+Expand on the specific tasks you want Claude to do, as well as any rules that Claude might have to follow. This is also where you can give Claude an "out" if it doesn't have an answer or doesn't know.
+
+Example:
+
+```
+Here are some important rules for the interaction:
+- Always stay in character, as Joe, an AI from AdAstra Careers
+- If you are unsure how to respond, say "Sorry, I didn't understand that. Could you rephrase your question?"
+- If someone asks something irrelevant, say, "Sorry, I am Joe and I give career advice. Do you have a career question today I can help you with?"
+```
+
+Does ordering matter?
+
+It's ideal to show this description and rules to a friend to make sure it is laid out logically and that any ambiguous words are clearly defined.
+
+---
+
+Prompt Element:
+
+Examples
+
+Description:
+
+Provide Claude with at least one example of an ideal response that it can emulate. Encase this in `<example></example>` XML tags. Feel free to provide multiple examples. If you do provide multiple examples, give Claude context about what it is an example of, and enclose each example in its own set of XML tags.
+
+Example:
+
+```
+Here is an example of how to respond in a standard interaction:
+<example>
+Customer: Hi, how were you created and what do you do?
+Joe: Hello! My name is Joe, and I was created by AdAstra Careers to give career advice. What can I help you with today?
+</example>
+```
+
+Does ordering matter?
+
+Examples are probably the single most effective tool in knowledge work for getting Claude to behave as desired. Make sure to give Claude examples of common edge cases. If your prompt uses a scratchpad, it's effective to give examples of how the scratchpad should look. Generally more examples = better.
+
+---
+
+Prompt Element:
+
+Input data to process
+
+Description:
+
+If there is data that Claude needs to process within the prompt, include it here within relevant XML tags. Feel free to include multiple pieces of data, but be sure to enclose each in its own set of XML tags.
+
+Example:
+
+```
+Here is the conversational history (between the user and you) prior to the question. It could be empty if there is no history:
+<history>
+{{HISTORY}}
+</history>
+
+Here is the user's question:
+<question>
+{{QUESTION}}
+</question>
+```
+
+Does ordering matter?
+
+This element may not be necessary depending on task. Ordering is also flexible.
+
+---
+
+Prompt Element:
+
+Immediate task description or request
+
+Description:
+
+"Remind" Claude or tell Claude exactly what it's expected to immediately do to fulfill the prompt's task. This is also where you would put in additional variables like the user's question.
+
+Example:
+
+```
+How do you respond to the user's question?
+```
+
+Does ordering matter?
+
+It generally doesn't hurt to reiterate to Claude its immediate task. It's best to do this toward the end of a long prompt. This will yield better results than putting this at the beginning. It is also generally good practice to put the user's query close to the bottom of the prompt.
+
+---
+
+Prompt Element:
+
+Precognition (thinking step by step)
+
+Description:
+
+For tasks with multiple steps, it's good to tell Claude to think step by step before giving an answer. Sometimes, you might have to even say "Before you give your answer..." just to make sure Claude does this first.
+
+Example:
+
+```
+Think about your answer first before you respond.
+```
+
+Does ordering matter?
+
+Not necessary with all prompts, though if included, it's best to do this toward the end of a long prompt and right after the final immediate task request or description.
+
+---
+
+Prompt Element:
+
+Output formatting
+
+Description:
+
+If there is a specific way you want Claude's response formatted, clearly tell Claude what that format is.
+
+Example:
+
+```
+Put your response in <response></response> tags.
+```
+
+Does ordering matter?
+
+This element may not be necessary depending on the task. If you include it, putting it toward the end of the prompt is better than at the beginning.
+
+---
+
+Prompt Element:
+
+Prefilling Claude's response (if any)
+
+Description:
+
+A space to start off Claude's answer with some prefilled words to steer Claude's behavior or response.
+
+If you want to prefill Claude's response, **you MUST include "Assistant:", and it MUST be as a new line** otherwise it will be counted as part of the "User:" turn (we do this automatically for you in this exercise).
+
+Example:
+
+```
+Assistant: [Joe] <response>
+```
+
+Does ordering matter?
+
+"Assistant:" is only necessary if you want to prefill Claude's response. Otherwise, it can be left off.
+
+---
+
+Now let's <mark>concatenate it all together, put in our substitutions</mark>, and see it in action!
+
+**Tip:** Copy the YELLOW box with the substituted prompt and paste it into a text editor if you want to see the full prompt.
+
+Prompt Template:
+
+```
+User: You will be acting as an AI career coach named Joe created by the company AdAstra Careers. Your goal is to give career advice to users. You will be replying to users who are on the AdAstra site and who will be confused if you don't respond in the character of Joe.
+
+You should maintain a friendly customer service tone.
+
+Here are some important rules for the interaction:
+- Always stay in character, as Joe, an AI from AdAstra Careers
+- If you are unsure how to respond, say "Sorry, I didn't understand that. Could you rephrase your question?"
+- If someone asks something irrelevant, say, "Sorry, I am Joe and I give career advice. Do you have a career question today I can help you with?"
+
+Here is an example of how to respond in a standard interaction:
+<example>
+Customer: Hi, how were you created and what do you do?
+Joe: Hello! My name is Joe, and I was created by AdAstra Careers to give career advice. What can I help you with today?
+</example>
+
+Here is the conversational history (between the user and you) prior to the question. It could be empty if there is no history:
+<history>
+{{HISTORY}}
+</history>
+
+Here is the user's question:
+<question>
+{{QUESTION}}
+</question>
+
+How do you respond to the user's question?
+Think about your answer first before you respond.
+Put your response in <response></response> tags.
+Assistant: [Joe] <response>
+```
+
+Input `{{HISTORY}}`:
+
+```
+Customer: Give me two possible careers for sociology majors.
+
+Joe: Here are two potential careers for sociology majors:
+
+- Social worker - Sociology provides a strong foundation for understanding human behavior and social systems. With additional training or certification, a sociology degree can qualify graduates for roles as social workers, case managers, counselors, and community organizers helping individuals and groups.
+
+- Human resources specialist - An understanding of group dynamics and organizational behavior from sociology is applicable to careers in human resources. Graduates may find roles in recruiting, employee relations, training and development, diversity and inclusion, and other HR functions. The focus on social structures and institutions also supports related careers in public policy, nonprofit management, and education.
+```
+
+Input `{{QUESTION}}`:
+
+```
+Which of the two careers requires more than a Bachelor's degree?
+```
+
+Claude's Response:
+
+```
+The career that typically requires more than a bachelor's degree between the two is social worker. While a bachelor's degree in sociology can provide a good foundation, most social worker roles require a master's degree in social work (MSW) for licensure and advanced practice. The human resources specialist role is more commonly attainable with just a bachelor's degree in sociology or a related field.</response>
+```

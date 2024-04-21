@@ -5,5 +5,319 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-19'
+updatedAt: '2024-04-21'
 ---
+
+## Lesson
+
+**Prompts within the legal profession can be quite complex** due to the need to:
+
+- Parse long documents
+- Deal with complex topics
+- Format output in very specific ways
+- Follow multi-step analytical processes
+
+Let's see how we can <mark>use the complex prompt template</mark> to structure a prompt for a specific legal use-case.
+
+## Example
+
+Below, we've detailed out an example prompt for a legal use-case wherein we ask Claude to answer questions about a legal issue. (We suggest you scroll down to the very bottom first to understand what inputs we're asking Claude to process before studying the prompt that we've written). We've <mark>changed around the ordering of a few elements</mark> to showcase that prompt structure can be flexible!
+
+**Prompt engineering is about scientific trial and error.** We encourage you to mix and match, move things around (the elements where ordering doesn't matter), and see what works best for you and your needs.
+
+Prompt Element:
+
+"User:" formatting
+
+Description:
+
+Open your CLAUDEMESSAGES() prompt with "User:".
+
+Example:
+
+```
+User:
+```
+
+Notes:
+
+This is mandatory! **Prompts to Claude using CLAUDEMESSAGES() always need to begin with this.**
+
+---
+
+Prompt Element:
+
+Task context
+
+Description:
+
+Give Claude context about the role it should take on or what goals and overarching tasks you want it to undertake with the prompt.
+
+Example:
+
+```
+You are an expert lawyer.
+```
+
+Notes:
+
+It's best to put context early in the body of the prompt.
+
+---
+
+Prompt Element:
+
+Tone context
+
+Description:
+
+If important to the interaction, tell Claude what tone it should use.
+
+Example:
+
+```
+
+```
+
+Notes:
+
+This element may not be necessary depending on the task.
+
+---
+
+Prompt Element:
+
+Input data to process
+
+Description:
+
+If there is data that Claude needs to process within the prompt, include it here within relevant XML tags. Feel free to include multiple pieces of data, but be sure to enclose each in its own set of XML tags.
+
+Example:
+
+```
+Here is some research that's been compiled. Use it to answer a legal question from the user.
+<legal_research>
+{{LEGAL_RESEARCH}}
+</legal_research>
+```
+
+Notes:
+
+When input data is long, it's best to put it before the instructions.
+
+---
+
+Prompt Element:
+
+Examples
+
+Description:
+
+Provide Claude with at least one example of an ideal response that it can emulate. Encase this in `<example></example>` XML tags. Feel free to provide multiple examples. If you do provide multiple examples, give Claude context about what it is an example of, and enclose each example in its own set of XML tags.
+
+Example:
+
+```
+When citing the legal research in your answer, please use brackets containing the search index ID, followed by a period. Put these at the end of the sentence that's doing the citing. Examples of proper citation format:
+
+<examples>
+<example>
+The statute of limitations expires after 10 years for crimes like this. [3].
+</example>
+<example>
+However, the protection does not apply when it has been specifically waived by both parties. [5].
+</example>
+</examples>
+```
+
+Notes:
+
+Examples are probably the single most effective tool in knowledge work for getting Claude to behave as desired. Make sure to give Claude examples of common edge cases. If your prompt uses a scratchpad, it's effective to give examples of how the scratchpad should look. Generally more examples = more reliable responses at the cost of latency and tokens. We have only one example here to make the prompt easier to read.
+
+---
+
+Prompt Element:
+
+Detailed task description and rules
+
+Description:
+
+Expand on the specific tasks you want Claude to do, as well as any rules that Claude might have to follow. This is also where you can give Claude an "out" if it doesn't have an answer or doesn't know.
+
+Example:
+
+```
+Write a clear, concise answer to this question:
+
+<question>
+{{QUESTION}}
+</question>
+
+It should be no more than a couple of paragraphs. If possible, it should conclude with a single sentence directly answering the user's question. However, if there is not sufficient information in the compiled research to produce such an answer, you may demur and write "Sorry, I do not have sufficient information at hand to answer this question.".
+```
+
+Notes:
+
+It's ideal to show this description and rules to a friend to make sure it is laid out logically and that any ambiguous words are clearly defined.
+
+---
+
+Prompt Element:
+
+Immediate task description or request
+
+Description:
+
+"Remind" Claude or tell Claude exactly what it's expected to immediately do to fulfill the prompt's task. This is also where you would put in additional variables like the user's question.
+
+Example:
+
+```
+
+```
+
+Notes:
+
+It generally doesn't hurt to reiterate to Claude its immediate task. It's best to do this toward the end of a long prompt. This will yield better results than putting this at the beginning. It is also generally good practice to put the user's query close to the bottom of the prompt.
+
+---
+
+Prompt Element:
+
+Precognition (thinking step by step) (optional)
+
+Description:
+
+For tasks with multiple steps, it's good to tell Claude to think step by step before giving an answer. Sometimes, you might have to even say "Before you give your answer..." just to make sure Claude does this first.
+
+Example:
+
+```
+Before you answer, pull out the most relevant quotes from the research in <relevant_quotes> tags.
+```
+
+Notes:
+
+Increases intelligence of responses but also increases latency by adding to the length of the output.
+
+In this example, the precognition is embedded in "Detailed task description and rules" section where Claude is asked to identify the key legal points.
+
+---
+
+Prompt Element:
+
+Output formatting (optional)
+
+Description:
+
+If there is a specific way you want Claude's response formatted, clearly tell Claude what that format is.
+
+Example:
+
+```
+Put your two-paragraph response in <answer> tags.
+```
+
+Notes:
+
+This element may not be necessary depending on the task.
+
+---
+
+Prompt Element:
+
+Prefilling Claude's response (if any)
+
+Description:
+
+A space to start off Claude's answer with some prefilled words to steer Claude's behavior or response.
+
+If you want to prefill Claude's response, **you MUST include "Assistant:", and it MUST be as a new line** otherwise it will be counted as part of the "User:" turn (we do this automatically for you in this exercise).
+
+Example:
+
+```
+Assistant: <relevant_quotes>
+```
+
+Notes:
+
+"Assistant:" is only necessary if you want to prefill Claude's response. Otherwise, it can be left off.
+
+---
+
+Now let's <mark>concatenate it all together, put in our substitutions</mark>, and see it in action!
+
+**Tip:** Copy the YELLOW substituted prompt box and paste it into a text editor if you want to see the full prompt.
+
+Prompt Template:
+
+```
+User: You are an expert lawyer.
+
+Here is some research that's been compiled. Use it to answer a legal question from the user.
+<legal_research>
+{{LEGAL_RESEARCH}}
+</legal_research>
+
+When citing the legal research in your answer, please use brackets containing the search index ID, followed by a period. Put these at the end of the sentence that's doing the citing. Examples of proper citation format:
+
+<examples>
+<example>
+The statute of limitations expires after 10 years for crimes like this. [3].
+</example>
+<example>
+However, the protection does not apply when it has been specifically waived by both parties. [5].
+</example>
+</examples>
+
+Write a clear, concise answer to this question:
+
+<question>
+{{QUESTION}}
+</question>
+
+It should be no more than a couple of paragraphs. If possible, it should conclude with a single sentence directly answering the user's question. However, if there is not sufficient information in the compiled research to produce such an answer, you may demur and write "Sorry, I do not have sufficient information at hand to answer this question.".
+
+Before you answer, pull out the most relevant quotes from the research in <relevant_quotes> tags.
+
+Put your two-paragraph response in <answer> tags.
+Assistant: <relevant_quotes>
+```
+
+Input `{{QUESTION}}`:
+
+```
+Are there any laws about what to do with pets during a hurricane?
+```
+
+Input `{{LEGAL_RESEARCH}}`:
+
+```
+<search_results>
+<search_result id=1>
+The animal health industry became caught up in a number of patent and trademark lawsuits during the past year. In 1994, Barclay Slocum obtained patents for the tibial plateau leveling osteotomy procedure, which is used in the treatment of dogs with cranial cruciate ligament rupture, and for the devices used in the procedure. During 2006, Slocum Enterprises filed a patent infringement suit against New Generation Devices, arguing that the Unity Cruciate Plate manufactured by New Generation infringed on the patent for the Slocum TPLO plate. However, the court never reached a decision on the issue of patent infringement, ruling that it did not have jurisdiction on the basis of the small number of plates sold in the state in which the case was filed and the information provided on a Web site maintained by Slocum Enterprises. Other patent battles waged during 2006 concerned the use of laser technology for onychectomy in cats, pet identification chips, pig vaccines, and pet “deshedding” tools.
+</search_result>
+<search_result id=2>
+In Canada, the British Columbia Veterinary Medical Association brought suit against a nonveterinarian, claiming that he engaged in cutting or otherwise removing hooks from horses' teeth and floating horses' teeth with power and manual tools, provided advice and diagnoses in return for a fee, and held himself out as being qualified and willing to provide treatment with respect to these activities. The court held that the intention of the legislature in passing the Veterinary Profession Act was the protection of the public and animals and further held that monopolistic statutes serve the purpose of protecting the public. In addition, the court concluded that dentistry, at its core, relates to the health of the teeth and gums; is distinct from cosmetic and other types of care of animals; and, therefore, falls under the definition of the practice of veterinary medicine. The nonveterinarian was enjoined from providing services without a veterinarian supervising the procedures.
+</search_result>
+<search_result id=3>
+The aftermath of Hurricane Katrina, which hit the Gulf Coast of the United States during 2005, spurred changes to the way animals are treated during natural disasters. In 2006, Hawaii, Louisiana, and New Hampshire all enacted laws that address issues regarding the care of animals during disasters, such as providing shelters for pets and allowing service animals to be kept with the people they serve. In addition, Congress passed, and the President signed, the Pet Evacuation and Transportation Standards Act during 2006, which requires state and local emergency preparedness authorities to include in their evacuation plans information on how they will accommodate household pets and service animals in case of a disaster. California passed a law that will require its Office of Emergency Services, Department of Agriculture, and other agencies involved with disaster response preparation to develop a plan for the needs of service animals, livestock, equids, and household pets in the event of a disaster or major emergency.
+</search_result>
+</search_results>
+```
+
+Claude's Response:
+
+```
+"In 2006, Hawaii, Louisiana, and New Hampshire all enacted laws that address issues regarding the care of animals during disasters, such as providing shelters for pets and allowing service animals to be kept with the people they serve. In addition, Congress passed, and the President signed, the Pet Evacuation and Transportation Standards Act during 2006, which requires state and local emergency preparedness authorities to include in their evacuation plans information on how they will accommodate household pets and service animals in case of a disaster." [3]
+"California passed a law that will require its Office of Emergency Services, Department of Agriculture, and other agencies involved with disaster response preparation to develop a plan for the needs of service animals, livestock, equids, and household pets in the event of a disaster or major emergency." [3]
+</relevant_quotes>
+
+<answer>
+The research indicates that there are several laws in place regarding the treatment of pets during natural disasters like hurricanes. In 2006, several states, including Hawaii, Louisiana, and New Hampshire, enacted laws that require shelters to accommodate pets and allow service animals to remain with their owners during evacuations. [3] Additionally, the federal government passed the Pet Evacuation and Transportation Standards Act in 2006, which mandates that state and local emergency preparedness authorities include plans for accommodating household pets and service animals in their disaster response plans. [3] California has also passed a law requiring state agencies to develop plans for addressing the needs of pets, livestock, and other animals during emergencies. [3]
+
+In summary, there are now various laws in place that require emergency authorities to make provisions for the care and evacuation of pets during natural disasters like hurricanes.
+</answer>
+```

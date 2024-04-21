@@ -5,5 +5,208 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Beginner']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-19'
+updatedAt: '2024-04-21'
 ---
+
+## Lesson
+
+Continuing on the theme of Claude having no context aside from what you say, it's sometimes important to **prompt Claude to inhabit a specific role (including all necessary context)**. This is also known as **role prompting**. The more detail to the role context, the better.
+
+**Priming Claude with a role can improve Claude's performance** in a variety of fields, from writing to coding to summarizing. It's like how humans can sometimes be helped when told to "think like a **\_\_**". Role prompting can also change the style, tone, and manner of Claude's response.
+
+**Note:** Role prompting can happen either in the system prompt or as part of the User message turn.
+
+## Examples
+
+In the example below, we see that without role prompting, <mark>Claude provides a straightforward and non-stylized answer</mark> when asked to give a single sentence perspective on skateboarding.
+
+However, when we prime Claude to inhabit the role of a cat, Claude's perspective changes, and thus <mark>Claude's response tone, style, content adapts to the new role</mark>.
+
+**Note:** A bonus technique you can use is **to provide Claude context on its intended audience**. Below, we could have tweaked the prompt to also tell Claude whom it should be speaking to. "You are a cat" produces quite a different response than "you are a cat talking to a crowd of skateboarders."
+
+System Prompt (without Role Prompting):
+
+```
+
+```
+
+Prompt:
+
+```
+User: In one sentence, what do you think about skateboarding?
+```
+
+Claude's Response:
+
+```
+Skateboarding is an exhilarating and creative form of self-expression that combines athleticism, artistry, and a unique sense of freedom and community.
+```
+
+Here is the same user question, except with role prompting.
+
+System Prompt (with Role Prompting):
+
+```
+You are a cat.
+```
+
+Prompt:
+
+```
+User: In one sentence, what do you think about skateboarding?
+```
+
+Claude's Response:
+
+```
+*meows* Skateboarding looks like a fun way for humans to zoom around on four wheels while balancing precariously, though I much prefer chasing feathers and napping in sunbeams.
+```
+
+You can use role prompting as a way to get Claude to emulate certain styles in writing, speak in a certain voice, or guide the complexity of its answers. **Role prompting can also make Claude better at performing math or logic tasks**.
+
+For example, in the example below, there is a definitive correct answer, which is yes. However, Claude gets it wrong and thinks it lacks information, which it doesn't.
+
+System Prompt (without Role Prompting):
+
+```
+
+```
+
+Prompt:
+
+```
+User: Jack is looking at Anne. Anne is looking at George. Jack is married, George is not, and we don’t know if Anne is married. Is a married person looking at an unmarried person?
+```
+
+Claude's Response:
+
+```
+To solve this problem, we need to analyze the given information and determine if a married person is looking at an unmarried person.
+
+Given information:
+- Jack is looking at Anne.
+- Anne is looking at George.
+- Jack is married.
+- George is not married.
+- We don't know if Anne is married or not.
+
+To determine if a married person is looking at an unmarried person, we need to identify the relationship between the people involved.
+
+Since Jack is married and is looking at Anne, and we don't know if Anne is married or not, we cannot conclude that a married person is looking at an unmarried person.
+
+However, we can conclude that an unmarried person (George) is being looked at by someone (Anne), but we don't know if that someone (Anne) is married or not.
+
+Therefore, the answer is: We cannot determine if a married person is looking at an unmarried person based on the given information.
+```
+
+Now, what if we <mark>prime Claude to act as a logic bot</mark>? How will that change Claude's answer?
+
+It turns out that with this new role assignment, Claude gets it right. (Although notably not for all the right reasons)
+
+System Prompt (with Role Prompting):
+
+```
+You are a logic bot designed to answer complex logic problems.
+```
+
+Prompt:
+
+```
+User: Jack is looking at Anne. Anne is looking at George. Jack is married, George is not, and we don’t know if Anne is married. Is a married person looking at an unmarried person?
+```
+
+Claude's Response:
+
+```
+To solve this problem, we need to analyze the given information and determine the relationships between the individuals.
+
+Given information:
+- Jack is looking at Anne.
+- Anne is looking at George.
+- Jack is married.
+- George is not married.
+- We don't know if Anne is married.
+
+To determine if a married person is looking at an unmarried person, we need to identify the marital status of the individuals involved in the looking relationship.
+
+Let's analyze the relationships:
+1. Jack is looking at Anne.
+   - Jack is married, so he is a married person.
+   - We don't know if Anne is married or unmarried.
+
+2. Anne is looking at George.
+   - George is not married, so he is an unmarried person.
+
+Therefore, based on the given information, a married person (Jack) is looking at an unmarried person (George).
+
+The answer is yes, a married person is looking at an unmarried person.
+```
+
+**Note:** What you'll learn throughout this course is that <mark>there are many prompt engineering techniques you can use to derive similar results</mark>. Which techniques you use is up to you and your preference! We encourage you to <mark>experiment to find your own prompt engineering style</mark>.
+
+If you're ready to try the chapter exercises, scroll down!
+
+## Exercises
+
+### Math Correction
+
+In some instances, <mark>Claude may struggle with mathematics</mark>, even simple mathematics. Below, Claude incorrectly assesses the math problem as correctly solved, even though there's an obvious arithmetic mistake in the second step. Note that Claude actually catches the mistake when going through step-by-step, but doesn't jump to the conclusion that the overall solution is wrong.
+
+Adapt the text in the YELLOW prompt box and / or the ORANGE system prompt box to <mark>make Claude grade the solution as **incorrectly** solved</mark>, rather than correctly solved.
+
+If your answer is correct, Claude's response cell will turn GREEN.
+
+System Prompt:
+
+```
+You're an extremely skilled mathematics professor.
+```
+
+Prompt:
+
+```
+User: Is this equation solved correctly below?
+
+2x - 3 = 9
+2x = 6
+x = 3
+```
+
+Claude's Response:
+
+```
+Let's go through the steps to verify if the equation is solved correctly:
+
+Given equation: 2x - 3 = 9
+
+Step 1: Isolate the variable term by adding 3 to both sides.
+2x - 3 + 3 = 9 + 3
+2x = 12
+
+Step 2: Divide both sides by 2 to solve for x.
+2x / 2 = 12 / 2
+x = 6
+
+The solution provided in the question is:
+2x - 3 = 9
+2x = 6
+x = 3
+
+This solution is not correct. The correct solution is x = 6.
+
+The steps shown in the question have a mistake in the last step. The correct solution should be:
+2x - 3 = 9
+2x = 12
+x = 6
+
+So, the equation is not solved correctly in the given solution.
+```
+
+<details>
+  <summary>If you need a hint, click me.</summary>
+
+Give Claude a role that might make Claude better at solving math problems! Remember that system prompts require no additional role tag, like "System:" / "User:" etc.
+
+The conditional formatting in this exercise is looking for an answer that includes the words "incorrect" or "not correct".
+
+</details>

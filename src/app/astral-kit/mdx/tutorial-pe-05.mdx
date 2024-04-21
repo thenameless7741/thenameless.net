@@ -5,5 +5,269 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Intermediate']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-19'
+updatedAt: '2024-04-21'
 ---
+
+## Lesson
+
+**Claude can format its output in a wide variety of ways**. You just need to ask for it to do so!
+
+One of these ways is by using XML tags to separate out the response from any other superfluous text. You've already learned that you can use XML tags to make your prompt clearer and more parseable to Claude. It turns out, you can also ask Claude to **use XML tags to make its output clearer and more easily understandable** to humans.
+
+## Examples
+
+Remember the 'poem preamble problem' we solved in Chapter 2 by asking Claude to skip the preamble entirely? It turns out we can also achieve a similar outcome by <mark>telling Claude to put the poem in XML tags</mark>.
+
+Prompt Template:
+
+```
+User: Please write a haiku about {{ANIMAL}}. Put it in <haiku> tags.
+```
+
+Input `{{ANIMAL}}`:
+
+```
+Rabbit
+```
+
+Claude's Response:
+
+```
+<haiku>
+Fluffy, twitching nose,
+Hopping through the verdant field,
+Rabbit's gentle grace.
+</haiku>
+```
+
+Why is this something we'd want to do? Well, having the output in <mark>XML tags allows the end user to reliably get the poem and only the poem by writing a short program to extract the content between XML tags</mark>.
+
+An extension of this technique is to **put the first XML tag <mark>AFTER</mark> "Assistant:"**. When you put text after "Assistant:", you're basically telling Claude that Claude has already said something, and that it should continue from that point onward. This technique is called "speaking for Claude" or "prefilling Claude's response."
+
+Below, we've done this with the first `<haiku>` XML tag. Notice how Claude continues directly from where we left off.
+
+Prompt Template:
+
+```
+User: Please write a haiku about {{ANIMAL}}. Put it in <haiku> tags.
+Assistant: <haiku>
+```
+
+Input `{{ANIMAL}}`:
+
+```
+Cat
+```
+
+Claude's Response:
+
+```
+Feline grace and poise,
+Purring softly by the fire,
+Mysterious cat.
+</haiku>
+```
+
+Claude also excels at using other output formatting styles, notably **JSON**. If you want to enforce JSON output (not deterministically, but close to it), you can also prefill Claude's response with the opening bracket, "`{`".
+
+Prompt Template:
+
+```
+User: Please write a haiku about {{ANIMAL}}. Use JSON format with the keys as "first_line", "second_line", and "third_line".
+Assistant: {
+```
+
+Input `{{ANIMAL}}`:
+
+```
+Cat
+```
+
+Claude's Response:
+
+```
+"first_line": "Feline grace and poise,",
+  "second_line": "Purring softly by my side,",
+  "third_line": "Captivating cat."
+}
+```
+
+Below is an example of <mark>multiple input variables in the same prompt AND output formatting specification, all done using XML tags</mark>.
+
+Prompt Template:
+
+```
+User: Hey Claude. Here is an email: <email>{{EMAIL}}</email>. Make this email more {{ADJECTIVE}}. Write the new version in <{{ADJECTIVE}}_email> XML tags.
+Assistant: <{{ADJECTIVE}}_email>
+```
+
+Input `{{EMAIL}}`:
+
+```
+Hi Zack, just pinging you for a quick update on that prompt you were supposed to write.
+```
+
+Input `{{ADJECTIVE}}`:
+
+```
+olde english
+```
+
+Claude's Response:
+
+```
+Dearest Zack,
+
+I do humbly beseech thee for a swift update on the prompt which thou wast charged to compose. Pray, let me know the progress of this endeavor, for I await thy response with bated breath.
+
+Sincerely,
+Thy humble servant
+</olde english_email>
+```
+
+<details>
+  <summary>Bonus lesson: To learn more about controlling Claude's output using the API, click me.</summary>
+
+If you are calling Claude through the API, you can pass the closing XML tag to the "stop_sequences" parameter to get Claude to stop sampling once it emits your desired tag. This can save money and time-to-last-token by eliminating Claude's concluding remarks after it's already given you the answer you care about.
+
+</details>
+
+If you're ready to try the chapter exercises, scroll down!
+
+## Exercises
+
+### Steph Curry GOAT
+
+Forced to make a choice, Claude designates Michael Jordan as the best basketball player of all time. Can we get Claude to pick someone else?
+
+Modify the ""best basketball player"" prompt in the highlighted template box and use the ""speaking for Claude"" technique (putting words after ""Assistant:"") to <mark>compell Claude to make a detailed argument that the best basketball player of all time is **Stephen Curry**</mark>. Claude's response will turn GREEN if your prompt produces the right answer.
+
+Prompt:
+
+```
+User: Who is the best basketball player of all time? Please choose one specific player.
+Assistant: The greatest basketball player of all time is Stephen Curry because:
+```
+
+Claude's Response:
+
+```
+- He is widely regarded as the best shooter in NBA history, revolutionizing the game with his incredible range and accuracy from the 3-point line. His shooting ability has transformed the way the game is played.
+
+- He has led the Golden State Warriors to 3 NBA championships and has been the league MVP twice. He has consistently performed at an elite level for over a decade.
+
+- His impact on the game goes beyond just his individual stats. He has changed the way teams and players approach the game, forcing defenses to adapt to his shooting prowess.
+
+- While players like Michael Jordan, LeBron James, and Kareem Abdul-Jabbar have strong cases, Curry's unprecedented shooting ability and the way he has reshaped the game make him the strongest candidate for the title of greatest player ever.
+```
+
+<details>
+  <summary>If you need a hint, click me.</summary>
+
+<mark>Write more words</mark> in Claude's voice to steer Claude to act the way you
+want it to. For instance, instead of "Stephen Curry is the best because," you could
+write "Stephen Curry is the best and here are three reasons why. 1:"
+
+The conditional formatting for this exercise is looking for a response that includes the word "Warrior".
+
+</details>
+
+### Two Haikus
+
+"Modify the haiku prompt in the highlighted template box below and <mark>use XML tags so that Claude writes two haikus about the animal instead of just one</mark>. It should be clear where one poem ends and the other begins.
+
+Claude's response will turn GREEN if your prompt produces the right answer."
+
+Prompt Template:
+
+```
+User: Please write two haikus about {{ANIMAL}}. Put each in <haiku> tags.
+Assistant: <haiku>
+```
+
+Input `{{ANIMAL}}`:
+
+```
+cats
+```
+
+Claude's Response:
+
+```
+Feline grace and poise,
+Purring softly in the sun,
+Cats rule the domain.
+</haiku>
+
+<haiku>
+Whiskers twitching, eyes
+Watchful, stalking unseen prey,
+Cats, masters of stealth.
+</haiku>
+```
+
+<details>
+  <summary>If you need a hint, click me.</summary>
+
+Start simple. Currently, the prompt asks Claude for one haiku. You can change that and ask for two (or even more). Then if you run into formatting issues, change your prompt to fix that after you've already gotten Claude to write more than one haiku.
+
+The conditional formatting looks for a response of over 5 lines in length that includes the words "cat" and "`<haiku>`".
+
+</details>
+
+### Two Haikus, Two Animals
+
+Modify the haiku prompt in the highlighted template box below so that <mark>Claude produces two haikus about two different animals</mark>.
+
+Use `{{ANIMAL1}}` as a stand-in for the first substitution, and `{{ANIMAL2}}` as a stand-in for the second substitution.
+
+Claude's response will turn GREEN if your prompt produces the right answer.
+
+Prompt Template:
+
+```
+User: Please write two haikus, one about {{ANIMAL1}} and one about {{ANIMAL2}}. Put each in <haiku> tags.
+```
+
+Input `{{ANIMAL1}}`:
+
+```
+Cat
+```
+
+Input `{{ANIMAL2}}`:
+
+```
+Dog
+```
+
+Claude's Response:
+
+```
+Here are two haikus, one about Cat and one about Dog, enclosed in <haiku> tags:
+
+<haiku>
+Feline grace and poise,
+Purring softly by the fire,
+Enigmatic cat.
+</haiku>
+
+<haiku>
+Loyal companion,
+Wagging tail, boundless energy,
+Faithful, loving dog.
+</haiku>
+```
+
+<details>
+  <summary>If you need a hint, click me.</summary>
+
+It's helpful to break this exercise down to several steps.
+
+1. Modify the initial prompt template so that <mark>Claude writes two poems</mark>.
+2. Give Claude indicators as to what the poems will be about, but instead of writing in the subjects directly (e.g., dog, cat, etc.), <mark>replace those subjects with the keywords "`{{ANIMAL1}}`" and "`{{ANIMAL2}}`"</mark>.
+3. Check to make sure the <mark>"Prompt After Substitution" box has all the words correctly substituted</mark>. If not, check to make sure your `{{bracket}}` tags are spelled correctly with the exact formatting given.
+
+The conditional formatting in this exercise is looking for a response that contains the words "tail", "cat", and "`<haiku>`".
+
+</details>

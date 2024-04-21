@@ -122,6 +122,12 @@
 
 .strong {
   font-family: t.$font-body-bold;
+
+  & > .em {
+    /* workaround for missing bold-italic font */
+    font-family: inherit;
+    font-style: italic;
+  }
 }
 
 /**

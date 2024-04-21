@@ -5,5 +5,200 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Intermediate']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-19'
+updatedAt: '2024-04-21'
 ---
+
+## Lesson
+
+**Giving Claude examples of how you want it to behave (or how you want it _not_ to behave) is extremely effective** for:
+
+- Getting the right answer
+- Getting the answer in the right format
+
+This sort of prompting is also called **"few shot prompting"**. You might also encounter the phrase "zero-shot" or "n-shot" or "one-shot". The number of "shots" refers to how many examples are used within the prompt.
+
+## Examples
+
+Pretend you're a developer trying to build a "parent bot" that responds to questions from kids. <mark>Claude's default response is quite formal and robotic</mark>. This is going to break a child's heart.
+
+Prompt:
+
+```
+User: Will Santa bring me presents on Christmas?
+```
+
+Claude's Response:
+
+```
+I don't actually have any information about whether Santa will bring you presents on Christmas. Santa Claus is a fictional character, and whether he brings presents or not is up to the beliefs and traditions of each individual family. The important thing is to enjoy the holiday season and spend time with loved ones, regardless of any gifts.
+```
+
+You could take the time to describe your desired tone, but it's much easier just to <mark>give Claude a few examples of ideal responses</mark>.
+
+Prompt:
+
+```
+User: Please complete the conversation by writing the next line, speaking as "A".
+Q: Is the tooth fairy real?
+A: Of course, sweetie. Wrap up your tooth and put it under your pillow tonight. There might be something waiting for you in the morning.
+Q: Will Santa bring me presents on Christmas?
+```
+
+Claude's Response:
+
+```
+A: Yes, my dear, as long as you've been good this year, Santa will be sure to bring you presents on Christmas! Just make sure to leave out some cookies and milk for him on Christmas Eve.
+```
+
+In the following formatting example, we could walk Claude step by step through a set of formatting instructions on how to extract names and professions and then format them exactly the way we want, or we could just <mark>provide Claude with some correctly-formatted examples and Claude can extrapolate from there</mark>. Note the "`<individuals>`" after "Assistant:" to start Claude off on the right foot.
+
+**Tip:** Double click on the prompt cell to scroll through the entire long prompt.
+
+If you're ready to try the chapter exercises, scroll down!
+
+## Exercises
+
+### Email Formatting via Examples
+
+We're going to redo Exercise 2 in Chapter 6, but this time, we're going to edit the yellow-highlighted Prompt Template box to<mark> use "few-shot" examples of emails + proper classification (and formatting) to get Claude to output the correct answer</mark>. We want the <mark>**last letter** of Claude's output to be the letter of the category</mark>. _Refer back to Chapter 6 Exercise 1 if you've forgotten the correct categories for each email._
+
+Claude's response will turn GREEN if your prompt yields the correct answer.
+
+Remember that these are the categories for the emails:
+
+- (A) Pre-sale question
+- (B) Broken or defective item
+- (C) Billing question
+- (D) Other (please explain)
+
+Prompt Template:
+
+```
+User: Please classify emails into the following categories, and do not include explanations:
+<categories>
+(A) Pre-sale question
+(B) Broken or defective item
+(C) Billing question
+(D) Other (please explain)
+</categories>
+
+Here are a few examples of correct answer formatting:
+<examples>
+Q: How much does it cost to buy a Mixmaster4000?
+A: The correct category is: A
+
+Q: My Mixmaster won't turn on.
+A: The correct category is: B
+
+Q: Please remove me from your mailing list.
+A: The correct category is: D
+</examples>
+
+Here is the email for you to categorize: {{EMAIL}}
+Assistant: The correct category is:
+```
+
+Input `{{EMAIL}}`:
+
+```
+Hi -- My Mixmaster4000 is producing a strange noise when I operate it. It also smells a bit smoky and plasticky, like burning electronics.  I need a replacement.
+```
+
+Claude's Response:
+
+```
+B
+```
+
+Input `{{EMAIL}}`:
+
+```
+Can I use my Mixmaster 4000 to mix paint, or is it only meant for mixing food?
+```
+
+Claude's Response:
+
+```
+A
+```
+
+Input `{{EMAIL}}`:
+
+```
+I HAVE BEEN WAITING 4 MONTHS FOR MY MONTHLY CHARGES TO END AFTER CANCELLING!!  WTF IS GOING ON???
+```
+
+Claude's Response:
+
+```
+C
+```
+
+Input `{{EMAIL}}`:
+
+```
+How did I get here I am not good with computer.  Halp.
+```
+
+Claude's Response:
+
+```
+D
+```
+
+<details>
+  <summary>If you need a hint, click me.</summary>
+
+You're going to have to <mark>write some example emails and classify them for Claude</mark> (with the exact formatting you want). There are multiple ways to do this. Here are some guidelines below.
+
+1. <mark>Try to have at least two example emails</mark>. Claude doesn't need an
+   example for all categories, and the examples don't have to be long. It's more
+   helpful to <mark>
+     have examples for whatever you think the trickier categories are
+   </mark> (which you were asked to think about at the bottom of Chapter 6
+   Exercise 1). XML tags will help you separate out your examples from the rest
+   of your prompt, although it's unnecessary.
+2. Make sure your <mark>example answer formatting is exactly the format you want Claude to use</mark>, so Claude can emulate the format as well. This format should make it so that Claude's answer ends in the letter of the category. <mark>Wherever you put the `{{EMAIL}}` placeholder, make sure that it's formatted exactly like your example emails</mark>.
+3. Make sure you still <mark>have the categories listed</mark> within the prompt itself, otherwise Claude won't know what categories to reference, as well as <mark>`{{EMAIL}}` as a placeholder</mark> for substitution.
+
+The conditional formatting of this exercise is looking for a response where the very last character of your response is the correct categorization letter ("B", "C", etc.). The letters in column K should match the letters in the blue cells in the chapter 6.1 exercise.
+
+</details>
+
+<details>
+  <summary>Still stuck? Click me.</summary>
+
+Prompt Template ANSWER:
+
+```
+User: Please classify emails into the following categories, and do not include explanations:
+<categories>
+(A) Pre-sale question
+(B) Broken or defective item
+(C) Billing question
+(D) Other (please explain)
+</categories>
+
+Here are a few examples of correct answer formatting:
+<examples>
+Q: How much does it cost to buy a Mixmaster4000?
+A: The correct category is: A
+
+Q: My Mixmaster won't turn on.
+A: The correct category is: B
+
+Q: Please remove me from your mailing list.
+A: The correct category is: D
+</examples>
+
+Here is the email for you to categorize: {{EMAIL}}
+Assistant: The correct category is:
+```
+
+Step in Hint:
+
+1. Have at least two example emails
+2. Have correct answer formatting
+3. Have `{{EMAIL}}` + categories
+
+</details>

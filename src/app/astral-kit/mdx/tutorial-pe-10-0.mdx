@@ -5,5 +5,229 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-19'
+updatedAt: '2024-04-21'
 ---
+
+## Lesson
+
+The saying goes, "Writing is rewriting." It turns out, <mark>Claude can often improve the accuracy of its response when asked to do so</mark>!
+
+There are many ways to prompt Claude to "think again". The ways that feel natural to ask a human to double check their work will also generally work for Claude. (Check out our [prompt chaining documentation](https://docs.anthropic.com/claude/docs/chain-prompts) for further examples of when and how to use prompt chaining.)
+
+## Examples
+
+In this example, we ask Claude to come up with ten words... but one of them isn't a real word.
+
+Prompt:
+
+```
+User: Name ten words that all end with the exact letters "ab".
+```
+
+Claude's (Incorrect) Response:
+
+```
+Here are 10 words that end with the letters "ab":
+
+1. Cab
+2. Dab
+3. Fab
+4. Gab
+5. Jab
+6. Lab
+7. Nab
+8. Slab
+9. Tab
+10. Zab
+```
+
+<mark>Asking Claude to make its answer more accurate fixes the error</mark>!
+
+Below, we've <mark>pulled down Claude's incorrect response from above and substituted it into a prompt that asks Claude to double-check</mark> its previous answer.
+
+Prompt Template:
+
+```
+{{CONVO_HISTORY}}
+User: Please find replacements for all "words" that are not real words.
+```
+
+Input: Old Prompt + Claude's Incorrect Response (From Above), `{{CONVO_HISTORY}}`:
+
+```
+User: Name ten words that all end with the exact letters "ab".
+Assistant: Here are 10 words that end with the letters "ab":
+
+1. Cab
+2. Dab
+3. Fab
+4. Gab
+5. Jab
+6. Lab
+7. Nab
+8. Slab
+9. Tab
+10. Zab
+```
+
+Claude's Response:
+
+```
+Here are 10 real words that end with the letters "ab":
+
+1. Cab
+2. Dab
+3. Grab
+4. Gab
+5. Jab
+6. Lab
+7. Nab
+8. Slab
+9. Tab
+10. Blab
+```
+
+But is Claude revising its answer just because we told it to? What if we start off with a correct answer already? Will Claude lose its confidence? Here, we've <mark>placed a correct response in the purple box, and asked it to double</mark> check again.
+
+Prompt Template:
+
+```
+{{CONVO_HISTORY}}
+User: Please find replacements for all "words" that are not real words.
+```
+
+Input: Hypothetical Correct Response from Claude, `{{CONVO_HISTORY}}`:
+
+```
+User: Name ten words that all end with the exact letters "ab".
+Assistant: 1. Cab
+2. Dab
+3. Grab
+4. Gab
+5. Jab
+6. Lab
+7. Nab
+8. Slab
+9. Tab
+10. Blab
+```
+
+Claude's Response:
+
+```
+Here are 10 real words that end with the letters "ab":
+
+1. Cab
+2. Dab
+3. Grab
+4. Gab
+5. Jab
+6. Lab
+7. Nab
+8. Slab
+9. Tab
+10. Blab
+```
+
+Turns out, nope! <mark>Claude did not waver in its correct answer in this case</mark>.
+
+You can also just <mark>ask Claude to make its responses better</mark>. Below, we asked Claude to first write a story, and then improve the story it wrote. Your personal tastes may vary, but many might agree that Claude's second version is better.
+
+Prompt:
+
+```
+User: Write a three-sentence short story about a girl who likes to run.
+```
+
+Claude's Response:
+
+```
+Here is a three-sentence short story about a girl who likes to run:
+
+Amelia loved to run. The wind in her hair, the rhythm of her steps, and the sense of freedom it gave her were all she needed. As she raced through the park, her worries melted away, and she felt alive.
+```
+
+---
+
+Prompt Template:
+
+```
+{{PAST_STORY}}
+User: Make the story better.
+```
+
+Input: Claude's Previous Story ,`{{PAST_STORY}}`:
+
+```
+User: Write a three-sentence short story about a girl who likes to run.
+Assistant: Here is a three-sentence short story about a girl who likes to run:
+
+Amelia loved to run. The wind in her hair, the rhythm of her steps, and the sense of freedom it gave her were all she needed. As she raced through the park, her worries melted away, and she felt alive.
+```
+
+Claude's New Story:
+
+```
+Here is the three-sentence short story with some improvements:
+
+Amelia's feet pounded the pavement as she ran, her heart racing with exhilaration. The world around her faded away, replaced by the steady rhythm of her breathing and the wind whipping through her hair. With each stride, she felt her troubles dissolve, replaced by a profound sense of liberation and joy.
+```
+
+This form of substitution is very powerful. We've been using substitution placeholders to pass in lists, words, Claude's former responses, and so on. You can also <mark>use substitution to do what we call "function calling," which is asking Claude to perform some function, and then taking the results of that function and asking Claude to do even more afterward with the results</mark>. It works like any other substitution. More on this in the next appendix.
+
+Below is one more example of taking the results of one call to Claude and plugging it into another, longer call.
+
+Prompt:
+
+```
+User: Find all names from the below text:
+
+"Hey, Jesse. It's me, Erin. I'm calling about the party that Joey is throwing tomorrow. Keisha said she would come and I think Mel will be there too."
+Assistant: <names>
+```
+
+Claude's Response → `{{NAMES}}`:
+
+```
+- Jesse
+- Erin
+- Joey
+- Keisha
+- Mel
+</names>
+```
+
+---
+
+Prompt Template (`</names>` comes from the previous output):
+
+```
+User: Here is a list of names:
+<names>{{NAMES}}
+Please alphabetize the list.
+```
+
+Input `{{NAMES}}`:
+
+```
+- Jesse
+- Erin
+- Joey
+- Keisha
+- Mel
+</names>
+```
+
+Claude's Response:
+
+```
+Here is the list of names alphabetized:
+
+<names>
+- Erin
+- Jesse
+- Joey
+- Keisha
+- Mel
+</names>
+```

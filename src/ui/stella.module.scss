@@ -1,6 +1,7 @@
 @use '@/styles/token' as t;
 
 .stella {
+  padding-block-end: t.$space-8; /* sync with header */
   color: t.$gray-9;
 
   @include t.device(tb) {

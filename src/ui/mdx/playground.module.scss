@@ -1,0 +1,73 @@
+@use '@/styles/token' as t;
+
+.playground {
+  gap: t.$space-6;
+
+  @include t.device(llt) {
+    display: flex;
+    flex-direction: column;
+    margin-block: t.$space-6;
+  }
+  @include t.device(lt) {
+    --col: 2;
+    --size: 64rem;
+    grid-column: 1 / -1 !important; /* override parent's value */
+    display: grid;
+    grid-template-columns: repeat(var(--col), 1fr);
+    inline-size: 100%;
+    max-inline-size: calc(var(--size) - 2 * var(--page-pad));
+    margin-block: t.$space-12;
+    margin-inline: auto;
+    background-color: t.$gray-0;
+
+    &.has-system {
+      --col: 3;
+      --size: 90rem;
+    }
+  }
+}
+
+.prompt {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-3;
+  block-size: 100%;
+  padding-block-start: t.$space-3;
+  padding-block-end: t.$space-2; /* alignment */
+  padding-inline-start: t.$space-3;
+  border-inline-start: 2px solid var(--theme);
+}
+
+.system {
+  @extend .prompt;
+}
+
+.user {
+  @extend .prompt;
+  --theme: #{t.$gray-5};
+  color: t.$gray-8;
+}
+
+.assistant {
+  @extend .prompt;
+  --theme: #{t.$violet-5};
+  color: t.$violet-8;
+}
+
+.label {
+  @include t.font(12, 12, 0.1);
+  color: var(--theme);
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}
+
+.content {
+  @include t.font(17, 25);
+  max-block-size: 50dvh;
+  max-inline-size: 40rem;
+  padding-inline-end: t.$space-3;
+  overflow-y: auto;
+  font-family: t.$font-body;
+  scrollbar-width: thin;
+  white-space: pre-wrap;
+}

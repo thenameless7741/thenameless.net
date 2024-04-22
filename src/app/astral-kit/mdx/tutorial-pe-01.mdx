@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Beginner']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-20'
+updatedAt: '2024-04-22'
 ---
 
 ## Lesson
@@ -30,30 +30,17 @@ How does the CLAUDEMESSAGES() structure correlate with the Messages API structur
 
 Let's take a look at how Claude responds to some <Mark>correctly-formatted prompts</Mark>. Don't worry about how the answers are being generated.
 
-Prompt:
-
-```
-User: Hi Claude, how are you?
-```
-
-Claude's Response:
-
-```
-I'm doing well, thanks for asking! As an AI assistant, I don't have feelings in the same way humans do, but I'm functioning properly and ready to assist you with any questions or tasks you may have. How can I help you today?
-```
+<Playground
+  user={`User: Hi Claude, how are you?`}
+  assistant={`I'm doing well, thanks for asking! As an AI assistant, I don't have feelings in the same way humans do, but I'm functioning properly and ready to assist you with any questions or tasks you may have. How can I help you today?`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 ---
 
-Prompt:
-
-```
-User: Can you tell me the color of the ocean?
-```
-
-Claude's Response:
-
-```
-The color of the ocean can vary depending on a few factors:
+<Playground
+  user={`User: Can you tell me the color of the ocean?`}
+  assistant={`The color of the ocean can vary depending on a few factors:
 
 - Depth - The ocean appears blue in deeper waters due to the way sunlight interacts with the water molecules. Shallower waters may appear more green, turquoise, or even brown depending on the seafloor.
 
@@ -63,69 +50,46 @@ The color of the ocean can vary depending on a few factors:
 
 - Geographic location - Different regions of the ocean can have slightly different hues based on factors like latitude, currents, and local marine life.
 
-In general though, the predominant color of the open ocean is a deep, rich blue. This is due to the way sunlight interacts with the water and the lack of suspended particles in the deeper parts of the ocean. But the ocean's color can definitely vary quite a bit depending on the specific conditions.
-```
+In general though, the predominant color of the open ocean is a deep, rich blue. This is due to the way sunlight interacts with the water and the lack of suspended particles in the deeper parts of the ocean. But the ocean's color can definitely vary quite a bit depending on the specific conditions.`}
+labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 ---
 
-Prompt:
-
-```
-User: What year was Celine Dion born in?
-```
-
-Claude's Response:
-
-```
-Celine Dion was born on March 30, 1968.
-```
+<Playground
+  user={`User: What year was Celine Dion born in?`}
+  assistant={`Celine Dion was born on March 30, 1968.`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 Now let's take a look at some <Mark>prompts that do not include the correct formatting</Mark>. For these malformatted prompts, the CLAUDEMESSAGES() function returns an error. Here's a prompt that's missing "User:" at the beginning.
 
-Prompt:
-
-```
-What year was Celine Dion born in?
-```
-
-Claude's Response:
-
-```
-⚠️=CLAUDEMESSAGES prompt should be in ""User: ...
-Assistant: ..."" format, with ""User: ..."" first. For newlines, press Ctrl/Cmd+Enter⚠️
-```
+<Playground
+  user={`What year was Celine Dion born in?`}
+  assistant={`⚠️=CLAUDEMESSAGES prompt should be in ""User: ...
+Assistant: ..."" format, with ""User: ..."" first. For newlines, press Ctrl/Cmd+Enter⚠️`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 Here's a prompt that fails to alternate between the User and Assistant roles.
 
-Prompt:
-
-```
-User: What year was Celine Dion born in?
-User: Also, can you tell me some other facts about her?
-```
-
-Claude's Response:
-
-```
-#ERROR!
-```
+<Playground
+  user={`User: What year was Celine Dion born in?
+User: Also, can you tell me some other facts about her?`}
+  assistant={`#ERROR!`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 Here's a prompt that has too many newlines at the beginning.
 
-Prompt:
+<Playground
+  user={`
 
-```
-
-
-User: What year was Celine Dion born in?
-```
-
-Claude's Response:
-
-```
-⚠️=CLAUDEMESSAGES prompt should be in "User: ...
-Assistant: ..." format, with "User: ..." first. For newlines, press Ctrl/Cmd+Enter⚠️
-```
+User: What year was Celine Dion born in?`}
+  assistant={`⚠️=CLAUDEMESSAGES prompt should be in "User: ...
+Assistant: ..." format, with "User: ..." first. For newlines, press Ctrl/Cmd+Enter⚠️`}
+labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 **"User" and "Assistant" messages MUST <Mark>alternate</Mark>**, and messages <Mark>MUST start with a "User:" turn</Mark>.
 
@@ -133,22 +97,10 @@ You can <Mark>use a system prompt to give Claude instructions and guidelines</Ma
 
 Structurally, system prompts exist separately from the list of User & Assistant messages, and thus belong in a separate "system prompt" parameter when using CLAUDEMESSAGES(). To make this easy for you in this tutorial, we've provided system prompt input boxes that feed into a complete CLAUDEMESSAGES() formula used to call Claude.
 
-System Prompt:
-
-```
-Your answer should always be a series of critical thinking questions that further the conversation (do not provide answers to your questions). Do not actually answer the user question.
-```
-
-Prompt:
-
-```
-User: Why is the sky blue?
-```
-
-Claude's Response:
-
-```
-Here are some critical thinking questions to further explore why the sky is blue:
+<Playground
+  system={`Your answer should always be a series of critical thinking questions that further the conversation (do not provide answers to your questions). Do not actually answer the user question.`}
+  user={`User: Why is the sky blue?`}
+  assistant={`Here are some critical thinking questions to further explore why the sky is blue:
 
 - What causes the sky to appear blue in color?
 - How does the composition of the Earth's atmosphere contribute to the sky's blue appearance?
@@ -158,8 +110,9 @@ Here are some critical thinking questions to further explore why the sky is blue
 - How have scientists historically explained and studied the phenomenon of the blue sky?
 - What are some alternative perspectives or theories that have been proposed to explain the sky's blue color?
 
-By exploring these types of questions, we can delve deeper into the scientific principles and mechanisms that give rise to the familiar blue hue of the sky.
-```
+By exploring these types of questions, we can delve deeper into the scientific principles and mechanisms that give rise to the familiar blue hue of the sky.`}
+labels={{ system: 'System Prompt', user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 **Why use a system prompt?** A well-written system prompt can improve Claude’s performance in a variety of ways, such as increasing Claude's ability to follow rules and instructions.
 
@@ -175,17 +128,11 @@ Using proper User/Assistant formatting, <Mark>write a prompt in the YELLOW cell<
 
 Remember, if your answer is correct (which means formatting and prompt is good), Claude's response cell will turn GREEN.
 
-Prompt:
-
-```
-User: Count to 3.
-```
-
-Claude's Response:
-
-```
-1, 2, 3.
-```
+<Playground
+  user={`User: Count to 3.`}
+  assistant={`1, 2, 3.`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 <Details>
   <summary>If you need a hint, click me.</summary>
@@ -202,23 +149,16 @@ Modify <Mark>the **system prompt** in the ORANGE cell</Mark> to make Claude <Mar
 
 **Note:** Claude's response may be much longer than it appears. To view the full response, select the response cell, then copy and paste it into a text editor.
 
-System Prompt:
-
-```
-Write like you're a 3 year old child.
-```
-
-Prompt:
-
-```
-User: How big is the sky?
-```
-
-Claude's Response:
-
-```
-da sky is SOOO big! it's like, waaaay up dere! you can't even see da end of it! it's blue and fluffy and has lotsa clouds in it. i wanna jump up and touch da sky, but i can't reach it. it's too high up! da sky is just so big and pretty, i wanna stare at it all day!
-```
+<Playground
+  system={`Write like you're a 3 year old child.`}
+  user={`User: How big is the sky?`}
+  assistant={`da sky is SOOO big! it's like, waaaay up dere! you can't even see da end of it! it's blue and fluffy and has lotsa clouds in it. i wanna jump up and touch da sky, but i can't reach it. it's too high up! da sky is just so big and pretty, i wanna stare at it all day!`}
+  labels={{
+    system: 'System Prompt',
+    user: 'Prompt',
+    assistant: "Claude's Response",
+  }}
+/>
 
 <Details>
   <summary>If you need a hint, click me.</summary>

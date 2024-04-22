@@ -10,7 +10,7 @@ updatedAt: '2024-04-21'
 
 ## Lesson
 
-If someone woke you up and immediately started asking you several complicated questions that you had to respond to right away, how would you do? Probably not as good as if you were given time to <mark>think through your answer first</mark>.
+If someone woke you up and immediately started asking you several complicated questions that you had to respond to right away, how would you do? Probably not as good as if you were given time to <Mark>think through your answer first</Mark>.
 
 Guess what? Claude is the same way.
 
@@ -18,7 +18,7 @@ Guess what? Claude is the same way.
 
 ## Examples
 
-In the movie review prompt below, it's clear to a human reader that the second sentence belies the first. But <mark>Claude takes the word "unrelated" too literally</mark>.
+In the movie review prompt below, it's clear to a human reader that the second sentence belies the first. But <Mark>Claude takes the word "unrelated" too literally</Mark>.
 
 Prompt:
 
@@ -38,7 +38,7 @@ The review states that the movie "blew my mind with its freshness and originalit
 The second part of the review about living under a rock since 1900 is likely meant as a humorous or self-deprecating remark, but it does not negate the overall positive sentiment expressed about the movie's qualities.
 ```
 
-To improve Claude's response, let's **allow Claude to think things out first before answering**. We do that by <mark>literally spelling out the steps that Claude should take</mark> in order to process and think through its task. Along with a dash of role prompting, this empowers Claude to understand the review more deeply.
+To improve Claude's response, let's **allow Claude to think things out first before answering**. We do that by <Mark>literally spelling out the steps that Claude should take</Mark> in order to process and think through its task. Along with a dash of role prompting, this empowers Claude to understand the review more deeply.
 
 System Prompt:
 
@@ -70,9 +70,9 @@ Claude's Response:
 Based on the review, the sentiment appears to be more negative than positive. The reviewer's self-deprecating acknowledgment of their limited perspective and the potential sarcasm in their statement suggest that they may not have found the movie to be as fresh and original as they initially claimed.
 ```
 
-**Claude is sometimes sensitive to ordering**. This example is on the frontier of Claude's ability to understand nuanced text, and when we <mark>swap the order of the arguments</mark> from the previous example so that <mark>negative is first and positive is second</mark>, this changes <mark>Claude's overall assessment to positive</mark>.
+**Claude is sometimes sensitive to ordering**. This example is on the frontier of Claude's ability to understand nuanced text, and when we <Mark>swap the order of the arguments</Mark> from the previous example so that <Mark>negative is first and positive is second</Mark>, this changes <Mark>Claude's overall assessment to positive</Mark>.
 
-In most situations (but not all, confusingly enough), **Claude is more likely to choose the second of two options**, possibly because in its <mark>training data from the web</mark>, second options were more likely to be correct.
+In most situations (but not all, confusingly enough), **Claude is more likely to choose the second of two options**, possibly because in its <Mark>training data from the web</Mark>, second options were more likely to be correct.
 
 Prompt:
 
@@ -146,14 +146,14 @@ If you're ready to try the chapter exercises, scroll down!
 
 ### Classifying Emails
 
-In this exercise, we'll be instructing Claude to <mark>sort emails into the following categories</mark>:
+In this exercise, we'll be instructing Claude to <Mark>sort emails into the following categories</Mark>:
 
 - (A) Pre-sale question
 - (B) Broken or defective item
 - (C) Billing question
 - (D) Other (please explain)
 
-For the first part of the exercise, change the prompt in the YELLOW highlighted prompt template box to <mark>make Claude output the correct classification and ONLY the classification</mark>. Your answer needs to <mark>include the letter (A - D) of the correct choice, with the parentheses, as well as the name of the category</mark>.
+For the first part of the exercise, change the prompt in the YELLOW highlighted prompt template box to <Mark>make Claude output the correct classification and ONLY the classification</Mark>. Your answer needs to <Mark>include the letter (A - D) of the correct choice, with the parentheses, as well as the name of the category</Mark>.
 
 Refer to the "Correct Classification" in column K to know which emails should be classified under what category. Claude's response will turn GREEN if your prompt yields the correct answer.
 
@@ -225,22 +225,22 @@ D) Other (Seeking technical assistance)
 
 **BONUS QUESTION:** Time to think like a data scientist! Why is the second email the trickiest one to classify correctly? If the classification is debatable for humans, it's likely also tough for Claude!
 
-<details>
+<Details>
   <summary>If you need a hint, click me.</summary>
 
 Let's take this exercise step by step:
 
-1. How will Claude know what categories you want to use? Tell it! <mark>Include the four categories you want directly in the prompt</mark>. Be sure to include the parenthetical letters as well for easy classification. Feel free to use XML tags to organize your prompt and make clear to Claude where the categories begin and end.
-2. Try to <mark>cut down on superfluous text so that Claude immediately answers with the classification and ONLY the classification</mark>. There are several ways to do this, from speaking for Claude (providing anything from the beginning of the sentence to a single open parenthesis so that Claude knows you want the parenthetical letter as the first part of the answer) to telling Claude that you want the classification and only the classification, skipping the preamble.
+1. How will Claude know what categories you want to use? Tell it! <Mark>Include the four categories you want directly in the prompt</Mark>. Be sure to include the parenthetical letters as well for easy classification. Feel free to use XML tags to organize your prompt and make clear to Claude where the categories begin and end.
+2. Try to <Mark>cut down on superfluous text so that Claude immediately answers with the classification and ONLY the classification</Mark>. There are several ways to do this, from speaking for Claude (providing anything from the beginning of the sentence to a single open parenthesis so that Claude knows you want the parenthetical letter as the first part of the answer) to telling Claude that you want the classification and only the classification, skipping the preamble.
    - _Refer to Chapters 2 and 5 if you want a refresher on these techniques._
 3. Claude may still be incorrectly categorizing or not including the names of the categories when it answers. Fix this by telling Claude to include the full category name in its answer.
-4. Be sure that you still <mark>have `{{EMAIL}}` somewhere in your prompt</mark> template so that we can properly substitute in emails for Claude to evaluate.
+4. Be sure that you still <Mark>have `{{EMAIL}}` somewhere in your prompt</Mark> template so that we can properly substitute in emails for Claude to evaluate.
 
 The conditional formatting in this exercise is looking for the correct categorization letter + the closing parentheses and the first letter of the name of the category, such as "C) B" or "B) B" etc.
 
-</details>
+</Details>
 
-<details>
+<Details>
   <summary>Still stuck? Click me.</summary>
 
 Prompt Template ANSWER:
@@ -265,19 +265,19 @@ Step in Hint:
 2. Cut down on superfluous text
 3. Have `{{EMAIL}}` in the prompt for proper substitution
 
-</details>
+</Details>
 
 ### Email Classification Formatting
 
-In this exercise, we're going to <mark>refine the output of the above prompt to yield an answer formatted exactly how we want it</mark>.
+In this exercise, we're going to <Mark>refine the output of the above prompt to yield an answer formatted exactly how we want it</Mark>.
 
-Use your favorite output formatting technique to <mark>make Claude wrap just the letter of the correct classification in "`<answer></answer>`" tags</mark>. _Refer to the above exercise if you forget which letter is correct for each email._
+Use your favorite output formatting technique to <Mark>make Claude wrap just the letter of the correct classification in "`<answer></answer>`" tags</Mark>. _Refer to the above exercise if you forget which letter is correct for each email._
 
-Claude's response will turn GREEN if your prompt yields the correct answer. For instance, <mark>the answer to the first email should contain the exact string "`<answer>`B`</answer>`"</mark>.
+Claude's response will turn GREEN if your prompt yields the correct answer. For instance, <Mark>the answer to the first email should contain the exact string "`<answer>`B`</answer>`"</Mark>.
 
-**Tip:** As a first step, <mark>copy the final correct version of your prompt from Exercise 1 down into the highlighted prompt template box below</mark>. Then edit and refine your initial prompt from there.
+**Tip:** As a first step, <Mark>copy the final correct version of your prompt from Exercise 1 down into the highlighted prompt template box below</Mark>. Then edit and refine your initial prompt from there.
 
-**Note:** In this exercise, you can see that **Claude in Sheets is a powerful prompt** evaluation tool. Using substitutions, you can <mark>easily check how well a prompt does in multiple contexts</mark> by only modifying one prompt and yielding several responses from Claude as a result. Here, we evaluate the prompt across four instances, but you can easily expand this evaluation to as many rows as needed.
+**Note:** In this exercise, you can see that **Claude in Sheets is a powerful prompt** evaluation tool. Using substitutions, you can <Mark>easily check how well a prompt does in multiple contexts</Mark> by only modifying one prompt and yielding several responses from Claude as a result. Here, we evaluate the prompt across four instances, but you can easily expand this evaluation to as many rows as needed.
 
 Prompt Template:
 
@@ -360,11 +360,11 @@ Based on the given information, the appropriate category is:
 <answer>D</answer>
 ```
 
-<details>
+<Details>
   <summary>If you need a hint, click me.</summary>
 
 Sometimes the simplest way to go about this is to give Claude an example of how you want its output to look. Just don't forget that if you prefill Claude's response with anything, Claude won't actually output that as part of its response.
 
 The conditional formatting in this exercise is looking for only the correct letter wrapped in `<answer>` tags, such as "`<answer>`B`</answer>`". The correct categorization letters are the same as in the above exercise.
 
-</details>
+</Details>

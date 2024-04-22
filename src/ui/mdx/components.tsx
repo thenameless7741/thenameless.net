@@ -51,6 +51,7 @@ const components: React.ComponentProps<typeof MDXProvider>['components'] = {
    * custom components: block-level
    */
   Audience,
+  Details: (props) => <details {...props} className={s.details} />,
   Gallery,
   Resource,
 
@@ -66,5 +67,6 @@ const components: React.ComponentProps<typeof MDXProvider>['components'] = {
       height={height}
     />
   ),
+  Mark: (props) => <mark {...props} className={s.mark} />,
 };
 export default components;

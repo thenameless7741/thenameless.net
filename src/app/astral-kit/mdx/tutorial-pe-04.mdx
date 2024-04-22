@@ -18,7 +18,7 @@ Below, we'll walk step by step through how to write a substitutable prompt templ
 
 ## Examples
 
-In this first example, we're <mark>asking Claude to act as an animal noise generator</mark>. Notice that the full prompt submitted to Claude (the YELLOW third box in the chain) is just the prompt template (first box) substituted with the input (in this case, "Cow", in the second box). Notice that the word "Cow" replaces `{{ANIMAL}}` in the yellow third box.
+In this first example, we're <Mark>asking Claude to act as an animal noise generator</Mark>. Notice that the full prompt submitted to Claude (the YELLOW third box in the chain) is just the prompt template (first box) substituted with the input (in this case, "Cow", in the second box). Notice that the word "Cow" replaces `{{ANIMAL}}` in the yellow third box.
 
 **Note: You don't have to call your substitution placeholder anything in particular** in practice. For this example, definitely use `{{ANIMAL}}`, as that's how the exercise is formatted. But in general, just as easily, we could have called it `{{CREATURE}}` or `{{A}}` (but it's **generally good to have your stand-ins be specific and relevant** so that your prompt is easy to understand even without the substitution, just for user parseability). Just make sure that whatever you name your substitution placeholder is what you use for the substitution formula.
 
@@ -44,9 +44,9 @@ Why would we want to separate and substitute inputs like this? Well, **prompt te
 
 We do this substitution here using spreadsheet functions, but this is a best practice for coding as well! We use the `{{double-curly-brackets}}` formatting in our own code.
 
-**Note:** <mark>Prompt templates can have as many variables as desired</mark>.
+**Note:** <Mark>Prompt templates can have as many variables as desired</Mark>.
 
-When introducing substitution variables like this, it is very important to <mark>make sure Claude knows where variables start and end</mark> (vs. instructions or task descriptions). Let's look at an example where there is no separation between the instructions and the substitution variable.
+When introducing substitution variables like this, it is very important to <Mark>make sure Claude knows where variables start and end</Mark> (vs. instructions or task descriptions). Let's look at an example where there is no separation between the instructions and the substitution variable.
 
 Prompt Template:
 
@@ -73,7 +73,7 @@ Best regards,
 [Your CEO's Name]
 ```
 
-Here, <mark>Claude thinks "Yo Claude" is part of the email it's supposed to rewrite</mark>! You can tell because it begins its rewrite with "Dear Claude". To the human eye, it's clear, particularly in the prompt template where the email begins and ends, but it becomes much less clear in the prompt after substitution.
+Here, <Mark>Claude thinks "Yo Claude" is part of the email it's supposed to rewrite</Mark>! You can tell because it begins its rewrite with "Dear Claude". To the human eye, it's clear, particularly in the prompt template where the email begins and ends, but it becomes much less clear in the prompt after substitution.
 
 How do we solve this? **Wrap the input in XML tags**! We did this below, and as you can see, there's no more "Dear Claude" in the output.
 
@@ -106,7 +106,7 @@ Best regards,
 
 Let's see another example of how XML tags can help us.
 
-In the following prompt, <mark>Claude incorrectly interprets what part of the prompt is the instruction vs. the input</mark>. It incorrectly considers "Each is about an animal, like rabbits" to be part of the list due to the formatting, when the user (the one filling out the `{{SENTENCES}}` variable) presumably did not want that.
+In the following prompt, <Mark>Claude incorrectly interprets what part of the prompt is the instruction vs. the input</Mark>. It incorrectly considers "Each is about an animal, like rabbits" to be part of the list due to the formatting, when the user (the one filling out the `{{SENTENCES}}` variable) presumably did not want that.
 
 Prompt Template:
 
@@ -131,7 +131,7 @@ Claude's Response:
 The second item on the list is "I like how cows sound".
 ```
 
-To fix this, we just need to <mark>surround the user input sentences in XML tags</mark>. This shows Claude where the input data begins and ends despite the misleading hyphen before "Each is about an animal, like rabbits."
+To fix this, we just need to <Mark>surround the user input sentences in XML tags</Mark>. This shows Claude where the input data begins and ends despite the misleading hyphen before "Each is about an animal, like rabbits."
 
 Prompt Template:
 
@@ -166,7 +166,7 @@ If you're ready to try the chapter exercises, scroll down!
 
 ### Haiku Topic
 
-Write a prompt in the highlighted template box that will <mark>take in a variable called `{{TOPIC}}` and output a haiku</mark> about the topic. This exercise is just meant to test your understanding of the variable templating structure.
+Write a prompt in the highlighted template box that will <Mark>take in a variable called `{{TOPIC}}` and output a haiku</Mark> about the topic. This exercise is just meant to test your understanding of the variable templating structure.
 
 Prompt Template:
 
@@ -190,36 +190,36 @@ Curly tails, pink and plump, oink
 Pigs roam the farmyard
 ```
 
-<details>
+<Details>
   <summary>If you need a hint, click me.</summary>
 
 Don't forget to include "User:" at the start of your message list, as well as the exact phrase `{{TOPIC}}` wherever you want the topic to be substituted in. Changing the input cell (E12) should make Claude write a haiku about a different topic.
 
 The conditional formatting in this exercise is looking for a solution that includes the words "haiku" and "pig".
 
-</details>
+</Details>
 
 ### Dog Question with Typos
 
-<mark>Fix the prompt in the highlighted template box by adding XML tags</mark> so
+<Mark>Fix the prompt in the highlighted template box by adding XML tags</Mark> so
 that Claude produces the right answer.
 
 Try not to change anything else about the prompt. The messy and mistake-ridden writing is intentional, so you can see how Claude reacts to such mistakes. Claude's response will turn GREEN if your prompt produces the right answer.
 
 **Note:** Although Claude can somewhat parse through broken prompts with poor grammar and misspelled words, **having a clearly written, spell-checked and grammatically correct prompt far decreases the risk of Claude making mistakes and far increases the quality of Claude's output**.
 
-<details>
+<Details>
   <summary>If you need a hint, click me.</summary>
 
 Hint: If you surround `{{QUESTION}}` in XML tags, how does that change Claude's response?
 
 The conditional formatting in this exercise is looking for a response that includes the word "brown".
 
-</details>
+</Details>
 
 ### Dog Question Part 2
 
-Fix the prompt in the highlighted template box <mark>**WITHOUT** adding XML tags</mark>. Instead, <mark>remove only one or two words from the prompt</mark>.
+Fix the prompt in the highlighted template box <Mark>**WITHOUT** adding XML tags</Mark>. Instead, <Mark>remove only one or two words from the prompt</Mark>.
 
 Just as with the above exercises, try not to change anything else about the prompt. This will show you what kind of language Claude can parse and understand. Claude's response will turn GREEN if your prompt produces the right answer.
 
@@ -241,11 +241,11 @@ Claude's Response:
 Yes, dogs can be brown.
 ```
 
-<details>
+<Details>
   <summary>If you need a hint, click me.</summary>
 
 Try removing one word or section of characters at a time, starting with the parts that make the least sense. Doing this one word at a time will also help you see just how much Claude can or can't parse and understand.
 
 The conditional formatting in this exercise is looking for a response that includes the word "brown".
 
-</details>
+</Details>

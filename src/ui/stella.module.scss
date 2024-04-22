@@ -1,5 +1,4 @@
 @use '@/styles/token' as t;
-@use '@/ui/link.module.scss';
 
 .stella {
   color: t.$gray-9;
@@ -10,30 +9,6 @@
 
     & > * {
       grid-column: 2;
-    }
-  }
-
-  /* TODO: migrate to components */
-
-  & > details {
-    margin-block: t.$space-2;
-
-    & > summary {
-      @extend .link;
-      @include t.font(18, 27);
-      display: inline-block;
-      cursor: pointer;
-      font-family: t.$font-body;
-      text-decoration: underline;
-    }
-  }
-
-  & mark {
-    padding-inline: 0.25em;
-    background-color: #{t.$violet-1}80;
-
-    & > * {
-      background: none;
     }
   }
 }

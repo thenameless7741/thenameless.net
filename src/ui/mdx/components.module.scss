@@ -1,4 +1,5 @@
 @use '@/styles/token' as t;
+@use '@/ui/link.module.scss';
 
 /**
  * base
@@ -106,6 +107,19 @@
   border-block-start: 1px solid t.$gray-1;
 }
 
+.details {
+  margin-block: t.$space-2;
+
+  & > summary {
+    @extend .link;
+    @include t.font(18, 27);
+    display: inline-block;
+    cursor: pointer;
+    font-family: t.$font-body;
+    text-decoration: underline;
+  }
+}
+
 /**
  * components: inline-level
  */
@@ -127,6 +141,16 @@
     /* workaround for missing bold-italic font */
     font-family: inherit;
     font-style: italic;
+  }
+}
+
+.mark {
+  padding-inline: 0.25em;
+  background-color: #{t.$violet-1}80;
+  color: t.$violet-9;
+
+  & > * {
+    background: none;
   }
 }
 

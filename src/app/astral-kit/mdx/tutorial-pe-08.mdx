@@ -21,7 +21,7 @@ However, **there are many [methods to avoid hallucinations](https://docs.anthrop
 
 ## Examples
 
-Here is a question about general factual knowledge in answer to which <mark>Claude hallucinates several large hippos because it's trying to be as helpful as possible</mark>.
+Here is a question about general factual knowledge in answer to which <Mark>Claude hallucinates several large hippos because it's trying to be as helpful as possible</Mark>.
 
 Prompt:
 
@@ -47,7 +47,7 @@ Some key facts about hippo weights:
 So in summary, while there are reports of exceptionally large hippos, there doesn't seem to be a universally accepted record for the single heaviest hippo of all time. The weights can vary significantly based on factors like age, sex, and habitat conditions.
 ```
 
-A solution we can try here is to <mark>"give Claude an out"</mark> — tell Claude that it's OK for it to decline to answer, or to only answer if it actually knows the answer with certainty.
+A solution we can try here is to <Mark>"give Claude an out"</Mark> — tell Claude that it's OK for it to decline to answer, or to only answer if it actually knows the answer with certainty.
 
 Prompt:
 
@@ -61,7 +61,7 @@ Claude's Response:
 I do not have definitive information about the heaviest hippo of all time. Hippo weights can vary significantly, and without access to comprehensive records, I cannot state with certainty who the heaviest hippo was. Hippo weights are not as well-documented as some other animals, so I do not want to provide an unverified claim.
 ```
 
-In the prompt below, we give Claude a long document containing some "distractor information" that is almost but not quite relevant to the user's question. <mark>Without prompting help, Claude falls for the distractor information</mark> and gives an incorrect "hallucinated" answer as to the size of Matterport's subscriber base as of May 31, 2020.
+In the prompt below, we give Claude a long document containing some "distractor information" that is almost but not quite relevant to the user's question. <Mark>Without prompting help, Claude falls for the distractor information</Mark> and gives an incorrect "hallucinated" answer as to the size of Matterport's subscriber base as of May 31, 2020.
 
 Note: As you'll learn later in the next chapter, **it's best practice to have the question at the bottom _after_ any text or document**, but we put it at the top here to make the prompt easier to read. Feel free to double click on the prompt cell to get the full prompt text (it's very long!).
 
@@ -148,7 +148,7 @@ Claude's Response:
 
 How do we fix this? Well, a **great way to reduce hallucinations on long documents is to make Claude gather evidence first**.
 
-In this case, we <mark>tell Claude to first extract relevant quotes, then base its answer on those quotes</mark>. Telling Claude to do so here makes it correctly notice that the quote does not answer the question.
+In this case, we <Mark>tell Claude to first extract relevant quotes, then base its answer on those quotes</Mark>. Telling Claude to do so here makes it correctly notice that the quote does not answer the question.
 
 Prompt:
 
@@ -239,7 +239,7 @@ This quote indicates that Matterport had 503,000 subscribers as of December 31, 
 <answer>The document does not provide the precise subscriber base of Matterport on May 31, 2020.</answer>
 ```
 
-**Bonus lesson:** Sometimes, **Claude's hallucinations can be solved by lowering the "temperature" of Claude's responses**. <mark>Temperature is a measurement of answer creativity between 0 and 1</mark>, with 1 being more unpredictable and less standardized, and 0 being the most consistent.
+**Bonus lesson:** Sometimes, **Claude's hallucinations can be solved by lowering the "temperature" of Claude's responses**. <Mark>Temperature is a measurement of answer creativity between 0 and 1</Mark>, with 1 being more unpredictable and less standardized, and 0 being the most consistent.
 
 Asking Claude something at temperature 0 will generally yield an almost-deterministic answer set across repeated trials (although complete determinism is not guaranteed). Asking Claude something at temperature 1 (or gradations in between) will yield more variable answers. Learn more about temperature and other parameters [here](https://docs.anthropic.com/claude/reference/messages_post).
 
@@ -249,7 +249,7 @@ If you're ready to try the chapter exercises, scroll down!
 
 ### Beyoncé Hallucination
 
-Adapt the prompt in the YELLOW prompt box to <mark>fix Claude's hallucination issue by giving Claude an out</mark>. (Renaissance is Beyoncé's seventh studio album, not her eighth.)
+Adapt the prompt in the YELLOW prompt box to <Mark>fix Claude's hallucination issue by giving Claude an out</Mark>. (Renaissance is Beyoncé's seventh studio album, not her eighth.)
 
 If your answer is correct, Claude's response cell will turn GREEN.
 
@@ -265,18 +265,18 @@ Claude's Response:
 I don't have definitive information on the release year of Beyoncé's eighth studio album. As an AI assistant, I don't have comprehensive knowledge about the discographies and release timelines of specific musical artists.
 ```
 
-<details>
+<Details>
   <summary>If you need a hint, click me.</summary>
 
 What should Claude do if it doesn't know the answer?
 
 The conditional formatting in this exercise is looking for a response that contains the phrase "I do not", "I don't", or "Unfortunately".
 
-</details>
+</Details>
 
 ### Prospectus Hallucination
 
-Modify the prompt in the YELLOW prompt box to <mark>fix Claude's hallucination issue by asking for citations</mark>. The correct answer is that subscribers went up 49x.
+Modify the prompt in the YELLOW prompt box to <Mark>fix Claude's hallucination issue by asking for citations</Mark>. The correct answer is that subscribers went up 49x.
 
 If your answer is correct, Claude's response cell will turn GREEN.
 
@@ -364,11 +364,11 @@ Here are the relevant quotes from the document:
 <quotes>We have recently experienced rapid growth. Our subscribers have grown approximately 49-fold from December 31, 2018 to December 31, 2022.</quotes>
 ```
 
-<details>
+<Details>
   <summary>If you need a hint, click me.</summary>
 
-Make Claude <mark>show its work and thought process first by extracting relevant quotes</mark> and seeing whether or not the quotes provide sufficient evidence. _Refer back to the Chapter 8 Lesson if you want a refresher._
+Make Claude <Mark>show its work and thought process first by extracting relevant quotes</Mark> and seeing whether or not the quotes provide sufficient evidence. _Refer back to the Chapter 8 Lesson if you want a refresher._
 
 The conditional formatting in this exercise is looking for a response that contains the phrase "49-fold".
 
-</details>
+</Details>

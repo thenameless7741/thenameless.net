@@ -18,9 +18,9 @@ Continuing on the theme of Claude having no context aside from what you say, it'
 
 ## Examples
 
-In the example below, we see that without role prompting, <mark>Claude provides a straightforward and non-stylized answer</mark> when asked to give a single sentence perspective on skateboarding.
+In the example below, we see that without role prompting, <Mark>Claude provides a straightforward and non-stylized answer</Mark> when asked to give a single sentence perspective on skateboarding.
 
-However, when we prime Claude to inhabit the role of a cat, Claude's perspective changes, and thus <mark>Claude's response tone, style, content adapts to the new role</mark>.
+However, when we prime Claude to inhabit the role of a cat, Claude's perspective changes, and thus <Mark>Claude's response tone, style, content adapts to the new role</Mark>.
 
 **Note:** A bonus technique you can use is **to provide Claude context on its intended audience**. Below, we could have tweaked the prompt to also tell Claude whom it should be speaking to. "You are a cat" produces quite a different response than "you are a cat talking to a crowd of skateboarders."
 
@@ -99,7 +99,7 @@ However, we can conclude that an unmarried person (George) is being looked at by
 Therefore, the answer is: We cannot determine if a married person is looking at an unmarried person based on the given information.
 ```
 
-Now, what if we <mark>prime Claude to act as a logic bot</mark>? How will that change Claude's answer?
+Now, what if we <Mark>prime Claude to act as a logic bot</Mark>? How will that change Claude's answer?
 
 It turns out that with this new role assignment, Claude gets it right. (Although notably not for all the right reasons)
 
@@ -142,7 +142,7 @@ Therefore, based on the given information, a married person (Jack) is looking at
 The answer is yes, a married person is looking at an unmarried person.
 ```
 
-**Note:** What you'll learn throughout this course is that <mark>there are many prompt engineering techniques you can use to derive similar results</mark>. Which techniques you use is up to you and your preference! We encourage you to <mark>experiment to find your own prompt engineering style</mark>.
+**Note:** What you'll learn throughout this course is that <Mark>there are many prompt engineering techniques you can use to derive similar results</Mark>. Which techniques you use is up to you and your preference! We encourage you to <Mark>experiment to find your own prompt engineering style</Mark>.
 
 If you're ready to try the chapter exercises, scroll down!
 
@@ -150,9 +150,9 @@ If you're ready to try the chapter exercises, scroll down!
 
 ### Math Correction
 
-In some instances, <mark>Claude may struggle with mathematics</mark>, even simple mathematics. Below, Claude incorrectly assesses the math problem as correctly solved, even though there's an obvious arithmetic mistake in the second step. Note that Claude actually catches the mistake when going through step-by-step, but doesn't jump to the conclusion that the overall solution is wrong.
+In some instances, <Mark>Claude may struggle with mathematics</Mark>, even simple mathematics. Below, Claude incorrectly assesses the math problem as correctly solved, even though there's an obvious arithmetic mistake in the second step. Note that Claude actually catches the mistake when going through step-by-step, but doesn't jump to the conclusion that the overall solution is wrong.
 
-Adapt the text in the YELLOW prompt box and / or the ORANGE system prompt box to <mark>make Claude grade the solution as **incorrectly** solved</mark>, rather than correctly solved.
+Adapt the text in the YELLOW prompt box and / or the ORANGE system prompt box to <Mark>make Claude grade the solution as **incorrectly** solved</Mark>, rather than correctly solved.
 
 If your answer is correct, Claude's response cell will turn GREEN.
 
@@ -202,11 +202,11 @@ x = 6
 So, the equation is not solved correctly in the given solution.
 ```
 
-<details>
+<Details>
   <summary>If you need a hint, click me.</summary>
 
 Give Claude a role that might make Claude better at solving math problems! Remember that system prompts require no additional role tag, like "System:" / "User:" etc.
 
 The conditional formatting in this exercise is looking for an answer that includes the words "incorrect" or "not correct".
 
-</details>
+</Details>

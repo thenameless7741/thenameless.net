@@ -24,6 +24,10 @@
       --col: 3;
       --size: 90rem;
     }
+    &.has-input {
+      --col: 2;
+      --size: 64rem;
+    }
   }
 }
 
@@ -40,6 +44,8 @@
 
 .system {
   @extend .prompt;
+  --theme: #{t.$gray-5};
+  color: t.$gray-8;
 }
 
 .user {
@@ -70,4 +76,57 @@
   font-family: t.$font-body;
   scrollbar-width: thin;
   white-space: pre-wrap;
+}
+
+.io {
+  .playground.has-input > & {
+    gap: t.$space-6;
+
+    @include t.device(llt) {
+      display: flex;
+      flex-direction: column;
+    }
+    @include t.device(lt) {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(var(--size), auto);
+      grid-auto-flow: column;
+    }
+  }
+}
+
+.params {
+  @extend .user;
+}
+
+.params-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: t.$space-3;
+  row-gap: t.$space-2;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.param-key {
+  @extend .ellipsis;
+  @include t.font(17, 25);
+  max-inline-size: 8rem;
+  font-family: t.$font-body;
+
+  &::before {
+    content: '{{';
+  }
+  &::after {
+    content: '}}:';
+  }
+}
+
+.param-value {
+  @extend .content;
 }

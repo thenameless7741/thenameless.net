@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-19'
+updatedAt: '2024-04-23'
 ---
 
 ## Lesson
@@ -22,17 +22,9 @@ However, **there are many [methods to avoid hallucinations](https://docs.anthrop
 ## Examples
 
 Here is a question about general factual knowledge in answer to which <Mark>Claude hallucinates several large hippos because it's trying to be as helpful as possible</Mark>.
-
-Prompt:
-
-```
-User: Who is the heaviest hippo of all time?
-```
-
-Claude's Response:
-
-```
-Unfortunately, there doesn't seem to be a definitive record for the heaviest hippo of all time. Hippos are known to be one of the largest land animals, but their exact weights can vary significantly.
+<Playground
+  user={`User: Who is the heaviest hippo of all time?`}
+  assistant={`Unfortunately, there doesn't seem to be a definitive record for the heaviest hippo of all time. Hippos are known to be one of the largest land animals, but their exact weights can vary significantly.
 
 Some key facts about hippo weights:
 
@@ -44,31 +36,24 @@ Some key facts about hippo weights:
 
 - However, these claims of record-breaking weights are difficult to confirm, as hippos are challenging to weigh accurately, especially in the wild.
 
-So in summary, while there are reports of exceptionally large hippos, there doesn't seem to be a universally accepted record for the single heaviest hippo of all time. The weights can vary significantly based on factors like age, sex, and habitat conditions.
-```
+So in summary, while there are reports of exceptionally large hippos, there doesn't seem to be a universally accepted record for the single heaviest hippo of all time. The weights can vary significantly based on factors like age, sex, and habitat conditions.`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 A solution we can try here is to <Mark>"give Claude an out"</Mark> — tell Claude that it's OK for it to decline to answer, or to only answer if it actually knows the answer with certainty.
 
-Prompt:
-
-```
-User: Who is the heaviest hippo of all time? Only answer if you know the answer with certainty.
-```
-
-Claude's Response:
-
-```
-I do not have definitive information about the heaviest hippo of all time. Hippo weights can vary significantly, and without access to comprehensive records, I cannot state with certainty who the heaviest hippo was. Hippo weights are not as well-documented as some other animals, so I do not want to provide an unverified claim.
-```
+<Playground
+  user={`User: Who is the heaviest hippo of all time? Only answer if you know the answer with certainty.`}
+  assistant={`I do not have definitive information about the heaviest hippo of all time. Hippo weights can vary significantly, and without access to comprehensive records, I cannot state with certainty who the heaviest hippo was. Hippo weights are not as well-documented as some other animals, so I do not want to provide an unverified claim.`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 In the prompt below, we give Claude a long document containing some "distractor information" that is almost but not quite relevant to the user's question. <Mark>Without prompting help, Claude falls for the distractor information</Mark> and gives an incorrect "hallucinated" answer as to the size of Matterport's subscriber base as of May 31, 2020.
 
 Note: As you'll learn later in the next chapter, **it's best practice to have the question at the bottom _after_ any text or document**, but we put it at the top here to make the prompt easier to read. Feel free to double click on the prompt cell to get the full prompt text (it's very long!).
 
-Prompt:
-
-```
-User: <question>What was Matterport's subscriber base on the precise date of May 31, 2020?</question>
+<Playground
+  user={`User: <question>What was Matterport's subscriber base on the precise date of May 31, 2020?</question>
 Please read the below document. Then write a brief numerical answer inside <answer> tags.
 
 <document>
@@ -137,23 +122,17 @@ We believe that we have a number of competitive strengths that will enable our m
 •Broad patent portfolio supporting 10 years of R&D and innovation. As of December 31, 2022, we had 54 issued and 37 pending patent applications. Our success is based on almost 10 years of focus on innovation. Innovation has been at the center of Matterport, and we will continue to prioritize our investments in R&D to further our market leading position.
 •Superior capture technology. Matterport’s capture technology platform is a software framework that enables support for a wide variety of capture devices required to create a Matterport digital twin of a building or space.
 This includes support for LiDAR cameras, 360 cameras, smartphones, Matterport Axis and the Matterport Pro2 and Pro3 cameras. The Pro2 camera was foundational to our spatial data advantage, and we have expanded that advantage with an array of Matterport-enabled third-party capture devices. In August 2022, we launched and began shipment of our Pro3 Camera along with major updates to our industry-leading digital twin cloud platform. The Matterport Pro3 Camera is an advanced 3D capture device, which includes faster boot time, swappable batteries, and a lighter design. The Pro3 camera can perform both indoors and outdoors and is designed for speed, fidelity, versatility and accuracy. Along with our Pro2 Camera, we expect that future sales of our Pro3 Camera will continue to drive increased adoption of our solutions. Matterport is democratizing the 3D capture experience, making high-fidelity and high-accuracy 3D digital twins readily available for any building type and any subscriber need in the property life cycle. While there are other 3D capture solution providers, very few can produce true, dimensionally accurate 3D results, and fewer still can automatically create a final product in photorealistic 3D, and at global scale. This expansive capture technology offering would not be possible without our rich spatial data library available to train the AI-powered Cortex engine to automatically generate accurate digital twins from photos captured with a smartphone or 360 camera.
-</document>
-```
-
-Claude's Response:
-
-```
-<answer>503,000</answer>
-```
+</document>`}
+  assistant={`<answer>503,000</answer>`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 How do we fix this? Well, a **great way to reduce hallucinations on long documents is to make Claude gather evidence first**.
 
 In this case, we <Mark>tell Claude to first extract relevant quotes, then base its answer on those quotes</Mark>. Telling Claude to do so here makes it correctly notice that the quote does not answer the question.
 
-Prompt:
-
-```
-User: <question>What was Matterport's subscriber base on the precise date of May 31, 2020?</question>
+<Playground
+  user={`User: <question>What was Matterport's subscriber base on the precise date of May 31, 2020?</question>
 Please read the below document. Then, in <scratchpad> tags, pull the most relevant quote from the document and consider whether it answers the user's question or whether it lacks sufficient detail. Then write a brief numerical answer in <answer> tags.
 
 <document>
@@ -222,13 +201,8 @@ We believe that we have a number of competitive strengths that will enable our m
 •Broad patent portfolio supporting 10 years of R&D and innovation. As of December 31, 2022, we had 54 issued and 37 pending patent applications. Our success is based on almost 10 years of focus on innovation. Innovation has been at the center of Matterport, and we will continue to prioritize our investments in R&D to further our market leading position.
 •Superior capture technology. Matterport’s capture technology platform is a software framework that enables support for a wide variety of capture devices required to create a Matterport digital twin of a building or space.
 This includes support for LiDAR cameras, 360 cameras, smartphones, Matterport Axis and the Matterport Pro2 and Pro3 cameras. The Pro2 camera was foundational to our spatial data advantage, and we have expanded that advantage with an array of Matterport-enabled third-party capture devices. In August 2022, we launched and began shipment of our Pro3 Camera along with major updates to our industry-leading digital twin cloud platform. The Matterport Pro3 Camera is an advanced 3D capture device, which includes faster boot time, swappable batteries, and a lighter design. The Pro3 camera can perform both indoors and outdoors and is designed for speed, fidelity, versatility and accuracy. Along with our Pro2 Camera, we expect that future sales of our Pro3 Camera will continue to drive increased adoption of our solutions. Matterport is democratizing the 3D capture experience, making high-fidelity and high-accuracy 3D digital twins readily available for any building type and any subscriber need in the property life cycle. While there are other 3D capture solution providers, very few can produce true, dimensionally accurate 3D results, and fewer still can automatically create a final product in photorealistic 3D, and at global scale. This expansive capture technology offering would not be possible without our rich spatial data library available to train the AI-powered Cortex engine to automatically generate accurate digital twins from photos captured with a smartphone or 360 camera.
-</document>
-```
-
-Claude's Response:
-
-```
-<scratchpad>
+</document>`}
+  assistant={`<scratchpad>
 The document does not provide the precise subscriber base of Matterport on May 31, 2020. The closest relevant quote is:
 
 "As of December 31, 2022, our subscriber base had grown approximately 39% to over 701,000 subscribers from 503,000 subscribers as of December 31, 2021, with our digital twins reaching more than 170 countries."
@@ -236,8 +210,9 @@ The document does not provide the precise subscriber base of Matterport on May 3
 This quote indicates that Matterport had 503,000 subscribers as of December 31, 2021, but does not specify the subscriber base on May 31, 2020.
 </scratchpad>
 
-<answer>The document does not provide the precise subscriber base of Matterport on May 31, 2020.</answer>
-```
+<answer>The document does not provide the precise subscriber base of Matterport on May 31, 2020.</answer>`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 **Bonus lesson:** Sometimes, **Claude's hallucinations can be solved by lowering the "temperature" of Claude's responses**. <Mark>Temperature is a measurement of answer creativity between 0 and 1</Mark>, with 1 being more unpredictable and less standardized, and 0 being the most consistent.
 
@@ -253,17 +228,11 @@ Adapt the prompt in the YELLOW prompt box to <Mark>fix Claude's hallucination is
 
 If your answer is correct, Claude's response cell will turn GREEN.
 
-Prompt:
-
-```
-User: In what year did star performer Beyoncé release her eighth studio album? If you don't know, it's OK to just say that.
-```
-
-Claude's Response:
-
-```
-I don't have definitive information on the release year of Beyoncé's eighth studio album. As an AI assistant, I don't have comprehensive knowledge about the discographies and release timelines of specific musical artists.
-```
+<Playground
+  user={`User: In what year did star performer Beyoncé release her eighth studio album? If you don't know, it's OK to just say that.`}
+  assistant={`I don't have definitive information on the release year of Beyoncé's eighth studio album. As an AI assistant, I don't have comprehensive knowledge about the discographies and release timelines of specific musical artists.`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 <Details>
   <summary>If you need a hint, click me.</summary>
@@ -280,10 +249,8 @@ Modify the prompt in the YELLOW prompt box to <Mark>fix Claude's hallucination i
 
 If your answer is correct, Claude's response cell will turn GREEN.
 
-Prompt:
-
-```
-User: From December 2018 to December 2022, by what amount did Matterport's subscribers grow? First, pull the most relevant exact quotes from the document in <quotes> tags. Then answer.
+<Playground
+  user={`User: From December 2018 to December 2022, by what amount did Matterport's subscribers grow? First, pull the most relevant exact quotes from the document in <quotes> tags. Then answer.
 
 <document>
 Matterport SEC filing 10-K 2023
@@ -351,18 +318,14 @@ We believe that we have a number of competitive strengths that will enable our m
 •Broad patent portfolio supporting 10 years of R&D and innovation. As of December 31, 2022, we had 54 issued and 37 pending patent applications. Our success is based on almost 10 years of focus on innovation. Innovation has been at the center of Matterport, and we will continue to prioritize our investments in R&D to further our market leading position.
 •Superior capture technology. Matterport’s capture technology platform is a software framework that enables support for a wide variety of capture devices required to create a Matterport digital twin of a building or space.
 This includes support for LiDAR cameras, 360 cameras, smartphones, Matterport Axis and the Matterport Pro2 and Pro3 cameras. The Pro2 camera was foundational to our spatial data advantage, and we have expanded that advantage with an array of Matterport-enabled third-party capture devices. In August 2022, we launched and began shipment of our Pro3 Camera along with major updates to our industry-leading digital twin cloud platform. The Matterport Pro3 Camera is an advanced 3D capture device, which includes faster boot time, swappable batteries, and a lighter design. The Pro3 camera can perform both indoors and outdoors and is designed for speed, fidelity, versatility and accuracy. Along with our Pro2 Camera, we expect that future sales of our Pro3 Camera will continue to drive increased adoption of our solutions. Matterport is democratizing the 3D capture experience, making high-fidelity and high-accuracy 3D digital twins readily available for any building type and any subscriber need in the property life cycle. While there are other 3D capture solution providers, very few can produce true, dimensionally accurate 3D results, and fewer still can automatically create a final product in photorealistic 3D, and at global scale. This expansive capture technology offering would not be possible without our rich spatial data library available to train the AI-powered Cortex engine to automatically generate accurate digital twins from photos captured with a smartphone or 360 camera.
-</document>
-```
-
-Claude's Response:
-
-```
-Based on the information provided in the document, Matterport's subscribers grew from 503,000 in December 2021 to 701,000 in December 2022, an increase of approximately 198,000 subscribers.
+</document>`}
+  assistant={`Based on the information provided in the document, Matterport's subscribers grew from 503,000 in December 2021 to 701,000 in December 2022, an increase of approximately 198,000 subscribers.
 
 Here are the relevant quotes from the document:
 <quotes>As of December 31, 2022, our subscriber base had grown approximately 39% to over 701,000 subscribers from 503,000 subscribers as of December 31, 2021,</quotes>
-<quotes>We have recently experienced rapid growth. Our subscribers have grown approximately 49-fold from December 31, 2018 to December 31, 2022.</quotes>
-```
+<quotes>We have recently experienced rapid growth. Our subscribers have grown approximately 49-fold from December 31, 2018 to December 31, 2022.</quotes>`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 <Details>
   <summary>If you need a hint, click me.</summary>

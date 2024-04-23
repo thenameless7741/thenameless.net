@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-19'
+updatedAt: '2024-04-21'
 ---
 
 💫 ✨ Congratulations on Completing Prompting 101! 💫 ✨
@@ -30,16 +30,9 @@ If you want to see <Mark>more examples of good prompts</Mark> for inspiration:
 
 If you want to <Mark>learn about some truly advanced prompting techniques</Mark> beyond the scope of this tutorial, click through to the appendix!
 
-Prompt:
-
-```
-User: Write an ode to a fabulous student who has just completed a course on prompt engineering, in the form of a sonnet.
-```
-
-Claude's Response:
-
-```
-Here is an ode to a fabulous student who has just completed a course on prompt engineering, in the form of a sonnet:
+<Playground
+  user={`User: Write an ode to a fabulous student who has just completed a course on prompt engineering, in the form of a sonnet.`}
+  assistant={`Here is an ode to a fabulous student who has just completed a course on prompt engineering, in the form of a sonnet:
 
 O student, whose mind shines bright and true,
 Thy journey through prompt engineering's art,
@@ -57,5 +50,6 @@ Thy achievements, a source of endless fame,
 A shining example of prompt engineering's might.
 
 Rejoice, O student, for thy work is done,
-Thy future bright, a new chapter begun.
-```
+Thy future bright, a new chapter begun.`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>

@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-21'
+updatedAt: '2024-04-23'
 ---
 
 ## Lesson
@@ -251,10 +251,8 @@ Now let's <Mark>concatenate it all together, put in our substitutions</Mark>, an
 
 **Tip:** Copy the YELLOW substituted prompt box and paste it into a text editor if you want to see the full prompt.
 
-Prompt Template:
-
-```
-User: You are an expert lawyer.
+<Playground
+  user={`User: You are an expert lawyer.
 
 Here is some research that's been compiled. Use it to answer a legal question from the user.
 <legal_research>
@@ -283,19 +281,20 @@ It should be no more than a couple of paragraphs. If possible, it should conclud
 Before you answer, pull out the most relevant quotes from the research in <relevant_quotes> tags.
 
 Put your two-paragraph response in <answer> tags.
-Assistant: <relevant_quotes>
-```
+Assistant: <relevant_quotes>`}
+  assistant={`"In 2006, Hawaii, Louisiana, and New Hampshire all enacted laws that address issues regarding the care of animals during disasters, such as providing shelters for pets and allowing service animals to be kept with the people they serve. In addition, Congress passed, and the President signed, the Pet Evacuation and Transportation Standards Act during 2006, which requires state and local emergency preparedness authorities to include in their evacuation plans information on how they will accommodate household pets and service animals in case of a disaster." [3]
+"California passed a law that will require its Office of Emergency Services, Department of Agriculture, and other agencies involved with disaster response preparation to develop a plan for the needs of service animals, livestock, equids, and household pets in the event of a disaster or major emergency." [3]
+</relevant_quotes>
 
-Input `{{QUESTION}}`:
+<answer>
+The research indicates that there are several laws in place regarding the treatment of pets during natural disasters like hurricanes. In 2006, several states, including Hawaii, Louisiana, and New Hampshire, enacted laws that require shelters to accommodate pets and allow service animals to remain with their owners during evacuations. [3] Additionally, the federal government passed the Pet Evacuation and Transportation Standards Act in 2006, which mandates that state and local emergency preparedness authorities include plans for accommodating household pets and service animals in their disaster response plans. [3] California has also passed a law requiring state agencies to develop plans for addressing the needs of pets, livestock, and other animals during emergencies. [3]
 
-```
-Are there any laws about what to do with pets during a hurricane?
-```
-
-Input `{{LEGAL_RESEARCH}}`:
-
-```
-<search_results>
+In summary, there are now various laws in place that require emergency authorities to make provisions for the care and evacuation of pets during natural disasters like hurricanes.
+</answer>`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{
+    QUESTION: `Are there any laws about what to do with pets during a hurricane?`,
+    LEGAL_RESEARCH: `<search_results>
 <search_result id=1>
 The animal health industry became caught up in a number of patent and trademark lawsuits during the past year. In 1994, Barclay Slocum obtained patents for the tibial plateau leveling osteotomy procedure, which is used in the treatment of dogs with cranial cruciate ligament rupture, and for the devices used in the procedure. During 2006, Slocum Enterprises filed a patent infringement suit against New Generation Devices, arguing that the Unity Cruciate Plate manufactured by New Generation infringed on the patent for the Slocum TPLO plate. However, the court never reached a decision on the issue of patent infringement, ruling that it did not have jurisdiction on the basis of the small number of plates sold in the state in which the case was filed and the information provided on a Web site maintained by Slocum Enterprises. Other patent battles waged during 2006 concerned the use of laser technology for onychectomy in cats, pet identification chips, pig vaccines, and pet “deshedding” tools.
 </search_result>
@@ -305,19 +304,6 @@ In Canada, the British Columbia Veterinary Medical Association brought suit agai
 <search_result id=3>
 The aftermath of Hurricane Katrina, which hit the Gulf Coast of the United States during 2005, spurred changes to the way animals are treated during natural disasters. In 2006, Hawaii, Louisiana, and New Hampshire all enacted laws that address issues regarding the care of animals during disasters, such as providing shelters for pets and allowing service animals to be kept with the people they serve. In addition, Congress passed, and the President signed, the Pet Evacuation and Transportation Standards Act during 2006, which requires state and local emergency preparedness authorities to include in their evacuation plans information on how they will accommodate household pets and service animals in case of a disaster. California passed a law that will require its Office of Emergency Services, Department of Agriculture, and other agencies involved with disaster response preparation to develop a plan for the needs of service animals, livestock, equids, and household pets in the event of a disaster or major emergency.
 </search_result>
-</search_results>
-```
-
-Claude's Response:
-
-```
-"In 2006, Hawaii, Louisiana, and New Hampshire all enacted laws that address issues regarding the care of animals during disasters, such as providing shelters for pets and allowing service animals to be kept with the people they serve. In addition, Congress passed, and the President signed, the Pet Evacuation and Transportation Standards Act during 2006, which requires state and local emergency preparedness authorities to include in their evacuation plans information on how they will accommodate household pets and service animals in case of a disaster." [3]
-"California passed a law that will require its Office of Emergency Services, Department of Agriculture, and other agencies involved with disaster response preparation to develop a plan for the needs of service animals, livestock, equids, and household pets in the event of a disaster or major emergency." [3]
-</relevant_quotes>
-
-<answer>
-The research indicates that there are several laws in place regarding the treatment of pets during natural disasters like hurricanes. In 2006, several states, including Hawaii, Louisiana, and New Hampshire, enacted laws that require shelters to accommodate pets and allow service animals to remain with their owners during evacuations. [3] Additionally, the federal government passed the Pet Evacuation and Transportation Standards Act in 2006, which mandates that state and local emergency preparedness authorities include plans for accommodating household pets and service animals in their disaster response plans. [3] California has also passed a law requiring state agencies to develop plans for addressing the needs of pets, livestock, and other animals during emergencies. [3]
-
-In summary, there are now various laws in place that require emergency authorities to make provisions for the care and evacuation of pets during natural disasters like hurricanes.
-</answer>
-```
+</search_results>`,
+  }}
+/>

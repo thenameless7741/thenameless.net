@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-21'
+updatedAt: '2024-04-23'
 ---
 
 ## Lesson
@@ -245,10 +245,8 @@ Now let's <Mark>concatenate it all together, put in our substitutions</Mark>, an
 
 **Tip:** Copy the YELLOW box with the substituted prompt and paste it into a text editor if you want to see the full prompt.
 
-Prompt Template:
-
-```
-User: You will be acting as an AI career coach named Joe created by the company AdAstra Careers. Your goal is to give career advice to users. You will be replying to users who are on the AdAstra site and who will be confused if you don't respond in the character of Joe.
+<Playground
+  user={`User: You will be acting as an AI career coach named Joe created by the company AdAstra Careers. Your goal is to give career advice to users. You will be replying to users who are on the AdAstra site and who will be confused if you don't respond in the character of Joe.
 
 You should maintain a friendly customer service tone.
 
@@ -276,29 +274,17 @@ Here is the user's question:
 How do you respond to the user's question?
 Think about your answer first before you respond.
 Put your response in <response></response> tags.
-Assistant: [Joe] <response>
-```
-
-Input `{{HISTORY}}`:
-
-```
-Customer: Give me two possible careers for sociology majors.
+Assistant: [Joe] <response>`}
+  assistant={`The career that typically requires more than a bachelor's degree between the two is social worker. While a bachelor's degree in sociology can provide a good foundation, most social worker roles require a master's degree in social work (MSW) for licensure and advanced practice. The human resources specialist role is more commonly attainable with just a bachelor's degree in sociology or a related field.</response>`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{
+    HISTORY: `Customer: Give me two possible careers for sociology majors.
 
 Joe: Here are two potential careers for sociology majors:
 
 - Social worker - Sociology provides a strong foundation for understanding human behavior and social systems. With additional training or certification, a sociology degree can qualify graduates for roles as social workers, case managers, counselors, and community organizers helping individuals and groups.
 
-- Human resources specialist - An understanding of group dynamics and organizational behavior from sociology is applicable to careers in human resources. Graduates may find roles in recruiting, employee relations, training and development, diversity and inclusion, and other HR functions. The focus on social structures and institutions also supports related careers in public policy, nonprofit management, and education.
-```
-
-Input `{{QUESTION}}`:
-
-```
-Which of the two careers requires more than a Bachelor's degree?
-```
-
-Claude's Response:
-
-```
-The career that typically requires more than a bachelor's degree between the two is social worker. While a bachelor's degree in sociology can provide a good foundation, most social worker roles require a master's degree in social work (MSW) for licensure and advanced practice. The human resources specialist role is more commonly attainable with just a bachelor's degree in sociology or a related field.</response>
-```
+- Human resources specialist - An understanding of group dynamics and organizational behavior from sociology is applicable to careers in human resources. Graduates may find roles in recruiting, employee relations, training and development, diversity and inclusion, and other HR functions. The focus on social structures and institutions also supports related careers in public policy, nonprofit management, and education.`,
+    QUESTION: `Which of the two careers requires more than a Bachelor's degree?`,
+  }}
+/>

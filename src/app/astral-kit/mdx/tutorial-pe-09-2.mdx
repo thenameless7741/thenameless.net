@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-21'
+updatedAt: '2024-04-23'
 ---
 
 Prompts within the financial profession can also be quite complex due to reasons similar to legal prompts. Here's an exercise for a financial use-case, wherein Claude is used to analyze tax information and answer questions. Just like with the legal services example, <Mark>we've changed around the ordering of a few elements</Mark>, as our solution prompt makes more sense with a different flow (however, other structures would also work).
@@ -241,10 +241,8 @@ Now let's <Mark>concatenate it all together, put in our substitutions</Mark>, an
 
 **Tip:** Copy the YELLOW substituted prompt box and paste it into a text editor if you want to see the full prompt.
 
-Prompt Template:
-
-```
-User: You are a master tax acountant. Your task is to answer user questions using any provided reference documentation.
+<Playground
+  user={`User: You are a master tax acountant. Your task is to answer user questions using any provided reference documentation.
 
 Here is the material you should use to answer the user's question:
 <docs>
@@ -273,19 +271,14 @@ First, gather quotes in <quotes></quotes> tags that are relevant to answering th
 
 Then insert two paragraph breaks before answering the user question within <answer></answer> tags. Only answer the user's question if you are confident that the quotes in <quotes></quotes> tags support your answer. If not, tell the user that you unfortunately do not have enough information to answer the user's question.
 
-Here is the user question: {{QUESTION}}
-```
+Here is the user question: {{QUESTION}}`}
+  assistant={`<quotes>An election under paragraph (1) with respect to any transfer of property shall be made in such manner as the Secretary prescribes and shall be made not later than 30 days after the date of such transfer. Such election may not be revoked except with the consent of the Secretary.</quotes>
 
-Input `{{QUESTION}}`:
-
-```
-How long do I have to make an 83b election?
-```
-
-Input `{{TAX_CODE}}`:
-
-```
-(a)General rule
+<answer>According to the documentation, you have 30 days after the date of the property transfer to make an 83(b) election. The election cannot be revoked except with the consent of the Secretary.</answer>`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{
+    QUESTION: `How long do I have to make an 83b election?`,
+    TAX_CODE: `(a)General rule
 If, in connection with the performance of services, property is transferred to any person other than the person for whom such services are performed, the excess of—
 (1)the fair market value of such property (determined without regard to any restriction other than a restriction which by its terms will never lapse) at the first time the rights of the person having the beneficial interest in such property are transferable or are not subject to a substantial risk of forfeiture, whichever occurs earlier, over
 (2)the amount (if any) paid for such property,
@@ -434,13 +427,6 @@ Any corporation which transfers qualified stock to a qualified employee shall, a
 (II)the amount of such income recognized at the end of the deferral period will be subject to withholding under section 3401(i) at the rate determined under section 3402(t), and
 (III)the responsibilities of the employee (as determined by the Secretary under paragraph (3)(A)(ii)) with respect to such withholding.
 (7)Restricted stock units
-This section (other than this subsection), including any election under subsection (b), shall not apply to restricted stock units.
-```
-
-Claude's Response:
-
-```
-<quotes>An election under paragraph (1) with respect to any transfer of property shall be made in such manner as the Secretary prescribes and shall be made not later than 30 days after the date of such transfer. Such election may not be revoked except with the consent of the Secretary.</quotes>
-
-<answer>According to the documentation, you have 30 days after the date of the property transfer to make an 83(b) election. The election cannot be revoked except with the consent of the Secretary.</answer>
-```
+This section (other than this subsection), including any election under subsection (b), shall not apply to restricted stock units.`,
+  }}
+/>

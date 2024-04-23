@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-19'
+updatedAt: '2024-04-23'
 ---
 
 In this exercise, we will write up a prompt for **a coding assistance and teaching bot that reads code and offers guiding corrections when appropriate**. Fill each yellow box below with prompt elements that match the description and the examples you've seen in the preceding examples of complex prompts. Once you have filled out all yellow boxes, you will see your final prompt concatenated in the purple box at the bottom.
@@ -238,10 +238,8 @@ Now let's <Mark>concatenate it all together, put in our substitutions</Mark>, an
 
 **Tip:** Copy the YELLOW substituted prompt box and paste it into a text editor if you want to see the full prompt.
 
-Prompt Template:
-
-```
-User: You are Codebot, a helpful AI assistant who finds issues with code and suggests possible improvements.
+<Playground
+  user={`User: You are Codebot, a helpful AI assistant who finds issues with code and suggests possible improvements.
 
 Act as a Socratic tutor who helps the user learn.
 
@@ -273,33 +271,24 @@ Here is the code you are to analyze:
 
 Find the relevant issues and write the Socratic tutor-style response. Do not give the user too much help! Instead, just give them guidance so they can find the correct solution themselves.
 
-Put each issue in <issue> tags and put your final response in <response> tags.
-```
-
-Input `{{CODE}}`:
-
-```
-# Function to print multiplicative inverses
-def print_multiplicative_inverses(x, n):
-  for i in range(n):
-    print(x / i)
-```
-
-Claude's Response:
-
-```
-Here is my analysis of the code:
+Put each issue in <issue> tags and put your final response in <response> tags.`}
+  assistant={`Here is my analysis of the code:
 
 <issues>
 <issue>
-The function `print_multiplicative_inverses` does not actually calculate the multiplicative inverse of `x` with respect to `i`. Instead, it simply prints the result of `x / i`, which is not the multiplicative inverse.
+The function \`print_multiplicative_inverses\` does not actually calculate the multiplicative inverse of \`x\` with respect to \`i\`. Instead, it simply prints the result of \`x / i\`, which is not the multiplicative inverse.
 </issue>
 <issue>
-The function does not check if `i` is actually a factor of `x`, which is required for the multiplicative inverse to exist. If `i` is not a factor of `x`, then the multiplicative inverse does not exist.
+The function does not check if \`i\` is actually a factor of \`x\`, which is required for the multiplicative inverse to exist. If \`i\` is not a factor of \`x\`, then the multiplicative inverse does not exist.
 </issue>
 </issues>
 
 <response>
-It looks like you're trying to print the multiplicative inverses of `x` with respect to the numbers from 0 to `n-1`. However, the current implementation doesn't quite achieve that. Can you think of how you might need to modify the code to correctly calculate and print the multiplicative inverses? You may want to consider the mathematical definition of a multiplicative inverse and how that relates to the factors of `x`.
-</response>
-```
+It looks like you're trying to print the multiplicative inverses of \`x\` with respect to the numbers from 0 to \`n-1\`. However, the current implementation doesn't quite achieve that. Can you think of how you might need to modify the code to correctly calculate and print the multiplicative inverses? You may want to consider the mathematical definition of a multiplicative inverse and how that relates to the factors of \`x\`.
+</response>`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{ 'CODE': `# Function to print multiplicative inverses
+def print_multiplicative_inverses(x, n):
+  for i in range(n):
+    print(x / i)` }}
+/>

@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Intermediate']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-21'
+updatedAt: '2024-04-23'
 ---
 
 ## Lesson
@@ -21,34 +21,23 @@ This sort of prompting is also called **"few shot prompting"**. You might also e
 
 Pretend you're a developer trying to build a "parent bot" that responds to questions from kids. <Mark>Claude's default response is quite formal and robotic</Mark>. This is going to break a child's heart.
 
-Prompt:
+<Playground
+  user={`User: Will Santa bring me presents on Christmas?`}
+  assistant={`I don't actually have any information about whether Santa will bring you presents on Christmas. Santa Claus is a fictional character, and whether he brings presents or not is up to the beliefs and traditions of each individual family. The important thing is to enjoy the holiday season and spend time with loved ones, regardless of any gifts.`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
-```
-User: Will Santa bring me presents on Christmas?
-```
-
-Claude's Response:
-
-```
-I don't actually have any information about whether Santa will bring you presents on Christmas. Santa Claus is a fictional character, and whether he brings presents or not is up to the beliefs and traditions of each individual family. The important thing is to enjoy the holiday season and spend time with loved ones, regardless of any gifts.
-```
 
 You could take the time to describe your desired tone, but it's much easier just to <Mark>give Claude a few examples of ideal responses</Mark>.
 
-Prompt:
-
-```
-User: Please complete the conversation by writing the next line, speaking as "A".
+<Playground
+  user={`User: Please complete the conversation by writing the next line, speaking as "A".
 Q: Is the tooth fairy real?
 A: Of course, sweetie. Wrap up your tooth and put it under your pillow tonight. There might be something waiting for you in the morning.
-Q: Will Santa bring me presents on Christmas?
-```
-
-Claude's Response:
-
-```
-A: Yes, my dear, as long as you've been good this year, Santa will be sure to bring you presents on Christmas! Just make sure to leave out some cookies and milk for him on Christmas Eve.
-```
+Q: Will Santa bring me presents on Christmas?`}
+  assistant={`A: Yes, my dear, as long as you've been good this year, Santa will be sure to bring you presents on Christmas! Just make sure to leave out some cookies and milk for him on Christmas Eve.`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 In the following formatting example, we could walk Claude step by step through a set of formatting instructions on how to extract names and professions and then format them exactly the way we want, or we could just <Mark>provide Claude with some correctly-formatted examples and Claude can extrapolate from there</Mark>. Note the "`<individuals>`" after "Assistant:" to start Claude off on the right foot.
 
@@ -71,10 +60,8 @@ Remember that these are the categories for the emails:
 - (C) Billing question
 - (D) Other (please explain)
 
-Prompt Template:
-
-```
-User: Please classify emails into the following categories, and do not include explanations:
+<Playground
+  user={`User: Please classify emails into the following categories, and do not include explanations:
 <categories>
 (A) Pre-sale question
 (B) Broken or defective item
@@ -95,56 +82,21 @@ A: The correct category is: D
 </examples>
 
 Here is the email for you to categorize: {{EMAIL}}
-Assistant: The correct category is:
-```
-
-Input `{{EMAIL}}`:
-
-```
-Hi -- My Mixmaster4000 is producing a strange noise when I operate it. It also smells a bit smoky and plasticky, like burning electronics.  I need a replacement.
-```
-
-Claude's Response:
-
-```
-B
-```
-
-Input `{{EMAIL}}`:
-
-```
-Can I use my Mixmaster 4000 to mix paint, or is it only meant for mixing food?
-```
-
-Claude's Response:
-
-```
-A
-```
-
-Input `{{EMAIL}}`:
-
-```
-I HAVE BEEN WAITING 4 MONTHS FOR MY MONTHLY CHARGES TO END AFTER CANCELLING!!  WTF IS GOING ON???
-```
-
-Claude's Response:
-
-```
-C
-```
-
-Input `{{EMAIL}}`:
-
-```
-How did I get here I am not good with computer.  Halp.
-```
-
-Claude's Response:
-
-```
-D
-```
+Assistant: The correct category is:`}
+  assistant={[
+    `B`,
+    `A`,
+    `C`,
+    `D`,
+  ]}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={[
+    { EMAIL: `Hi -- My Mixmaster4000 is producing a strange noise when I operate it. It also smells a bit smoky and plasticky, like burning electronics.  I need a replacement.` },
+    { EMAIL: `Can I use my Mixmaster 4000 to mix paint, or is it only meant for mixing food?` },
+    { EMAIL: `I HAVE BEEN WAITING 4 MONTHS FOR MY MONTHLY CHARGES TO END AFTER CANCELLING!!  WTF IS GOING ON???` },
+    { EMAIL: `How did I get here I am not good with computer.  Halp.` },
+  ]}
+/>
 
 <Details>
   <summary>If you need a hint, click me.</summary>

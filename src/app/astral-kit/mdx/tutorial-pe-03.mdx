@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Beginner']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-21'
+updatedAt: '2024-04-23'
 ---
 
 ## Lesson
@@ -24,66 +24,41 @@ However, when we prime Claude to inhabit the role of a cat, Claude's perspective
 
 **Note:** A bonus technique you can use is **to provide Claude context on its intended audience**. Below, we could have tweaked the prompt to also tell Claude whom it should be speaking to. "You are a cat" produces quite a different response than "you are a cat talking to a crowd of skateboarders."
 
-System Prompt (without Role Prompting):
-
-```
-
-```
-
-Prompt:
-
-```
-User: In one sentence, what do you think about skateboarding?
-```
-
-Claude's Response:
-
-```
-Skateboarding is an exhilarating and creative form of self-expression that combines athleticism, artistry, and a unique sense of freedom and community.
-```
+<Playground
+  system={` `}
+  user={`User: In one sentence, what do you think about skateboarding?`}
+  assistant={`Skateboarding is an exhilarating and creative form of self-expression that combines athleticism, artistry, and a unique sense of freedom and community.`}
+  labels={{
+    system: 'System Prompt (without Role Prompting)',
+    user: 'Prompt',
+    assistant: "Claude's Response",
+  }}
+/>
 
 Here is the same user question, except with role prompting.
 
-System Prompt (with Role Prompting):
-
-```
-You are a cat.
-```
-
-Prompt:
-
-```
-User: In one sentence, what do you think about skateboarding?
-```
-
-Claude's Response:
-
-```
-*meows* Skateboarding looks like a fun way for humans to zoom around on four wheels while balancing precariously, though I much prefer chasing feathers and napping in sunbeams.
-```
+<Playground
+  system={`You are a cat.`}
+  user={`User: In one sentence, what do you think about skateboarding?`}
+  assistant={`*meows* Skateboarding looks like a fun way for humans to zoom around on four wheels while balancing precariously, though I much prefer chasing feathers and napping in sunbeams.`}
+  labels={{
+    system: 'System Prompt (with Role Prompting)',
+    user: 'Prompt',
+    assistant: "Claude's Response",
+  }}
+/>
 
 You can use role prompting as a way to get Claude to emulate certain styles in writing, speak in a certain voice, or guide the complexity of its answers. **Role prompting can also make Claude better at performing math or logic tasks**.
 
 For example, in the example below, there is a definitive correct answer, which is yes. However, Claude gets it wrong and thinks it lacks information, which it doesn't.
 
-System Prompt (without Role Prompting):
-
-```
-
-```
-
-Prompt:
-
-```
-User: Jack is looking at Anne. Anne is looking at George. Jack is married, George is not, and we don’t know if Anne is married. Is a married person looking at an unmarried person?
-```
-
-Claude's Response:
-
-```
-To solve this problem, we need to analyze the given information and determine if a married person is looking at an unmarried person.
+<Playground
+  system={` `}
+  user={`User: Jack is looking at Anne. Anne is looking at George. Jack is married, George is not, and we don’t know if Anne is married. Is a married person looking at an unmarried person?`}
+  assistant={`To solve this problem, we need to analyze the given information and determine if a married person is looking at an unmarried person.
 
 Given information:
+
 - Jack is looking at Anne.
 - Anne is looking at George.
 - Jack is married.
@@ -96,31 +71,21 @@ Since Jack is married and is looking at Anne, and we don't know if Anne is marri
 
 However, we can conclude that an unmarried person (George) is being looked at by someone (Anne), but we don't know if that someone (Anne) is married or not.
 
-Therefore, the answer is: We cannot determine if a married person is looking at an unmarried person based on the given information.
-```
+Therefore, the answer is: We cannot determine if a married person is looking at an unmarried person based on the given information.`}
+labels={{ system: 'System Prompt (without Role Prompting)', user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 Now, what if we <Mark>prime Claude to act as a logic bot</Mark>? How will that change Claude's answer?
 
 It turns out that with this new role assignment, Claude gets it right. (Although notably not for all the right reasons)
 
-System Prompt (with Role Prompting):
-
-```
-You are a logic bot designed to answer complex logic problems.
-```
-
-Prompt:
-
-```
-User: Jack is looking at Anne. Anne is looking at George. Jack is married, George is not, and we don’t know if Anne is married. Is a married person looking at an unmarried person?
-```
-
-Claude's Response:
-
-```
-To solve this problem, we need to analyze the given information and determine the relationships between the individuals.
+<Playground
+  system={`You are a logic bot designed to answer complex logic problems.`}
+  user={`User: Jack is looking at Anne. Anne is looking at George. Jack is married, George is not, and we don’t know if Anne is married. Is a married person looking at an unmarried person?`}
+  assistant={`To solve this problem, we need to analyze the given information and determine the relationships between the individuals.
 
 Given information:
+
 - Jack is looking at Anne.
 - Anne is looking at George.
 - Jack is married.
@@ -130,7 +95,9 @@ Given information:
 To determine if a married person is looking at an unmarried person, we need to identify the marital status of the individuals involved in the looking relationship.
 
 Let's analyze the relationships:
+
 1. Jack is looking at Anne.
+
    - Jack is married, so he is a married person.
    - We don't know if Anne is married or unmarried.
 
@@ -139,8 +106,9 @@ Let's analyze the relationships:
 
 Therefore, based on the given information, a married person (Jack) is looking at an unmarried person (George).
 
-The answer is yes, a married person is looking at an unmarried person.
-```
+The answer is yes, a married person is looking at an unmarried person.`}
+labels={{ system: 'System Prompt (with Role Prompting)', user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 **Note:** What you'll learn throughout this course is that <Mark>there are many prompt engineering techniques you can use to derive similar results</Mark>. Which techniques you use is up to you and your preference! We encourage you to <Mark>experiment to find your own prompt engineering style</Mark>.
 
@@ -156,26 +124,14 @@ Adapt the text in the YELLOW prompt box and / or the ORANGE system prompt box to
 
 If your answer is correct, Claude's response cell will turn GREEN.
 
-System Prompt:
-
-```
-You're an extremely skilled mathematics professor.
-```
-
-Prompt:
-
-```
-User: Is this equation solved correctly below?
+<Playground
+  system={`You're an extremely skilled mathematics professor.`}
+  user={`User: Is this equation solved correctly below?
 
 2x - 3 = 9
 2x = 6
-x = 3
-```
-
-Claude's Response:
-
-```
-Let's go through the steps to verify if the equation is solved correctly:
+x = 3`}
+  assistant={`Let's go through the steps to verify if the equation is solved correctly:
 
 Given equation: 2x - 3 = 9
 
@@ -199,8 +155,9 @@ The steps shown in the question have a mistake in the last step. The correct sol
 2x = 12
 x = 6
 
-So, the equation is not solved correctly in the given solution.
-```
+So, the equation is not solved correctly in the given solution.`}
+labels={{ system: 'System Prompt', user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 <Details>
   <summary>If you need a hint, click me.</summary>

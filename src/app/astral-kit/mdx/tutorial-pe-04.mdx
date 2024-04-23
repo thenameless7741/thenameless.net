@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Intermediate']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-21'
+updatedAt: '2024-04-23'
 ---
 
 ## Lesson
@@ -22,23 +22,12 @@ In this first example, we're <Mark>asking Claude to act as an animal noise gener
 
 **Note: You don't have to call your substitution placeholder anything in particular** in practice. For this example, definitely use `{{ANIMAL}}`, as that's how the exercise is formatted. But in general, just as easily, we could have called it `{{CREATURE}}` or `{{A}}` (but it's **generally good to have your stand-ins be specific and relevant** so that your prompt is easy to understand even without the substitution, just for user parseability). Just make sure that whatever you name your substitution placeholder is what you use for the substitution formula.
 
-Prompt Template:
-
-```
-User: I will tell you the name of an animal. Please respond with the noise that animal makes. {{ANIMAL}}
-```
-
-Input `{{ANIMAL}}`:
-
-```
-Cow
-```
-
-Claude's Response:
-
-```
-Moo.
-```
+<Playground
+  user={`User: I will tell you the name of an animal. Please respond with the noise that animal makes. {{ANIMAL}}`}
+  assistant={`Moo.`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{ ANIMAL: 'Cow' }}
+/>
 
 Why would we want to separate and substitute inputs like this? Well, **prompt templates simplify repetitive tasks**. Let's say you build a prompt structure that invites third party users to submit content to the prompt (in this case the animal whose sound they want to generate). These third party users don't have to write or even see the full prompt. All they have to do is fill in variables.
 
@@ -48,30 +37,18 @@ We do this substitution here using spreadsheet functions, but this is a best pra
 
 When introducing substitution variables like this, it is very important to <Mark>make sure Claude knows where variables start and end</Mark> (vs. instructions or task descriptions). Let's look at an example where there is no separation between the instructions and the substitution variable.
 
-Prompt Template:
-
-```
-User: Yo Claude. {{EMAIL}} <----- Make this email more polite but don't change anything else about it.
-```
-
-Input `{{EMAIL}}`:
-
-```
-Show up at 6am tomorrow because I'm the CEO and I say so.
-```
-
-Claude's Response:
-
-```
-Dear Claude,
+<Playground
+  user={`User: Yo Claude. {{EMAIL}} <----- Make this email more polite but don't change anything else about it.`}
+  assistant={`Dear Claude,
 
 I hope this email finds you well. As the CEO, I would like to request your presence at our office tomorrow at 6 am. I understand this may be an early start, but I believe it is necessary for the success of our company. Please let me know if you have any concerns or conflicts with this schedule, and we can work together to find a suitable arrangement.
 
 Thank you for your dedication and hard work. I look forward to seeing you tomorrow.
 
-Best regards,
-[Your CEO's Name]
-```
+Best regards,\n[Your CEO's Name]`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{ EMAIL: `Show up at 6am tomorrow because I'm the CEO and I say so.` }}
+/>
 
 Here, <Mark>Claude thinks "Yo Claude" is part of the email it's supposed to rewrite</Mark>! You can tell because it begins its rewrite with "Dear Claude". To the human eye, it's clear, particularly in the prompt template where the email begins and ends, but it becomes much less clear in the prompt after substitution.
 
@@ -81,82 +58,48 @@ How do we solve this? **Wrap the input in XML tags**! We did this below, and as 
 
 **Note:** While Claude can recognize and work with a wide range of separators and delimeters, we recommend that you **use specifically XML tags as separators for Claude**, as Claude was trained specifically to recognize XML tags as a prompt organizing mechanism. Outside of function calling, **there are no special sauce XML tags that Claude has been trained on that you should use to maximally boost your performance**. We have purposefully made Claude very malleable and customizable this way.
 
-Prompt Template:
-
-```
-User: Yo Claude. <email>{{EMAIL}}</email> <----- Make this email more polite but don't change anything else about it.
-```
-
-Input `{{EMAIL}}`:
-
-```
-Show up at 6am because I'm the CEO and I say so.
-```
-
-Claude's Response:
-
-```
-Dear [Your Name],
+<Playground
+  user={`User: Yo Claude. <email>{{EMAIL}}</email> <----- Make this email more polite but don't change anything else about it.`}
+  assistant={`Dear [Your Name],
 
 I hope this email finds you well. As the CEO, I would like to request your presence at 6am. I understand this may be an early start, but I believe it is necessary for the success of our organization. Please let me know if this time works for you, and I appreciate your cooperation.
 
-Best regards,
-[CEO's Name]
-```
+Best regards,\n[CEO's Name]`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{ EMAIL: `Show up at 6am because I'm the CEO and I say so.` }}
+/>
 
 Let's see another example of how XML tags can help us.
 
 In the following prompt, <Mark>Claude incorrectly interprets what part of the prompt is the instruction vs. the input</Mark>. It incorrectly considers "Each is about an animal, like rabbits" to be part of the list due to the formatting, when the user (the one filling out the `{{SENTENCES}}` variable) presumably did not want that.
 
-Prompt Template:
-
-```
-User: Below is a list of sentences. Tell me the second item on the list.
-
+<Playground
+  user={`User: Below is a list of sentences. Tell me the second item on the list.\n
 - Each is about an animal, like rabbits.
-{{SENTENCES}}
-```
-
-Input `{{SENTENCES}}`:
-
-```
-- I like how cows sound
+{{SENTENCES}}`}
+  assistant={`The second item on the list is "I like how cows sound".`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{
+    SENTENCES: `- I like how cows sound
 - This sentence is about spiders
-- This sentence may appear to be about dogs but it's actually about pigs
-```
-
-Claude's Response:
-
-```
-The second item on the list is "I like how cows sound".
-```
+- This sentence may appear to be about dogs but it's actually about pigs`,
+  }}
+/>
 
 To fix this, we just need to <Mark>surround the user input sentences in XML tags</Mark>. This shows Claude where the input data begins and ends despite the misleading hyphen before "Each is about an animal, like rabbits."
 
-Prompt Template:
-
-```
-User: Below is a list of sentences. Tell me the second item on the list.
-
+<Playground
+  user={`User: Below is a list of sentences. Tell me the second item on the list.\n
 - Each is about an animal, like rabbits.
-<sentences>
-{{SENTENCES}}
-</sentences>
-```
-
-Input `{{SENTENCES}}`:
-
-```
-- I like how cows sound
+  <sentences>{{ SENTENCES }}</sentences>`}
+  assistant={`The second item on the list is "This sentence is about spiders".`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{
+    SENTENCES: `- I like how cows sound
 - This sentence is about spiders
-- This sentence may appear to be about dogs but it's actually about pigs
-```
-
-Claude's Response:
-
-```
-The second item on the list is "This sentence is about spiders".
-```
+- This sentence may appear to be about dogs but it's actually about pigs`,
+  }}
+/>
 
 **Note:** In the incorrect version of the "Each is about an animal" prompt, we had to include the hyphen to get Claude to respond incorrectly in the way we wanted to for this example. This is an important lesson about prompting: **small details matter**! It's always worth it to **scrub your prompts for typos and grammatical errors**. Claude is sensitive to patterns (in its early years, before finetuning, it was a raw text-prediction tool), and it's more likely to make mistakes when you make mistakes, smarter when you sound smart, sillier when you sound silly, and so on.
 
@@ -168,27 +111,15 @@ If you're ready to try the chapter exercises, scroll down!
 
 Write a prompt in the highlighted template box that will <Mark>take in a variable called `{{TOPIC}}` and output a haiku</Mark> about the topic. This exercise is just meant to test your understanding of the variable templating structure.
 
-Prompt Template:
-
-```
-User: Write a haiku about {{TOPIC}}.
-```
-
-Input `{{TOPIC}}`:
-
-```
-Pigs
-```
-
-Claude's Response:
-
-```
-Here is a haiku about pigs:
-
+<Playground
+  user={`User: Write a haiku about {{TOPIC}}.`}
+  assistant={`Here is a haiku about pigs:\n
 Snouts in the mud, snort
 Curly tails, pink and plump, oink
-Pigs roam the farmyard
-```
+Pigs roam the farmyard`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{ TOPIC: `Pigs` }}
+/>
 
 <Details>
   <summary>If you need a hint, click me.</summary>
@@ -223,23 +154,12 @@ Fix the prompt in the highlighted template box <Mark>**WITHOUT** adding XML tags
 
 Just as with the above exercises, try not to change anything else about the prompt. This will show you what kind of language Claude can parse and understand. Claude's response will turn GREEN if your prompt produces the right answer.
 
-Prompt Template:
-
-```
-User: Hia its me i have a q about dogs jkaerjv <question>{{QUESTION}}</question> jklmvca tx it help me muhch much atx fst fst answer short short tx
-```
-
-Input `{{QUESTION}}`:
-
-```
-ar cn brown?
-```
-
-Claude's Response:
-
-```
-Yes, dogs can be brown.
-```
+<Playground
+  user={`User: Hia its me i have a q about dogs jkaerjv <question>{{QUESTION}}</question> jklmvca tx it help me muhch much atx fst fst answer short short tx`}
+  assistant={`Yes, dogs can be brown.`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{ QUESTION: `ar cn brown?` }}
+/>
 
 <Details>
   <summary>If you need a hint, click me.</summary>

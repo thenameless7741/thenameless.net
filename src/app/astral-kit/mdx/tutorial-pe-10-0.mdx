@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-21'
+updatedAt: '2024-04-23'
 ---
 
 ## Lesson
@@ -18,16 +18,9 @@ There are many ways to prompt Claude to "think again". The ways that feel natura
 
 In this example, we ask Claude to come up with ten words... but one of them isn't a real word.
 
-Prompt:
-
-```
-User: Name ten words that all end with the exact letters "ab".
-```
-
-Claude's (Incorrect) Response:
-
-```
-Here are 10 words that end with the letters "ab":
+<Playground
+  user={`User: Name ten words that all end with the exact letters "ab".`}
+  assistant={`Here are 10 words that end with the letters "ab":
 
 1. Cab
 2. Dab
@@ -38,24 +31,31 @@ Here are 10 words that end with the letters "ab":
 7. Nab
 8. Slab
 9. Tab
-10. Zab
-```
+10. Zab`}
+  labels={{ user: 'Prompt', assistant: "Claude's (Incorrect) Response" }}
+/>
 
 <Mark>Asking Claude to make its answer more accurate fixes the error</Mark>!
 
 Below, we've <Mark>pulled down Claude's incorrect response from above and substituted it into a prompt that asks Claude to double-check</Mark> its previous answer.
 
-Prompt Template:
+<Playground
+  user={`{{CONVO_HISTORY}}
+User: Please find replacements for all "words" that are not real words.`}
+  assistant={`Here are 10 real words that end with the letters "ab":
 
-```
-{{CONVO_HISTORY}}
-User: Please find replacements for all "words" that are not real words.
-```
-
-Input: Old Prompt + Claude's Incorrect Response (From Above), `{{CONVO_HISTORY}}`:
-
-```
-User: Name ten words that all end with the exact letters "ab".
+1. Cab
+2. Dab
+3. Grab
+4. Gab
+5. Jab
+6. Lab
+7. Nab
+8. Slab
+9. Tab
+10. Blab`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{ CONVO_HISTORY: `User: Name ten words that all end with the exact letters "ab".
 Assistant: Here are 10 words that end with the letters "ab":
 
 1. Cab
@@ -67,13 +67,17 @@ Assistant: Here are 10 words that end with the letters "ab":
 7. Nab
 8. Slab
 9. Tab
-10. Zab
-```
+10. Zab` }}
+/>
 
-Claude's Response:
+**Note:** `{{CONVO_HISTORY}}` is old prompt + Claude's incorrect response (from above).
 
-```
-Here are 10 real words that end with the letters "ab":
+But is Claude revising its answer just because we told it to? What if we start off with a correct answer already? Will Claude lose its confidence? Here, we've <Mark>placed a correct response in the purple box, and asked it to double</Mark> check again.
+
+<Playground
+  user={`{{CONVO_HISTORY}}
+User: Please find replacements for all "words" that are not real words.`}
+  assistant={`Here are 10 real words that end with the letters "ab":
 
 1. Cab
 2. Dab
@@ -84,22 +88,9 @@ Here are 10 real words that end with the letters "ab":
 7. Nab
 8. Slab
 9. Tab
-10. Blab
-```
-
-But is Claude revising its answer just because we told it to? What if we start off with a correct answer already? Will Claude lose its confidence? Here, we've <Mark>placed a correct response in the purple box, and asked it to double</Mark> check again.
-
-Prompt Template:
-
-```
-{{CONVO_HISTORY}}
-User: Please find replacements for all "words" that are not real words.
-```
-
-Input: Hypothetical Correct Response from Claude, `{{CONVO_HISTORY}}`:
-
-```
-User: Name ten words that all end with the exact letters "ab".
+10. Blab`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{ CONVO_HISTORY: `User: Name ten words that all end with the exact letters "ab".
 Assistant: 1. Cab
 2. Dab
 3. Grab
@@ -109,119 +100,67 @@ Assistant: 1. Cab
 7. Nab
 8. Slab
 9. Tab
-10. Blab
-```
+10. Blab` }}
+/>
 
-Claude's Response:
-
-```
-Here are 10 real words that end with the letters "ab":
-
-1. Cab
-2. Dab
-3. Grab
-4. Gab
-5. Jab
-6. Lab
-7. Nab
-8. Slab
-9. Tab
-10. Blab
-```
+**Note:** `{{CONVO_HISTORY}}` is hypothetical correct response from Claude.
 
 Turns out, nope! <Mark>Claude did not waver in its correct answer in this case</Mark>.
 
 You can also just <Mark>ask Claude to make its responses better</Mark>. Below, we asked Claude to first write a story, and then improve the story it wrote. Your personal tastes may vary, but many might agree that Claude's second version is better.
 
-Prompt:
+<Playground
+  user={`User: Write a three-sentence short story about a girl who likes to run.`}
+  assistant={`Here is a three-sentence short story about a girl who likes to run:
 
-```
-User: Write a three-sentence short story about a girl who likes to run.
-```
-
-Claude's Response:
-
-```
-Here is a three-sentence short story about a girl who likes to run:
-
-Amelia loved to run. The wind in her hair, the rhythm of her steps, and the sense of freedom it gave her were all she needed. As she raced through the park, her worries melted away, and she felt alive.
-```
+Amelia loved to run. The wind in her hair, the rhythm of her steps, and the sense of freedom it gave her were all she needed. As she raced through the park, her worries melted away, and she felt alive.`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 ---
 
-Prompt Template:
+<Playground
+  user={`{{PAST_STORY}}
+User: Make the story better.`}
+  assistant={`Here is the three-sentence short story with some improvements:
 
-```
-{{PAST_STORY}}
-User: Make the story better.
-```
-
-Input: Claude's Previous Story ,`{{PAST_STORY}}`:
-
-```
-User: Write a three-sentence short story about a girl who likes to run.
+Amelia's feet pounded the pavement as she ran, her heart racing with exhilaration. The world around her faded away, replaced by the steady rhythm of her breathing and the wind whipping through her hair. With each stride, she felt her troubles dissolve, replaced by a profound sense of liberation and joy.`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's New Story" }}
+  input={{ PAST_STORY: `User: Write a three-sentence short story about a girl who likes to run.
 Assistant: Here is a three-sentence short story about a girl who likes to run:
 
-Amelia loved to run. The wind in her hair, the rhythm of her steps, and the sense of freedom it gave her were all she needed. As she raced through the park, her worries melted away, and she felt alive.
-```
+Amelia loved to run. The wind in her hair, the rhythm of her steps, and the sense of freedom it gave her were all she needed. As she raced through the park, her worries melted away, and she felt alive.` }}
+/>
 
-Claude's New Story:
-
-```
-Here is the three-sentence short story with some improvements:
-
-Amelia's feet pounded the pavement as she ran, her heart racing with exhilaration. The world around her faded away, replaced by the steady rhythm of her breathing and the wind whipping through her hair. With each stride, she felt her troubles dissolve, replaced by a profound sense of liberation and joy.
-```
+**Note:** `{{PAST_STORY}}` is Claude's previous story.
 
 This form of substitution is very powerful. We've been using substitution placeholders to pass in lists, words, Claude's former responses, and so on. You can also <Mark>use substitution to do what we call "function calling," which is asking Claude to perform some function, and then taking the results of that function and asking Claude to do even more afterward with the results</Mark>. It works like any other substitution. More on this in the next appendix.
 
 Below is one more example of taking the results of one call to Claude and plugging it into another, longer call.
 
-Prompt:
-
-```
-User: Find all names from the below text:
+<Playground
+  user={`User: Find all names from the below text:
 
 "Hey, Jesse. It's me, Erin. I'm calling about the party that Joey is throwing tomorrow. Keisha said she would come and I think Mel will be there too."
-Assistant: <names>
-```
-
-Claude's Response → `{{NAMES}}`:
-
-```
-- Jesse
+Assistant: <names>`}
+  assistant={`- Jesse
 - Erin
 - Joey
 - Keisha
 - Mel
-</names>
-```
+</names>`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
+
+**Note:** Claude's response is stored as `{{NAMES}}`.
 
 ---
 
-Prompt Template (`</names>` comes from the previous output):
-
-```
-User: Here is a list of names:
+<Playground
+  user={`User: Here is a list of names:
 <names>{{NAMES}}
-Please alphabetize the list.
-```
-
-Input `{{NAMES}}`:
-
-```
-- Jesse
-- Erin
-- Joey
-- Keisha
-- Mel
-</names>
-```
-
-Claude's Response:
-
-```
-Here is the list of names alphabetized:
+Please alphabetize the list.`}
+  assistant={`Here is the list of names alphabetized:
 
 <names>
 - Erin
@@ -229,5 +168,14 @@ Here is the list of names alphabetized:
 - Joey
 - Keisha
 - Mel
-</names>
-```
+</names>`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{ NAMES: `- Jesse
+- Erin
+- Joey
+- Keisha
+- Mel
+</names>` }}
+/>
+
+**Note:**  `</names>` in Prompt Template comes from the previous output.

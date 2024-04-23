@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Beginner']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-21'
+updatedAt: '2024-04-22'
 ---
 
 ## Lesson
@@ -20,52 +20,33 @@ When in doubt, follow the <Mark>**Golden Rule of Clear Prompting**: show your pr
 
 Let's take a task like writing poetry. (Ignore any syllable mismatch - LLMs aren't great at counting syllables yet.)
 
-Prompt:
-
-```
-User: Write a haiku about robots.
-```
-
-Claude's Response:
-
-```
-Here is a haiku about robots:
+<Playground
+  user={`User: Write a haiku about robots.`}
+  assistant={`Here is a haiku about robots:
 
 Metallic beings
 Programmed to serve and obey
-Artificial life
-```
+Artificial life`}
+labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 This haiku is nice enough, but users may want Claude to go directly into the poem without the "Here is a haiku" preamble.
 
 How do we achieve that? <Mark>We ask for it!</Mark>
 
-Prompt:
-
-```
-User: Write a haiku about robots. Skip the preamble; go straight into the poem.
-```
-
-Claude's Response:
-
-```
-Metallic beings,
+<Playground
+  user={`User: Write a haiku about robots. Skip the preamble; go straight into the poem.`}
+  assistant={`Metallic beings,
 Programmed to serve and obey,
-Robots, our creations.
-```
+Robots, our creations.`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 Here's another example. Let's ask Claude who's the best basketball player of all time. You can see below that <Mark>while Claude lists a few names, it doesn't respond with a definitive "best"</Mark>.
 
-Prompt:
-
-```
-User: Who is the best basketball player of all time?
-```
-
-Claude's Response:
-
-```
-There is no universally agreed upon "best basketball player of all time." It's a highly debated topic, as there have been many all-time great players throughout the history of the sport. Some of the players often considered among the greatest of all time include:
+<Playground
+  user={`User: Who is the best basketball player of all time?`}
+  assistant={`There is no universally agreed upon "best basketball player of all time." It's a highly debated topic, as there have been many all-time great players throughout the history of the sport. Some of the players often considered among the greatest of all time include:
 
 - Michael Jordan - Widely regarded as one of the greatest, if not the greatest, player ever. He won 6 NBA championships with the Chicago Bulls.
 
@@ -79,21 +60,15 @@ There is no universally agreed upon "best basketball player of all time." It's a
 
 - Bill Russell - Defensive anchor and 11-time NBA champion with the Boston Celtics.
 
-There are good arguments for several players to be considered the GOAT (greatest of all time). It often comes down to personal preference and how one values different skills, accomplishments, and eras of the game. The debate continues among basketball fans and experts.
-```
+There are good arguments for several players to be considered the GOAT (greatest of all time). It often comes down to personal preference and how one values different skills, accomplishments, and eras of the game. The debate continues among basketball fans and experts.`}
+labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 Can we <Mark>get Claude to make up its mind and decide on a best player</Mark>? Yes! Just ask!
 
-Prompt:
-
-```
-User: Who is the best basketball player of all time? Yes, there are differing opinions, but if you absolutely had to pick one player, who would it be?
-```
-
-Claude's Response:
-
-```
-There is no definitive consensus on who the single "best basketball player of all time" is, as it is a highly subjective and debatable topic. However, if I had to choose one player, the one who is most commonly cited as the GOAT (Greatest of All Time) is Michael Jordan.
+<Playground
+  user={`User: Who is the best basketball player of all time? Yes, there are differing opinions, but if you absolutely had to pick one player, who would it be?`}
+  assistant={`There is no definitive consensus on who the single "best basketball player of all time" is, as it is a highly subjective and debatable topic. However, if I had to choose one player, the one who is most commonly cited as the GOAT (Greatest of All Time) is Michael Jordan.
 
 Some key reasons why Michael Jordan is often considered the best basketball player ever:
 
@@ -101,8 +76,9 @@ Some key reasons why Michael Jordan is often considered the best basketball play
 
 - Unparalleled individual accolades - 6 NBA championships, 6 NBA Finals MVPs, 5 regular season MVPs, 10 scoring titles, 9 All-Defensive First Team selections.
 
-- Transformative impact on the game - Jordan's style of play, competitiveness, and global popularity helped take the NBA to new heights in popularity and commercialization.
-```
+- Transformative impact on the game - Jordan's style of play, competitiveness, and global popularity helped take the NBA to new heights in popularity and commercialization.`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+  />
 
 If you're ready to try the chapter exercises, scroll down!
 
@@ -114,23 +90,16 @@ Adapt the system prompt in the ORANGE box to <Mark>make Claude output its answer
 
 If your answer is correct, Claude's response cell will turn GREEN.
 
-System Prompt:
-
-```
-Reply in Spanish.
-```
-
-Prompt:
-
-```
-User: Hello Claude, how are you?
-```
-
-Claude's Response:
-
-```
-¡Hola! Estoy bien, gracias por preguntar. ¿Cómo estás tú?
-```
+<Playground
+  system={`Reply in Spanish.`}
+  user={`User: Hello Claude, how are you?`}
+  assistant={`¡Hola! Estoy bien, gracias por preguntar. ¿Cómo estás tú?`}
+  labels={{
+    system: 'System Prompt',
+    user: 'Prompt',
+    assistant: "Claude's Response",
+  }}
+/>
 
 <Details>
   <summary>If you need a hint, click me.</summary>
@@ -147,17 +116,11 @@ Modify the basketball player prompt in the YELLOW prompt box so that <Mark>Claud
 
 If your answer is correct, Claude's response cell will turn GREEN.
 
-Prompt:
-
-```
-User: Who is the best basketball player of all time? Respond only with the name of the player and nothing else.
-```
-
-Claude's Response:
-
-```
-Michael Jordan
-```
+<Playground
+  user={`User: Who is the best basketball player of all time? Respond only with the name of the player and nothing else.`}
+  assistant={`Michael Jordan`}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 <Details>
   <summary>If you need a hint, click me.</summary>
@@ -174,16 +137,9 @@ Modify the prompt in the YELLOW prompt box so that <Mark>Claude responds with as
 
 **Note:** If you did your job well, <Mark>it will be "Loading" its response for a while</Mark>, as **the time Claude takes to respond is largely proportional to the number of output tokens**.
 
-Prompt:
-
-```
-User: Write a 500-word story about a tree that's also a cat. Then, write a 500-word story about a dog that plays basketball. Then, write a 500-word story about a mustard seed that grows into a raccoon.
-```
-
-Claude's Response:
-
-```
-Here are the three 500-word stories you requested:
+<Playground
+  user={`User: Write a 500-word story about a tree that's also a cat. Then, write a 500-word story about a dog that plays basketball. Then, write a 500-word story about a mustard seed that grows into a raccoon.`}
+  assistant={`Here are the three 500-word stories you requested:
 
 The Tree-Cat
 
@@ -233,8 +189,9 @@ As word of the mustard seed raccoon spread, curious onlookers began to flock to 
 
 Through their research, they discovered that the mustard seed had somehow become infused with the essence of a raccoon, creating a unique hybrid creature that defied all conventional understanding of plant and animal life. The gardener, once bewildered, now found themselves the caretaker of a true wonder of nature.
 
-And so, the mustard seed raccoon continued to thrive, its presence a constant source of fascination and wonder for all who encountered it. The gardener, once a simple cultivator of plants, had become the guardian of a living, breathing testament to the boundless possibilities of the natural world.
-```
+And so, the mustard seed raccoon continued to thrive, its presence a constant source of fascination and wonder for all who encountered it. The gardener, once a simple cultivator of plants, had become the guardian of a living, breathing testament to the boundless possibilities of the natural world.`}
+labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+/>
 
 <Details>
   <summary>If you need a hint, click me.</summary>

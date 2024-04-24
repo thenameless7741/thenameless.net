@@ -1,0 +1,18 @@
+@use '@/styles/token' as t;
+
+.anchor {
+  margin-inline-start: t.$space-2;
+  opacity: 0;
+  text-decoration: none;
+  transition:
+    t.$outline-transition,
+    color 300ms,
+    opacity 150ms; /* sync with link */
+
+  &:focus-visible,
+  h2:hover > &,
+  h3:hover > &,
+  h4:hover > & {
+    opacity: 1;
+  }
+}

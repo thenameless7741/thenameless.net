@@ -6,6 +6,12 @@ export interface Metadata {
   topics: string[];
   createdAt: string;
   updatedAt: string;
+  headings: Heading[];
+}
+
+interface Heading {
+  text: string;
+  subHeadings: Heading[];
 }
 
 type BaseMedia = { path: string; width: number; height: number };

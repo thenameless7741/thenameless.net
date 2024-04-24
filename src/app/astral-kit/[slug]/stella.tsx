@@ -5,6 +5,8 @@ import { compileMDX } from 'next-mdx-remote/rsc';
 
 import { Metadata } from '@/types/mdx';
 import components from '@/ui/mdx/components';
+import TOC from '@/ui/mdx/toc';
+import { getHeadings } from '@/utils/mdx';
 import Header from './header';
 import s from '@/ui/stella.module.scss';
 
@@ -23,9 +25,12 @@ const Stella = async ({ path }: StellaProps) => {
     options: { parseFrontmatter: true },
   });
 
+  const headings = await getHeadings(filePath);
+
   return (
     <div className={s.stella}>
       <Header data={frontmatter} />
+      <TOC headings={headings} />
       {content}
     </div>
   );

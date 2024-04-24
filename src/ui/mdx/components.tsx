@@ -4,6 +4,7 @@ import Prism from 'react-syntax-highlighter/dist/esm/prism';
 
 import prism from '@/styles/prism';
 import Link from '@/ui/link';
+import Anchor, { toAnchor } from './anchor';
 import Audience from './audience';
 import Gallery from './gallery';
 import Playground from './playground';
@@ -15,9 +16,24 @@ const components: React.ComponentProps<typeof MDXProvider>['components'] = {
    * components: block-level
    */
   blockquote: (props) => <blockquote {...props} className={s.blockquote} />,
-  h2: (props) => <h2 {...props} className={s.h2} />,
-  h3: (props) => <h3 {...props} className={s.h3} />,
-  h4: (props) => <h4 {...props} className={s.h4} />,
+  h2: ({ children, ...props }) => (
+    <h2 id={toAnchor(children)} {...props} className={s.h2}>
+      {children}
+      <Anchor>{children}</Anchor>
+    </h2>
+  ),
+  h3: ({ children, ...props }) => (
+    <h3 id={toAnchor(children)} {...props} className={s.h3}>
+      {children}
+      <Anchor>{children}</Anchor>
+    </h3>
+  ),
+  h4: ({ children, ...props }) => (
+    <h4 id={toAnchor(children)} {...props} className={s.h4}>
+      {children}
+      <Anchor>{children}</Anchor>
+    </h4>
+  ),
   hr: (props) => <hr {...props} className={s.hr} />,
   li: (props) => <li {...props} className={s.li} />,
   ol: (props) => <ol {...props} className={s.ol} />,

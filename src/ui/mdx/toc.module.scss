@@ -1,0 +1,55 @@
+@use '@/styles/token' as t;
+
+.toc {
+  margin-block: t.$space-6;
+}
+
+.label {
+  @include t.font(10, 10, 0.1);
+  margin-block-end: t.$space-3;
+  color: t.$gray-5;
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}
+
+.content {
+  border-inline-start: 2px solid t.$gray-1;
+}
+
+.heading {
+  @include t.font(16, 20);
+  display: inline-block;
+  margin-block: calc(var(--margin-mul) * t.$space-1);
+  margin-inline-start: calc(var(--indent-mul) * var(--indent-size));
+  padding-inline-start: t.$space-1;
+  font-family: t.$font-body;
+
+  @include t.device(llt) {
+    --margin-mul: 2;
+    --indent-mul: 1;
+  }
+  @include t.device(lt) {
+    --margin-mul: 1;
+    --indent-mul: 2;
+  }
+
+  &::before {
+    content: '・';
+    color: t.$violet-5;
+  }
+}
+
+.h2 {
+  @extend .heading;
+  --indent-size: 0;
+}
+
+.h3 {
+  @extend .heading;
+  --indent-size: #{t.$space-2};
+}
+
+.h4 {
+  @extend .heading;
+  --indent-size: #{t.$space-4};
+}

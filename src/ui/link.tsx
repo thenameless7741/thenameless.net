@@ -8,18 +8,24 @@ import {
   TwitterLogo,
   YoutubeLogo,
 } from '@phosphor-icons/react/dist/ssr';
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
 
 import s from './link.module.scss';
 
-interface Props {
+type Props = LinkProps & {
   href: string;
   children: React.ReactNode;
   className?: string;
   showIcon?: boolean;
-}
+};
 
-const Component = ({ href, children, className, showIcon = true }: Props) => {
+const Component = ({
+  href,
+  children,
+  className,
+  showIcon = true,
+  ...props
+}: Props) => {
   const internal = /^(\.?\/|#)/.test(href);
 
   let Icon: PhosphorIcon | React.FunctionComponent | undefined;
@@ -48,6 +54,7 @@ const Component = ({ href, children, className, showIcon = true }: Props) => {
 
   return (
     <Link
+      {...props}
       className={[s.link, className ?? ''].join(' ')}
       href={href}
       rel={internal ? undefined : 'noopener noreferrer'}

@@ -7,6 +7,7 @@ import Link from '@/ui/link';
 import Anchor, { toAnchor } from './anchor';
 import Audience from './audience';
 import Gallery from './gallery';
+import Pagination from './pagination';
 import Playground from './playground';
 import Resource from './resource';
 import s from './components.module.scss';
@@ -70,6 +71,7 @@ const components: React.ComponentProps<typeof MDXProvider>['components'] = {
   Audience,
   Details: (props) => <details {...props} className={s.details} />,
   Gallery,
+  Pagination,
   Playground,
   Resource,
 

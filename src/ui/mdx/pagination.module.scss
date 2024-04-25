@@ -1,0 +1,113 @@
+@use '@/styles/token' as t;
+@use '@/ui/link.module.scss';
+
+.pagination {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  position: relative; /* scroll */
+  margin-block-start: 2 * t.$space-12;
+  padding-block-start: t.$space-6;
+  border-block-start: 1px solid t.$gray-1;
+
+  @include t.device(llt) {
+    grid-template-areas:
+      'prev prev'
+      'next next'
+      'top  .';
+    gap: t.$space-6;
+  }
+  @include t.device(lt) {
+    grid-template-areas:
+      'prev next'
+      'top  .';
+    column-gap: t.$space-3;
+    row-gap: t.$space-12;
+  }
+}
+
+.nav-button {
+  text-decoration: none;
+}
+
+.prev {
+  @extend .nav-button;
+  grid-area: prev;
+  justify-self: start;
+}
+
+.next {
+  @extend .nav-button;
+  grid-area: next;
+  justify-self: end;
+  text-align: end;
+}
+
+.label {
+  @include t.font(10, 10, 0.1);
+  color: t.$purple-3;
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.title {
+  @extend .link;
+  @extend .ellipsis;
+  @include t.font(16, 20);
+  max-inline-size: 16rem;
+  padding-block: t.$space-1;
+  font-family: t.$font-body;
+  text-decoration: underline;
+}
+
+.subtitle {
+  @extend .ellipsis;
+  @include t.font(14, 18);
+  color: t.$violet-4;
+  max-inline-size: 16rem;
+  font-family: t.$font-body;
+}
+
+.link-icon {
+  & > svg {
+    color: t.$purple-2;
+  }
+
+  &:hover > svg,
+  &:active > svg,
+  &:focus > svg,
+  &:focus-visible & {
+    color: t.$purple-3;
+  }
+}
+
+.nav-link {
+  @include t.font(10, 10, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}
+
+.top {
+  @extend .link-icon;
+  @extend .nav-link;
+  grid-area: top;
+  justify-self: start;
+}
+
+.scroll {
+  @extend .link;
+  @extend .link-icon;
+  @extend .nav-link;
+  justify-self: center;
+  position: absolute;
+  top: -1 * t.$space-9;
+  text-decoration: underline;
+}

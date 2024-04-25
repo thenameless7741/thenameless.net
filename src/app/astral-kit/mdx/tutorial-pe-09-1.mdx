@@ -25,75 +25,79 @@ Below, we've detailed out an example prompt for a legal use-case wherein we ask 
 
 **Prompt engineering is about scientific trial and error.** We encourage you to mix and match, move things around (the elements where ordering doesn't matter), and see what works best for you and your needs.
 
-Prompt Element:
+<MobileOnly>
+
+---
+
+**Prompt Element:**
 
 "User:" formatting
 
-Description:
+**Description:**
 
 Open your prompt with "User:".
 
-Example:
+**Example:**
 
 ```
 User:
 ```
 
-Notes:
+**Notes:**
 
 This is mandatory! **Prompts to Claude always need to begin with a user message.**.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Task context
 
-Description:
+**Description:**
 
 Give Claude context about the role it should take on or what goals and overarching tasks you want it to undertake with the prompt.
 
-Example:
+**Example:**
 
 ```
 You are an expert lawyer.
 ```
 
-Notes:
+**Notes:**
 
 It's best to put context early in the body of the prompt.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Tone context
 
-Description:
+**Description:**
 
 If important to the interaction, tell Claude what tone it should use.
 
-Example:
+**Example:**
 
 ```
 
 ```
 
-Notes:
+**Notes:**
 
 This element may not be necessary depending on the task.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Input data to process
 
-Description:
+**Description:**
 
 If there is data that Claude needs to process within the prompt, include it here within relevant XML tags. Feel free to include multiple pieces of data, but be sure to enclose each in its own set of XML tags.
 
-Example:
+**Example:**
 
 ```
 Here is some research that's been compiled. Use it to answer a legal question from the user.
@@ -102,21 +106,21 @@ Here is some research that's been compiled. Use it to answer a legal question fr
 </legal_research>
 ```
 
-Notes:
+**Notes:**
 
 When input data is long, it's best to put it before the instructions.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Examples
 
-Description:
+**Description:**
 
 Provide Claude with at least one example of an ideal response that it can emulate. Encase this in `<example></example>` XML tags. Feel free to provide multiple examples. If you do provide multiple examples, give Claude context about what it is an example of, and enclose each example in its own set of XML tags.
 
-Example:
+**Example:**
 
 ```
 When citing the legal research in your answer, please use brackets containing the search index ID, followed by a period. Put these at the end of the sentence that's doing the citing. Examples of proper citation format:
@@ -131,21 +135,21 @@ However, the protection does not apply when it has been specifically waived by b
 </examples>
 ```
 
-Notes:
+**Notes:**
 
 Examples are probably the single most effective tool in knowledge work for getting Claude to behave as desired. Make sure to give Claude examples of common edge cases. If your prompt uses a scratchpad, it's effective to give examples of how the scratchpad should look. Generally more examples = more reliable responses at the cost of latency and tokens. We have only one example here to make the prompt easier to read.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Detailed task description and rules
 
-Description:
+**Description:**
 
 Expand on the specific tasks you want Claude to do, as well as any rules that Claude might have to follow. This is also where you can give Claude an "out" if it doesn't have an answer or doesn't know.
 
-Example:
+**Example:**
 
 ```
 Write a clear, concise answer to this question:
@@ -157,47 +161,47 @@ Write a clear, concise answer to this question:
 It should be no more than a couple of paragraphs. If possible, it should conclude with a single sentence directly answering the user's question. However, if there is not sufficient information in the compiled research to produce such an answer, you may demur and write "Sorry, I do not have sufficient information at hand to answer this question.".
 ```
 
-Notes:
+**Notes:**
 
 It's ideal to show this description and rules to a friend to make sure it is laid out logically and that any ambiguous words are clearly defined.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Immediate task description or request
 
-Description:
+**Description:**
 
 "Remind" Claude or tell Claude exactly what it's expected to immediately do to fulfill the prompt's task. This is also where you would put in additional variables like the user's question.
 
-Example:
+**Example:**
 
 ```
 
 ```
 
-Notes:
+**Notes:**
 
 It generally doesn't hurt to reiterate to Claude its immediate task. It's best to do this toward the end of a long prompt. This will yield better results than putting this at the beginning. It is also generally good practice to put the user's query close to the bottom of the prompt.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Precognition (thinking step by step) (optional)
 
-Description:
+**Description:**
 
 For tasks with multiple steps, it's good to tell Claude to think step by step before giving an answer. Sometimes, you might have to even say "Before you give your answer..." just to make sure Claude does this first.
 
-Example:
+**Example:**
 
 ```
 Before you answer, pull out the most relevant quotes from the research in <relevant_quotes> tags.
 ```
 
-Notes:
+**Notes:**
 
 Increases intelligence of responses but also increases latency by adding to the length of the output.
 
@@ -205,47 +209,189 @@ In this example, the precognition is embedded in "Detailed task description and 
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Output formatting (optional)
 
-Description:
+**Description:**
 
 If there is a specific way you want Claude's response formatted, clearly tell Claude what that format is.
 
-Example:
+**Example:**
 
 ```
 Put your two-paragraph response in <answer> tags.
 ```
 
-Notes:
+**Notes:**
 
 This element may not be necessary depending on the task.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Prefilling Claude's response (if any)
 
-Description:
+**Description:**
 
 A space to start off Claude's answer with some prefilled words to steer Claude's behavior or response.
 
-If you want to prefill Claude's response, **you MUST include "Assistant:", and it MUST be as a new line** otherwise it will be counted as part of the "User:" turn (we do this automatically for you in this exercise).
+If you want to prefill Claude's response, **you MUST include "Assistant:"**.
 
-Example:
+**Example:**
 
 ```
 Assistant: <relevant_quotes>
 ```
 
-Notes:
+**Notes:**
 
 "Assistant:" is only necessary if you want to prefill Claude's response. Otherwise, it can be left off.
 
 ---
+
+</MobileOnly>
+
+<DesktopOnly style={{
+  gridColumn: '1 / -1',
+  display: 'grid',
+  gridTemplateColumns: '10rem 1fr 1fr 20rem',
+  alignItems: 'baseline',
+  columnGap: '12px',
+  rowGap: '24px',
+  maxInlineSize: '90rem',
+  marginBlock: '48px',
+  marginInline: 'auto',
+}}>
+
+**Prompt Element**
+
+**Description**
+
+**Example**
+
+**Ordering Matters?**
+
+**"User:" formatting**
+
+Open your prompt with "User:".
+
+```
+User:
+```
+
+This is mandatory! **Prompts to Claude always need to begin with a user message.**.
+
+**Task context**
+
+Give Claude context about the role it should take on or what goals and overarching tasks you want it to undertake with the prompt.
+
+```
+You are an expert lawyer.
+```
+
+It's best to put context early in the body of the prompt.
+
+**Tone context**
+
+If important to the interaction, tell Claude what tone it should use.
+
+```
+
+```
+
+This element may not be necessary depending on the task.
+
+**Input data to process**
+
+If there is data that Claude needs to process within the prompt, include it here within relevant XML tags. Feel free to include multiple pieces of data, but be sure to enclose each in its own set of XML tags.
+
+```
+Here is some research that's been compiled. Use it to answer a legal question from the user.
+<legal_research>
+{{LEGAL_RESEARCH}}
+</legal_research>
+```
+
+When input data is long, it's best to put it before the instructions.
+
+**Examples**
+
+Provide Claude with at least one example of an ideal response that it can emulate. Encase this in `<example></example>` XML tags. Feel free to provide multiple examples. If you do provide multiple examples, give Claude context about what it is an example of, and enclose each example in its own set of XML tags.
+
+```
+When citing the legal research in your answer, please use brackets containing the search index ID, followed by a period. Put these at the end of the sentence that's doing the citing. Examples of proper citation format:
+
+<examples>
+<example>
+The statute of limitations expires after 10 years for crimes like this. [3].
+</example>
+<example>
+However, the protection does not apply when it has been specifically waived by both parties. [5].
+</example>
+</examples>
+```
+
+Examples are probably the single most effective tool in knowledge work for getting Claude to behave as desired. Make sure to give Claude examples of common edge cases. If your prompt uses a scratchpad, it's effective to give examples of how the scratchpad should look. Generally more examples = more reliable responses at the cost of latency and tokens. We have only one example here to make the prompt easier to read.
+
+**Detailed task description and rules**
+
+Expand on the specific tasks you want Claude to do, as well as any rules that Claude might have to follow. This is also where you can give Claude an "out" if it doesn't have an answer or doesn't know.
+
+```
+Write a clear, concise answer to this question:
+
+<question>
+{{QUESTION}}
+</question>
+
+It should be no more than a couple of paragraphs. If possible, it should conclude with a single sentence directly answering the user's question. However, if there is not sufficient information in the compiled research to produce such an answer, you may demur and write "Sorry, I do not have sufficient information at hand to answer this question.".
+```
+
+It's ideal to show this description and rules to a friend to make sure it is laid out logically and that any ambiguous words are clearly defined.
+
+**Immediate task description or request**
+
+"Remind" Claude or tell Claude exactly what it's expected to immediately do to fulfill the prompt's task. This is also where you would put in additional variables like the user's question.
+
+```
+
+```
+
+It generally doesn't hurt to reiterate to Claude its immediate task. It's best to do this toward the end of a long prompt. This will yield better results than putting this at the beginning. It is also generally good practice to put the user's query close to the bottom of the prompt.
+
+**Precognition (thinking step by step) (optional)**
+
+For tasks with multiple steps, it's good to tell Claude to think step by step before giving an answer. Sometimes, you might have to even say "Before you give your answer..." just to make sure Claude does this first.
+
+```
+Before you answer, pull out the most relevant quotes from the research in <relevant_quotes> tags.
+```
+
+Increases intelligence of responses but also increases latency by adding to the length of the output.<br /><br />In this example, the precognition is embedded in "Detailed task description and rules" section where Claude is asked to identify the key legal points.
+
+**Output formatting (optional)**
+
+If there is a specific way you want Claude's response formatted, clearly tell Claude what that format is.
+
+```
+Put your two-paragraph response in <answer> tags.
+```
+
+This element may not be necessary depending on the task.
+
+**Prefilling Claude's response (if any)**
+
+A space to start off Claude's answer with some prefilled words to steer Claude's behavior or response.<br /><br />If you want to prefill Claude's response, **you MUST include "Assistant:"**.
+
+```
+Assistant: <relevant_quotes>
+```
+
+"Assistant:" is only necessary if you want to prefill Claude's response. Otherwise, it can be left off.
+
+</DesktopOnly>
 
 Now let's <Mark>concatenate it all together, put in our substitutions</Mark>, and see it in action!
 

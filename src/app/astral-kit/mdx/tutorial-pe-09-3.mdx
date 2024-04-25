@@ -12,75 +12,79 @@ In this exercise, we will write up a prompt for **a coding assistance and teachi
 
 We suggest you scroll down to the bottom to see what the expected inputs are that you'll need to account for (including what the `{{VARIABLE_WORD}}` is). Be sure to reference this `{{VARIABLE_WORD}}` directly in your prompt somewhere so that the actual variable content can be substituted in.
 
-Prompt Element:
+<MobileOnly>
+
+---
+
+**Prompt Element:**
 
 "User:" formatting
 
-Description:
+**Description:**
 
 Open your prompt with "User:".
 
-Example:
+**Example:**
 
 ```
 User:
 ```
 
-Notes:
+**Notes:**
 
 This is mandatory! **Prompts to Claude always need to begin with a user message.**.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Task context
 
-Description:
+**Description:**
 
 Give Claude context about the role it should take on or what goals and overarching tasks you want it to undertake with the prompt.
 
-Example:
+**Example:**
 
 ```
 You are Codebot, a helpful AI assistant who finds issues with code and suggests possible improvements.
 ```
 
-Notes:
+**Notes:**
 
 It's best to put context early in the body of the prompt.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Tone context (optional)
 
-Description:
+**Description:**
 
 If important to the interaction, tell Claude what tone it should use.
 
-Example:
+**Example:**
 
 ```
 Act as a Socratic tutor who helps the user learn.
 ```
 
-Notes:
+**Notes:**
 
 This element may not be necessary depending on the task.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Detailed task description and rules
 
-Description:
+**Description:**
 
 Expand on the specific tasks you want Claude to do, as well as any rules that Claude must follow. This is also where you can give Claude an "out" if it doesn't have an answer or doesn't know.
 
-Example:
+**Example:**
 
 ```
 You will be given some code from a user. Please do the following:
@@ -88,21 +92,21 @@ You will be given some code from a user. Please do the following:
 2. Invite the user to write a revised version of the code to fix the issue.
 ```
 
-Notes:
+**Notes:**
 
 It's ideal to show this description and rules to a friend to make sure it is laid out logically and that any ambiguous words are clearly defined.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Examples
 
-Description:
+**Description:**
 
 Provide Claude with at least one example of an ideal response that it can emulate. Encase this in `<example></example>` XML tags. Feel free to provide multiple examples. If you do provide multiple examples, give Claude context about what it is an example of, and enclose each example in its own set of XML tags.
 
-Example:
+**Example:**
 
 ```
 Here's an example:
@@ -122,21 +126,21 @@ That's almost right, but there's an issue related to order of operations. It may
 </example>
 ```
 
-Notes:
+**Notes:**
 
 Examples are probably the single most effective tool in knowledge work for getting Claude to behave as desired. Make sure to give Claude examples of common edge cases. If your prompt uses a scratchpad, it's effective to give examples of how the scratchpad should look. Generally more examples = more reliable responses at the cost of latency and tokens. We have only one example here to make the prompt easier to read.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Input data to process
 
-Description:
+**Description:**
 
 Use "`{{CODE}}`" to represent the code you want Claude to examine. Remember to surround it in XML tags.
 
-Example:
+**Example:**
 
 ```
 Here is the code you are to analyze:
@@ -146,93 +150,237 @@ Here is the code you are to analyze:
 </code>
 ```
 
-Notes:
+**Notes:**
 
 This element may not be necessary depending on task. Ordering is also flexible. When input data is long, it's best to put it before the instructions.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Immediate task description or request
 
-Description:
+**Description:**
 
 "Remind" Claude or tell Claude exactly what it's expected to immediately do to fulfill the prompt's task. This is also where you would put in additional variables like the user's question.
 
-Example:
+**Example:**
 
 ```
 Find the relevant issues and write the Socratic tutor-style response. Do not give the user too much help! Instead, just give them guidance so they can find the correct solution themselves.
 ```
 
-Notes:
+**Notes:**
 
 It generally doesn't hurt to reiterate to Claude its immediate task. It's best to do this toward the end of a long prompt. This will yield better results than putting this at the beginning. It is also generally good practice to put the user's query close to the bottom of the prompt.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Precognition (thinking step by step) (optional)
 
-Description:
+**Description:**
 
 For tasks with multiple steps, it's good to tell Claude to think step by step before giving an answer. Sometimes, you might have to even say "Before you give your answer..." just to make sure Claude does this first.
 
-Example:
+**Example:**
 
 ```
 
 ```
 
-Notes:
+**Notes:**
 
 Not necessary with all prompts. Increases intelligence of responses but also increases latency by adding to the length of the output.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Output formatting (optional)
 
-Description:
+**Description:**
 
 If there is a specific way you want Claude's response formatted, clearly tell Claude what that format is.
 
-Example:
+**Example:**
 
 ```
 Put each issue in <issue> tags and put your final response in <response> tags.
 ```
 
-Notes:
+**Notes:**
 
 This element may not be necessary depending on the task.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Prefilling Claude's response (if any)
 
-Description:
+**Description:**
 
 A space to start off Claude's answer with some prefilled words to steer Claude's behavior or response.
 
-If you want to prefill Claude's response, **you MUST include "Assistant:", and it MUST be as a new line** otherwise it will be counted as part of the "User:" turn (we do this automatically for you in this exercise).
+If you want to prefill Claude's response, **you MUST include "Assistant:"**.
 
-Example:
-
-```
+**Example:**
 
 ```
 
-Notes:
+```
+
+**Notes:**
 
 "Assistant:" is only necessary if you want to prefill Claude's response. Otherwise, it can be left off.
 
 ---
+
+</MobileOnly>
+
+<DesktopOnly style={{
+  gridColumn: '1 / -1',
+  display: 'grid',
+  gridTemplateColumns: '10rem 1fr 1fr 20rem',
+  alignItems: 'baseline',
+  columnGap: '12px',
+  rowGap: '24px',
+  maxInlineSize: '90rem',
+  marginBlock: '48px',
+  marginInline: 'auto',
+}}>
+
+**Prompt Element**
+
+**Description**
+
+**Example**
+
+**Ordering Matters?**
+
+**"User:" formatting**
+
+Open your prompt with "User:".
+
+```
+User:
+```
+
+This is mandatory! **Prompts to Claude always need to begin with a user message.**.
+
+**Task context**
+
+Give Claude context about the role it should take on or what goals and overarching tasks you want it to undertake with the prompt.
+
+```
+You are Codebot, a helpful AI assistant who finds issues with code and suggests possible improvements.
+```
+
+It's best to put context early in the body of the prompt.
+
+**Tone context (optional)**
+
+If important to the interaction, tell Claude what tone it should use.
+
+```
+Act as a Socratic tutor who helps the user learn.
+```
+
+This element may not be necessary depending on the task.
+
+**Detailed task description and rules**
+
+Expand on the specific tasks you want Claude to do, as well as any rules that Claude must follow. This is also where you can give Claude an "out" if it doesn't have an answer or doesn't know.
+
+```
+You will be given some code from a user. Please do the following:
+1. Identify any issues in the code. Put each issue inside separate <issues> tags.
+2. Invite the user to write a revised version of the code to fix the issue.
+```
+
+It's ideal to show this description and rules to a friend to make sure it is laid out logically and that any ambiguous words are clearly defined.
+
+**Examples**
+
+Provide Claude with at least one example of an ideal response that it can emulate. Encase this in `<example></example>` XML tags. Feel free to provide multiple examples. If you do provide multiple examples, give Claude context about what it is an example of, and enclose each example in its own set of XML tags.
+
+```
+Here's an example:
+
+<example>
+<code>
+def calculate_circle_area(radius):
+    return (3.14 * radius) ** 2
+</code>
+<issues>
+<issue>
+3.14 is being squared when it's actually only the radius that should be squared>
+</issue>
+<response>
+That's almost right, but there's an issue related to order of operations. It may help to write out the formula for a circle and then look closely at the parentheses in your code.
+</response>
+</example>
+```
+
+Examples are probably the single most effective tool in knowledge work for getting Claude to behave as desired. Make sure to give Claude examples of common edge cases. If your prompt uses a scratchpad, it's effective to give examples of how the scratchpad should look. Generally more examples = more reliable responses at the cost of latency and tokens. We have only one example here to make the prompt easier to read.
+
+**Input data to process**
+
+Use "`{{CODE}}`" to represent the code you want Claude to examine. Remember to surround it in XML tags.
+
+```
+Here is the code you are to analyze:
+
+<code>
+{{CODE}}
+</code>
+```
+
+This element may not be necessary depending on task. Ordering is also flexible. When input data is long, it's best to put it before the instructions.
+
+**Immediate task description or request**
+
+"Remind" Claude or tell Claude exactly what it's expected to immediately do to fulfill the prompt's task. This is also where you would put in additional variables like the user's question.
+
+```
+Find the relevant issues and write the Socratic tutor-style response. Do not give the user too much help! Instead, just give them guidance so they can find the correct solution themselves.
+```
+
+It generally doesn't hurt to reiterate to Claude its immediate task. It's best to do this toward the end of a long prompt. This will yield better results than putting this at the beginning. It is also generally good practice to put the user's query close to the bottom of the prompt.
+
+**Precognition (thinking step by step) (optional)**
+
+For tasks with multiple steps, it's good to tell Claude to think step by step before giving an answer. Sometimes, you might have to even say "Before you give your answer..." just to make sure Claude does this first.
+
+```
+
+```
+
+Not necessary with all prompts. Increases intelligence of responses but also increases latency by adding to the length of the output.
+
+**Output formatting (optional)**
+
+If there is a specific way you want Claude's response formatted, clearly tell Claude what that format is.
+
+```
+Put each issue in <issue> tags and put your final response in <response> tags.
+```
+
+This element may not be necessary depending on the task.
+
+**Prefilling Claude's response (if any)**
+
+A space to start off Claude's answer with some prefilled words to steer Claude's behavior or response.<br /><br />If you want to prefill Claude's response, **you MUST include "Assistant:"**.
+
+```
+
+```
+
+"Assistant:" is only necessary if you want to prefill Claude's response. Otherwise, it can be left off.
+
+</DesktopOnly>
 
 Now let's <Mark>concatenate it all together, put in our substitutions</Mark>, and see it in action!
 

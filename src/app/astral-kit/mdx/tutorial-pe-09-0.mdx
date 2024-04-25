@@ -22,77 +22,79 @@ The following structure combines multiple prompt engineering elements and is a g
 
 For the following example, we will be building a <Mark>prompt for a controlled roleplay wherein Claude takes on a situational role with a specific task</Mark>. Our goal is to prompt Claude to act as a friendly career coach.
 
-{/* TODO: subgrid */}
+<MobileOnly>
 
-Prompt Element:
+---
+
+**Prompt Element:**
 
 "User:" formatting
 
-Description:
+**Description:**
 
 Open your prompt with "User:".
 
-Example:
+**Example:**
 
 ```
 User:
 ```
 
-Does ordering matter?
+**Does ordering matter?**
 
 This is mandatory! **Prompts to Claude always need to begin with a user message.**.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Task context
 
-Description:
+**Description:**
 
 Give Claude context about the role it should take on or what goals and overarching tasks you want it to undertake with the prompt.
 
-Example:
+**Example:**
 
 ```
 You will be acting as an AI career coach named Joe created by the company AdAstra Careers. Your goal is to give career advice to users. You will be replying to users who are on the AdAstra site and who will be confused if you don't respond in the character of Joe.
 ```
 
-Does ordering matter?
+**Does ordering matter?**
 
 It's best to put context early in the body of the prompt.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Tone context
 
-Description:
+**Description:**
 
 If important to the interaction, tell Claude what tone it should use.
 
-Example:
+**Example:**
 
 ```
 You should maintain a friendly customer service tone.
 ```
 
-Does ordering matter?
+**Does ordering matter?**
 
 This element may not be necessary depending on the task.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Detailed task description and rules
 
-Description:
+**Description:**
 
 Expand on the specific tasks you want Claude to do, as well as any rules that Claude might have to follow. This is also where you can give Claude an "out" if it doesn't have an answer or doesn't know.
 
-Example:
+**Example:**
 
 ```
 Here are some important rules for the interaction:
@@ -101,21 +103,21 @@ Here are some important rules for the interaction:
 - If someone asks something irrelevant, say, "Sorry, I am Joe and I give career advice. Do you have a career question today I can help you with?"
 ```
 
-Does ordering matter?
+**Does ordering matter?**
 
 It's ideal to show this description and rules to a friend to make sure it is laid out logically and that any ambiguous words are clearly defined.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Examples
 
-Description:
+**Description:**
 
 Provide Claude with at least one example of an ideal response that it can emulate. Encase this in `<example></example>` XML tags. Feel free to provide multiple examples. If you do provide multiple examples, give Claude context about what it is an example of, and enclose each example in its own set of XML tags.
 
-Example:
+**Example:**
 
 ```
 Here is an example of how to respond in a standard interaction:
@@ -125,21 +127,21 @@ Joe: Hello! My name is Joe, and I was created by AdAstra Careers to give career 
 </example>
 ```
 
-Does ordering matter?
+**Does ordering matter?**
 
 Examples are probably the single most effective tool in knowledge work for getting Claude to behave as desired. Make sure to give Claude examples of common edge cases. If your prompt uses a scratchpad, it's effective to give examples of how the scratchpad should look. Generally more examples = better.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Input data to process
 
-Description:
+**Description:**
 
 If there is data that Claude needs to process within the prompt, include it here within relevant XML tags. Feel free to include multiple pieces of data, but be sure to enclose each in its own set of XML tags.
 
-Example:
+**Example:**
 
 ```
 Here is the conversational history (between the user and you) prior to the question. It could be empty if there is no history:
@@ -153,93 +155,233 @@ Here is the user's question:
 </question>
 ```
 
-Does ordering matter?
+**Does ordering matter?**
 
 This element may not be necessary depending on task. Ordering is also flexible.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Immediate task description or request
 
-Description:
+**Description:**
 
 "Remind" Claude or tell Claude exactly what it's expected to immediately do to fulfill the prompt's task. This is also where you would put in additional variables like the user's question.
 
-Example:
+**Example:**
 
 ```
 How do you respond to the user's question?
 ```
 
-Does ordering matter?
+**Does ordering matter?**
 
 It generally doesn't hurt to reiterate to Claude its immediate task. It's best to do this toward the end of a long prompt. This will yield better results than putting this at the beginning. It is also generally good practice to put the user's query close to the bottom of the prompt.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Precognition (thinking step by step)
 
-Description:
+**Description:**
 
 For tasks with multiple steps, it's good to tell Claude to think step by step before giving an answer. Sometimes, you might have to even say "Before you give your answer..." just to make sure Claude does this first.
 
-Example:
+**Example:**
 
 ```
 Think about your answer first before you respond.
 ```
 
-Does ordering matter?
+**Does ordering matter?**
 
 Not necessary with all prompts, though if included, it's best to do this toward the end of a long prompt and right after the final immediate task request or description.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Output formatting
 
-Description:
+**Description:**
 
 If there is a specific way you want Claude's response formatted, clearly tell Claude what that format is.
 
-Example:
+**Example:**
 
 ```
 Put your response in <response></response> tags.
 ```
 
-Does ordering matter?
+**Does ordering matter?**
 
 This element may not be necessary depending on the task. If you include it, putting it toward the end of the prompt is better than at the beginning.
 
 ---
 
-Prompt Element:
+**Prompt Element:**
 
 Prefilling Claude's response (if any)
 
-Description:
+**Description:**
 
 A space to start off Claude's answer with some prefilled words to steer Claude's behavior or response.
 
-If you want to prefill Claude's response, **you MUST include "Assistant:", and it MUST be as a new line** otherwise it will be counted as part of the "User:" turn (we do this automatically for you in this exercise).
+If you want to prefill Claude's response, **you MUST include "Assistant:"**.
 
-Example:
+**Example:**
 
 ```
 Assistant: [Joe] <response>
 ```
 
-Does ordering matter?
+**Does ordering matter?**
 
 "Assistant:" is only necessary if you want to prefill Claude's response. Otherwise, it can be left off.
 
 ---
+
+</MobileOnly>
+
+<DesktopOnly style={{
+  gridColumn: '1 / -1',
+  display: 'grid',
+  gridTemplateColumns: '10rem 1fr 1fr 20rem',
+  alignItems: 'baseline',
+  columnGap: '12px',
+  rowGap: '24px',
+  maxInlineSize: '90rem',
+  marginBlock: '48px',
+  marginInline: 'auto',
+}}>
+
+**Prompt Element**
+
+**Description**
+
+**Example**
+
+**Ordering Matters?**
+
+**"User:" formatting**
+
+Open your prompt with "User:".
+
+```
+User:
+```
+
+This is mandatory! **Prompts to Claude always need to begin with a user message.**.
+
+
+**Task context**
+
+Give Claude context about the role it should take on or what goals and overarching tasks you want it to undertake with the prompt.
+
+```
+You will be acting as an AI career coach named Joe created by the company AdAstra Careers. Your goal is to give career advice to users. You will be replying to users who are on the AdAstra site and who will be confused if you don't respond in the character of Joe.
+```
+
+It's best to put context early in the body of the prompt.
+
+**Tone context**
+
+If important to the interaction, tell Claude what tone it should use.
+
+```
+You should maintain a friendly customer service tone.
+```
+
+This element may not be necessary depending on the task.
+
+**Detailed task description and rules**
+
+Expand on the specific tasks you want Claude to do, as well as any rules that Claude might have to follow. This is also where you can give Claude an "out" if it doesn't have an answer or doesn't know.
+
+```
+Here are some important rules for the interaction:
+- Always stay in character, as Joe, an AI from AdAstra Careers
+- If you are unsure how to respond, say "Sorry, I didn't understand that. Could you rephrase your question?"
+- If someone asks something irrelevant, say, "Sorry, I am Joe and I give career advice. Do you have a career question today I can help you with?"
+```
+
+It's ideal to show this description and rules to a friend to make sure it is laid out logically and that any ambiguous words are clearly defined.
+
+**Examples**
+
+Provide Claude with at least one example of an ideal response that it can emulate. Encase this in `<example></example>` XML tags. Feel free to provide multiple examples. If you do provide multiple examples, give Claude context about what it is an example of, and enclose each example in its own set of XML tags.
+
+```
+Here is an example of how to respond in a standard interaction:
+<example>
+Customer: Hi, how were you created and what do you do?
+Joe: Hello! My name is Joe, and I was created by AdAstra Careers to give career advice. What can I help you with today?
+</example>
+```
+
+Examples are probably the single most effective tool in knowledge work for getting Claude to behave as desired. Make sure to give Claude examples of common edge cases. If your prompt uses a scratchpad, it's effective to give examples of how the scratchpad should look. Generally more examples = better.
+
+**Input data to process**
+
+If there is data that Claude needs to process within the prompt, include it here within relevant XML tags. Feel free to include multiple pieces of data, but be sure to enclose each in its own set of XML tags.
+
+```
+Here is the conversational history (between the user and you) prior to the question. It could be empty if there is no history:
+<history>
+{{HISTORY}}
+</history>
+
+Here is the user's question:
+<question>
+{{QUESTION}}
+</question>
+```
+
+This element may not be necessary depending on task. Ordering is also flexible.
+
+**Immediate task description or request**
+
+"Remind" Claude or tell Claude exactly what it's expected to immediately do to fulfill the prompt's task. This is also where you would put in additional variables like the user's question.
+
+```
+How do you respond to the user's question?
+```
+
+It generally doesn't hurt to reiterate to Claude its immediate task. It's best to do this toward the end of a long prompt. This will yield better results than putting this at the beginning. It is also generally good practice to put the user's query close to the bottom of the prompt.
+
+**Precognition (thinking step by step)**
+
+For tasks with multiple steps, it's good to tell Claude to think step by step before giving an answer. Sometimes, you might have to even say "Before you give your answer..." just to make sure Claude does this first.
+
+```
+Think about your answer first before you respond.
+```
+
+Not necessary with all prompts, though if included, it's best to do this toward the end of a long prompt and right after the final immediate task request or description.
+
+**Output formatting**
+
+If there is a specific way you want Claude's response formatted, clearly tell Claude what that format is.
+
+```
+Put your response in <response></response> tags.
+```
+
+This element may not be necessary depending on the task. If you include it, putting it toward the end of the prompt is better than at the beginning.
+
+**Prefilling Claude's response (if any)**
+
+A space to start off Claude's answer with some prefilled words to steer Claude's behavior or response.<br /><br />If you want to prefill Claude's response, **you MUST include "Assistant:"**.
+
+```
+Assistant: [Joe] <response>
+```
+
+"Assistant:" is only necessary if you want to prefill Claude's response. Otherwise, it can be left off.
+
+</DesktopOnly>
 
 Now let's <Mark>concatenate it all together, put in our substitutions</Mark>, and see it in action!
 

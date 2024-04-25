@@ -55,14 +55,27 @@
   white-space: nowrap;
 }
 
+/* workaround for inconsistent specificity across browsers */
+.underline {
+  text-decoration: underline;
+  text-decoration-color: #{t.$purple-1};
+
+  &:hover,
+  &:focus,
+  &:focus-visible,
+  &:active {
+    text-decoration-color: #{t.$purple-2};
+  }
+}
+
 .title {
   @extend .link;
   @extend .ellipsis;
+  @extend .underline;
   @include t.font(16, 20);
   max-inline-size: 16rem;
   padding-block: t.$space-1;
   font-family: t.$font-body;
-  text-decoration: underline;
 }
 
 .subtitle {
@@ -106,8 +119,8 @@
   @extend .link;
   @extend .link-icon;
   @extend .nav-link;
+  @extend .underline;
   justify-self: center;
   position: absolute;
   top: -1 * t.$space-9;
-  text-decoration: underline;
 }

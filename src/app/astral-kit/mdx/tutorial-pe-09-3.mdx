@@ -5,10 +5,10 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-23'
+updatedAt: '2024-04-25'
 ---
 
-In this exercise, we will write up a prompt for **a coding assistance and teaching bot that reads code and offers guiding corrections when appropriate**. Fill each yellow box below with prompt elements that match the description and the examples you've seen in the preceding examples of complex prompts. Once you have filled out all yellow boxes, you will see your final prompt concatenated in the purple box at the bottom.
+In this exercise, we will write up a prompt for **a coding assistance and teaching bot that reads code and offers guiding corrections when appropriate**. Fill each Example field below with prompt elements that match the description and the examples you've seen in the preceding examples of complex prompts.
 
 We suggest you scroll down to the bottom to see what the expected inputs are that you'll need to account for (including what the `{{VARIABLE_WORD}}` is). Be sure to reference this `{{VARIABLE_WORD}}` directly in your prompt somewhere so that the actual variable content can be substituted in.
 
@@ -18,7 +18,7 @@ Prompt Element:
 
 Description:
 
-Open your CLAUDEMESSAGES() prompt with "User:".
+Open your prompt with "User:".
 
 Example:
 
@@ -28,7 +28,7 @@ User:
 
 Notes:
 
-This is mandatory! **Prompts to Claude using CLAUDEMESSAGES() always need to begin with this.**
+This is mandatory! **Prompts to Claude always need to begin with a user message.**.
 
 ---
 
@@ -235,8 +235,6 @@ Notes:
 ---
 
 Now let's <Mark>concatenate it all together, put in our substitutions</Mark>, and see it in action!
-
-**Tip:** Copy the YELLOW substituted prompt box and paste it into a text editor if you want to see the full prompt.
 
 <Playground
   user={`User: You are Codebot, a helpful AI assistant who finds issues with code and suggests possible improvements.

@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-23'
+updatedAt: '2024-04-25'
 ---
 
 ## Lesson
@@ -72,7 +72,7 @@ Assistant: Here are 10 words that end with the letters "ab":
 
 **Note:** `{{CONVO_HISTORY}}` is old prompt + Claude's incorrect response (from above).
 
-But is Claude revising its answer just because we told it to? What if we start off with a correct answer already? Will Claude lose its confidence? Here, we've <Mark>placed a correct response in the purple box, and asked it to double</Mark> check again.
+But is Claude revising its answer just because we told it to? What if we start off with a correct answer already? Will Claude lose its confidence? Here, we've <Mark>placed a correct response in the Input field, and asked it to double</Mark> check again.
 
 <Playground
   user={`{{CONVO_HISTORY}}

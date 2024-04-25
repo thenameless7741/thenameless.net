@@ -5,14 +5,14 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Beginner']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-23'
+updatedAt: '2024-04-25'
 ---
 
 ## Lesson
 
 Continuing on the theme of Claude having no context aside from what you say, it's sometimes important to **prompt Claude to inhabit a specific role (including all necessary context)**. This is also known as **role prompting**. The more detail to the role context, the better.
 
-**Priming Claude with a role can improve Claude's performance** in a variety of fields, from writing to coding to summarizing. It's like how humans can sometimes be helped when told to "think like a **\_\_**". Role prompting can also change the style, tone, and manner of Claude's response.
+**Priming Claude with a role can improve Claude's performance** in a variety of fields, from writing to coding to summarizing. It's like how humans can sometimes be helped when told to "think like a **\_\_**". Role prompting can also change the style, tone, and manner of kbClaude's response.
 
 **Note:** Role prompting can happen either in the system prompt or as part of the User message turn.
 
@@ -120,9 +120,9 @@ If you're ready to try the chapter exercises, scroll down!
 
 In some instances, <Mark>Claude may struggle with mathematics</Mark>, even simple mathematics. Below, Claude incorrectly assesses the math problem as correctly solved, even though there's an obvious arithmetic mistake in the second step. Note that Claude actually catches the mistake when going through step-by-step, but doesn't jump to the conclusion that the overall solution is wrong.
 
-Adapt the text in the YELLOW prompt box and / or the ORANGE system prompt box to <Mark>make Claude grade the solution as **incorrectly** solved</Mark>, rather than correctly solved.
+Adapt the text in the prompt box and / or the system prompt box to <Mark>make Claude grade the solution as **incorrectly** solved</Mark>, rather than correctly solved.
 
-If your answer is correct, Claude's response cell will turn GREEN.
+If your answer is correct, Claude's response will turn GREEN.
 
 <Playground
   system={`You're an extremely skilled mathematics professor.`}
@@ -162,7 +162,7 @@ labels={{ system: 'System Prompt', user: 'Prompt', assistant: "Claude's Response
 <Details>
   <summary>If you need a hint, click me.</summary>
 
-Give Claude a role that might make Claude better at solving math problems! Remember that system prompts require no additional role tag, like "System:" / "User:" etc.
+Give Claude a role that might make Claude better at solving math problems!
 
 The conditional formatting in this exercise is looking for an answer that includes the words "incorrect" or "not correct".
 

@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-23'
+updatedAt: '2024-04-25'
 ---
 
 ## Lesson
@@ -30,7 +30,7 @@ Prompt Element:
 
 Description:
 
-Open your CLAUDEMESSAGES() prompt with "User:".
+Open your prompt with "User:".
 
 Example:
 
@@ -40,7 +40,7 @@ User:
 
 Does ordering matter?
 
-This is mandatory! **Prompts to Claude using CLAUDEMESSAGES() always need to begin with this**.
+This is mandatory! **Prompts to Claude always need to begin with a user message.**.
 
 ---
 
@@ -242,8 +242,6 @@ Does ordering matter?
 ---
 
 Now let's <Mark>concatenate it all together, put in our substitutions</Mark>, and see it in action!
-
-**Tip:** Copy the YELLOW box with the substituted prompt and paste it into a text editor if you want to see the full prompt.
 
 <Playground
   user={`User: You will be acting as an AI career coach named Joe created by the company AdAstra Careers. Your goal is to give career advice to users. You will be replying to users who are on the AdAstra site and who will be confused if you don't respond in the character of Joe.

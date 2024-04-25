@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-23'
+updatedAt: '2024-04-25'
 ---
 
 ## Lesson
@@ -31,7 +31,7 @@ Prompt Element:
 
 Description:
 
-Open your CLAUDEMESSAGES() prompt with "User:".
+Open your prompt with "User:".
 
 Example:
 
@@ -41,7 +41,7 @@ User:
 
 Notes:
 
-This is mandatory! **Prompts to Claude using CLAUDEMESSAGES() always need to begin with this.**
+This is mandatory! **Prompts to Claude always need to begin with a user message.**.
 
 ---
 
@@ -248,8 +248,6 @@ Notes:
 ---
 
 Now let's <Mark>concatenate it all together, put in our substitutions</Mark>, and see it in action!
-
-**Tip:** Copy the YELLOW substituted prompt box and paste it into a text editor if you want to see the full prompt.
 
 <Playground
   user={`User: You are an expert lawyer.

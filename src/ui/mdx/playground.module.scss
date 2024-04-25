@@ -38,8 +38,8 @@
   padding-block-start: t.$space-3;
   padding-block-end: t.$space-2; /* alignment */
   padding-inline-start: t.$space-3;
-  border: 1px solid var(--secondary-border);
-  border-inline-start: 2px solid var(--primary-border);
+  border: 1px solid var(--secondary);
+  border-inline-start: 2px solid var(--primary);
   border-radius: 1px;
   background-color: var(--background);
   color: var(--color);
@@ -47,8 +47,8 @@
 
 .normal {
   @extend .prompt;
-  --primary-border: #{t.$gray-5};
-  --secondary-border: #{t.$gray-1}80;
+  --primary: #{t.$gray-5};
+  --secondary: #{t.$gray-1}80;
   --background: #{t.$gray-0}80;
   --color: #{t.$gray-8};
 }
@@ -71,15 +71,15 @@
 
 .assistant {
   @extend .prompt;
-  --primary-border: #{t.$violet-5};
-  --secondary-border: #{t.$violet-1}80;
+  --primary: #{t.$violet-5};
+  --secondary: #{t.$violet-1}80;
   --background: #{t.$violet-0}80;
   --color: #{t.$violet-8};
 }
 
 .label {
   @include t.font(12, 12, 0.1);
-  color: var(--primary-border);
+  color: var(--primary);
   font-family: t.$font-label;
   text-transform: uppercase;
 }
@@ -93,6 +93,16 @@
   font-family: t.$font-body;
   scrollbar-width: thin;
   white-space: pre-wrap;
+
+  /* always display scrollbar (safari-only) */
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    inline-size: 7px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: var(--primary);
+  }
 }
 
 .io {

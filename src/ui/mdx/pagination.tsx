@@ -34,13 +34,14 @@ const Pagination = ({ prev, next, top }: Props) => {
 
       {!!prev && <NavCard {...prev} role="prev" />}
       {!!next && <NavCard {...next} role="next" />}
-
+{/*
       {!!top && (
         <Link className={s.top} href={top.href}>
           <CaretLeft size={14} weight="bold" />
           {top.title}
         </Link>
       )}
+*/}
     </div>
   );
 };

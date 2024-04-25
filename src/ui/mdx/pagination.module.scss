@@ -12,14 +12,14 @@
   @include t.device(llt) {
     grid-template-areas:
       'prev prev'
-      'next next'
-      'top  .';
+      'next next';
+      // 'top  .';
     gap: t.$space-6;
   }
   @include t.device(lt) {
     grid-template-areas:
-      'prev next'
-      'top  .';
+      'prev next';
+      // 'top  .';
     column-gap: t.$space-3;
     row-gap: t.$space-12;
   }

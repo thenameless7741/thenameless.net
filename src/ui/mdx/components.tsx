@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Prism from 'react-syntax-highlighter/dist/esm/prism';
 
 import prism from '@/styles/prism';
+import Info from '@/ui/info';
 import Link from '@/ui/link';
 import Anchor, { toAnchor } from './anchor';
 import Audience from './audience';
@@ -87,6 +88,7 @@ const components: React.ComponentProps<typeof MDXProvider>['components'] = {
       height={height}
     />
   ),
+  Info,
   Mark: (props) => <mark {...props} className={s.mark} />,
 };
 export default components;

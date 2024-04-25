@@ -12,3 +12,15 @@
     background-color: unset;
   }
 }
+
+.tooltip > a {
+  --primary-color: #{t.$violet-3};
+
+
+  &:hover,
+  &:focus,
+  &:focus-visible,
+  &:active {
+    --primary-color: #{t.$violet-4};
+  }
+}

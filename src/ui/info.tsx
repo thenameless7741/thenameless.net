@@ -17,7 +17,7 @@ const Component = ({ children, className }: Props) => {
         weight="bold"
         Icon={Info}
       />
-      <Tooltip>{children}</Tooltip>
+      <Tooltip className={s.tooltip}>{children}</Tooltip>
     </TooltipTrigger>
   );
 };

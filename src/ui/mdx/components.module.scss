@@ -158,6 +158,18 @@
  * custom components: block-level
  */
 
+.mobile {
+  @include t.device(lt) {
+    display: none !important;
+  }
+}
+
+.desktop {
+  @include t.device(llt) {
+    display: none !important;
+  }
+}
+
 /**
  * custom components: inline-level
  */

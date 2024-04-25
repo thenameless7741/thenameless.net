@@ -70,9 +70,11 @@ const components: React.ComponentProps<typeof MDXProvider>['components'] = {
    * custom components: block-level
    */
   Audience,
+  DesktopOnly: (props) => <div {...props} className={s.desktop} />,
   Details: (props) => <details {...props} className={s.details} />,
   Gallery,
   Pagination,
+  MobileOnly: (props) => <div {...props} className={s.mobile} />,
   Playground,
   Resource,
 

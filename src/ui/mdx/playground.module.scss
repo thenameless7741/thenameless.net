@@ -18,7 +18,6 @@
     max-inline-size: calc(var(--size) - 2 * var(--page-pad));
     margin-block: t.$space-12;
     margin-inline: auto;
-    background-color: t.$gray-0;
 
     &.has-system {
       --col: 3;
@@ -39,30 +38,48 @@
   padding-block-start: t.$space-3;
   padding-block-end: t.$space-2; /* alignment */
   padding-inline-start: t.$space-3;
-  border-inline-start: 2px solid var(--theme);
+  border: 1px solid var(--secondary-border);
+  border-inline-start: 2px solid var(--primary-border);
+  border-radius: 1px;
+  background-color: var(--background);
+  color: var(--color);
+}
+
+.normal {
+  @extend .prompt;
+  --primary-border: #{t.$gray-5};
+  --secondary-border: #{t.$gray-1}80;
+  --background: #{t.$gray-0}80;
+  --color: #{t.$gray-8};
 }
 
 .system {
-  @extend .prompt;
-  --theme: #{t.$gray-5};
-  color: t.$gray-8;
+  @extend .normal;
 }
 
 .user {
-  @extend .prompt;
-  --theme: #{t.$gray-5};
-  color: t.$gray-8;
+  @extend .normal;
+
+  @include t.device(lt) {
+    .playground.has-input:not(.has-system) > & {
+      grid-column: 1 / -1;
+      max-inline-size: max-content;
+      margin-inline: auto;
+    }
+  }
 }
 
 .assistant {
   @extend .prompt;
-  --theme: #{t.$violet-5};
-  color: t.$violet-8;
+  --primary-border: #{t.$violet-5};
+  --secondary-border: #{t.$violet-1}80;
+  --background: #{t.$violet-0}80;
+  --color: #{t.$violet-8};
 }
 
 .label {
   @include t.font(12, 12, 0.1);
-  color: var(--theme);
+  color: var(--primary-border);
   font-family: t.$font-label;
   text-transform: uppercase;
 }
@@ -97,7 +114,7 @@
 }
 
 .params {
-  @extend .user;
+  @extend .normal;
 }
 
 .params-grid {

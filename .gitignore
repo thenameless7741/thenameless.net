@@ -12,6 +12,11 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 
+# cloudflare
+.dev.vars
+.wrangler
+cache/
+
 # envs
 .env*.local
 

@@ -3,7 +3,11 @@
   "scripts": {
     "dev": "concurrently 'next dev -p 7741' 'bun ./scripts/watcher.js' --kill-others",
     "prebuild": "next telemetry disable",
-    "build": "next build"
+    "build": "next build",
+    "pages:build": "npx @cloudflare/next-on-pages",
+    "start": "next start",
+    "deploy": "bun pages:build && wrangler pages deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts"
   },
   "dependencies": {
     "@leeoniya/ufuzzy": "^1.0.14",
@@ -17,6 +21,8 @@
     "zustand": "^4.5.0"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.11.1",
+    "@cloudflare/workers-types": "^4.20240423.0",
     "@types/node": "^20.10.7",
     "@types/react": "^18.2.47",
     "@types/react-dom": "^18.2.18",
@@ -25,9 +31,12 @@
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.0.4",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-next-on-pages": "^1.11.1",
     "prettier": "^3.1.1",
     "sass": "^1.69.7",
     "typescript": "^5.3.3",
+    "vercel": "^34.1.3",
+    "wrangler": "^3.52.0",
     "ws": "^8.16.0"
   }
 }

@@ -1,4 +1,10 @@
-import s from './playground.module.scss';
+'use client';
+
+import Anthropic from '@anthropic-ai/sdk';
+
+import Button from '@/ui/button';
+import { chat } from './api';
+import s from './index.module.scss';
 
 interface Props {
   system?: string;
@@ -61,6 +67,18 @@ const Playground = (p: Props) => {
           <Assistant label={p.labels?.assistant} assistant={p.assistant} />
         )}
       </div>
+      {/*
+      <Button
+        onPress={async () => {
+          const messages: Anthropic.Messages.MessageParam[] = [
+            { role: 'user', content: 'Hello, 世界!' },
+          ];
+          chat({ messages });
+        }}
+      >
+        test
+      </Button>
+      */}
     </div>
   );
 };

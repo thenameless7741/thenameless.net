@@ -2,9 +2,10 @@
 
 .audience {
   position: relative; /* border */
-  margin-block-start: t.$space-3;
-  margin-block-end: t.$space-6;
-  padding-block: t.$space-1; /* + margin-block: t.$space-2 */
+  margin-block-start: t.$space-6;
+  margin-block-end: t.$space-9;
+  padding-block-start: t.$space-1; /* + margin-block: t.$space-2 */
+  padding-block-end: 1px; /* + margin-block: t.$space-2 */
   padding-inline: t.$space-3;
 }
 

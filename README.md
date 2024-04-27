@@ -25,3 +25,4 @@ bun dev
 ## Acknowledgment
 
 - [Cosmos Arena](https://thenameless.net/cosmos-arena) data is derived from Hugging Face's [Open LLM Leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard), obtained using [Weyaxi](https://twitter.com/Weyaxi)'s [scraper](https://github.com/Weyaxi/scrape-open-llm-leaderboard)
+- [[Anthropic] Prompt Engineering](https://thenameless.net/astral-kit/tutorial-pe-00) is based on a tutorial published in [Google Sheets](https://docs.google.com/spreadsheets/d/1jIxjzUWG-6xBVIa2ay6yDpLyeuOh_hR_ZB75a47KX_E) by Anthropic

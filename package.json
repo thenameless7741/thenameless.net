@@ -6,6 +6,7 @@
     "build": "next build"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.7",
     "@leeoniya/ufuzzy": "^1.0.14",
     "@phosphor-icons/react": "^2.0.15",
     "next": "^14.0.4",

@@ -6,10 +6,10 @@
   inline-size: max-content;
   border-radius: 50%;
 
-  @include t.device(lpb) {
+  @include t.device(llt) {
     padding: t.$space-3;
   }
-  @include t.device(lpb) {
+  @include t.device(lt) {
     padding: t.$space-1;
   }
 }

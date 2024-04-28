@@ -209,6 +209,8 @@
   color: darkgray;
 
   & > button {
+    padding: t.$space-1;
+
     /* TODO: use &[data-hovered] when fixed/implemented */
     @media (hover: hover) {
       &:hover {

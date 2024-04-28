@@ -2,6 +2,7 @@ import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 
 import { Metadata } from '@/types/mdx';
 import Link from '@/ui/link';
+import SettingsIcon from './settings-icon';
 import s from '@/ui/mdx/header.module.scss';
 
 interface Props {
@@ -23,6 +24,8 @@ const Header = ({ data }: Props) => {
         <div className={s.type}>#{m.type}</div>
         <div className={s.stage}>#{m.stage}</div>
       </div>
+
+      <SettingsIcon />
 
       <h1 className={s.title}>{m.title}</h1>
       {!!m.subtitle && <p className={s.subtitle}>{m.subtitle}</p>}

@@ -1,0 +1,48 @@
+@use '@/styles/token' as t;
+
+.settings {
+  --pad: #{t.$space-3};
+  position: fixed;
+  inset: 0;
+  block-size: 100%;
+  overflow-y: auto;
+  background-color: hsla(0deg, 0%, 100%, 0.75);
+  backdrop-filter: blur(8px);
+  color: t.$gray-9;
+}
+
+.wrapper {
+  max-inline-size: 40rem;
+  margin-inline: auto;
+  padding-block-end: t.$space-6;
+
+  /* sync with header */
+  @include t.device(ltb) {
+    padding-block-start: t.$space-2;
+  }
+  @include t.device(tb) {
+    padding-block-start: t.$space-12 + t.$space-2;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close {
+  @include t.device(tb) {
+    position: relative;
+    left: t.$space-1; /* sync with header's preferences icon */
+  }
+}
+
+.main {
+  /* sync with layout */
+  @include t.device(ltb) {
+    --page-pad: #{t.$space-3};
+  }
+  @include t.device(tb) {
+    --page-pad: #{t.$space-6};
+  }
+}

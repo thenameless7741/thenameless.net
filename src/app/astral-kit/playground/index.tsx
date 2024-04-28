@@ -2,6 +2,7 @@
 
 import Interactive from './interactive';
 import NonInteractive from './non-interactive';
+import store from '@/app/astral-kit/store';
 
 interface Props {
   system?: string;
@@ -16,7 +17,7 @@ interface Props {
 }
 
 const Playground = (p: Props) => {
-  const interactive = false;
+  const interactive = store((s) => s.interactive);
 
   return interactive ? <Interactive {...p} /> : <NonInteractive {...p} />;
 };

@@ -3,10 +3,11 @@
 .border {
   --bg-color: white;
   position: absolute;
-  z-index: -1;
   inset: 0;
   border: 1px solid var(--tertiary-color);
   border-radius: 1px;
+  pointer-events: none;
+  user-select: none;
   transition: border-color 150ms;
 
   &::before {

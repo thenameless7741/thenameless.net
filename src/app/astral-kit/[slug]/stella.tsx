@@ -7,6 +7,7 @@ import { Metadata } from '@/types/mdx';
 import components from '@/ui/mdx/components';
 import TOC from '@/ui/mdx/toc';
 import { getHeadings } from '@/utils/mdx';
+import Playground from '../playground';
 import Header from './header';
 import s from '@/ui/stella.module.scss';
 
@@ -21,7 +22,10 @@ const Stella = async ({ path }: StellaProps) => {
 
   const { content, frontmatter } = await compileMDX<Metadata>({
     source,
-    components,
+    components: {
+      ...components,
+      Playground,
+    },
     options: { parseFrontmatter: true },
   });
 

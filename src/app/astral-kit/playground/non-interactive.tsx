@@ -1,10 +1,4 @@
-'use client';
-
-import Anthropic from '@anthropic-ai/sdk';
-
-import Button from '@/ui/button';
-import { chat } from './api';
-import s from './index.module.scss';
+import s from './non-interactive.module.scss';
 
 interface Props {
   system?: string;
@@ -16,13 +10,9 @@ interface Props {
     assistant?: string;
   };
   input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
-  visible?: {
-    system?: boolean;
-  };
-  interactive?: boolean;
 }
 
-const Playground = (p: Props) => {
+const NonInteractive = (p: Props) => {
   return (
     <div
       className={[
@@ -67,22 +57,10 @@ const Playground = (p: Props) => {
           <Assistant label={p.labels?.assistant} assistant={p.assistant} />
         )}
       </div>
-      {/*
-      <Button
-        onPress={async () => {
-          const messages: Anthropic.Messages.MessageParam[] = [
-            { role: 'user', content: 'Hello, 世界!' },
-          ];
-          chat({ messages });
-        }}
-      >
-        test
-      </Button>
-      */}
     </div>
   );
 };
-export default Playground;
+export default NonInteractive;
 
 const Params = ({
   label = 'input',

@@ -17,7 +17,9 @@
   outline: none;
   color: var(--primary-color);
   cursor: pointer;
-  transition: t.$outline-transition;
+  transition:
+    t.$outline-transition,
+    color 300ms;
 
   &[data-hovered],
   &[data-focused],

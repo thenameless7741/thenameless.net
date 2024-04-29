@@ -30,6 +30,28 @@
   }
 }
 
+.header {
+  grid-column: 1 / -1;
+  justify-self: end;
+  display: flex;
+  flex-wrap: wrap;
+  gap: t.$space-6;
+}
+
+.action {
+  & > svg {
+    color: t.$purple-2;
+    transition: color 300ms;
+  }
+
+  &:hover > svg,
+  &:active > svg,
+  &:focus > svg,
+  &:focus-visible > svg {
+    color: t.$purple-3;
+  }
+}
+
 .prompt {
   display: flex;
   flex-direction: column;

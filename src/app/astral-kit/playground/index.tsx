@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import Interactive from './interactive';
 import NonInteractive from './non-interactive';
 import store from '@/app/astral-kit/store';
@@ -14,16 +16,26 @@ interface Props {
     assistant?: string;
   };
   input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
-  interactive?: boolean;
 }
 
 const Playground = (p: Props) => {
-  const interactive = store((s) => s.interactive);
+  const [hydrated, setHydrated] = useState(false);
+  const interactiveSettings = store((s) => s.interactive);
+  const [interactive, setInteractive] = useState<boolean | undefined>(
+    undefined,
+  );
 
-  return p.interactive ?? interactive ? (
-    <Interactive {...p} />
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+  if (!hydrated) return null;
+
+  console.log(interactiveSettings, interactive ?? interactiveSettings);
+
+  return interactive ?? interactiveSettings ? (
+    <Interactive {...p} toggleInteractive={() => setInteractive(false)} />
   ) : (
-    <NonInteractive {...p} />
+    <NonInteractive {...p} toggleInteractive={() => setInteractive(true)} />
   );
 };
 export default Playground;

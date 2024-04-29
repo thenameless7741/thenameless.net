@@ -4,14 +4,18 @@ interface ChatParams {
   messages: Anthropic.Messages.MessageParam[];
   system?: string;
   temperature?: number;
-  handleStream: (s: string) => void;
+  handleStream: (chunk: string) => void;
+  handleDone: () => void;
+  abort: AbortController;
 }
 
 export const chat = async ({
   messages,
   system,
-  temperature,
+  temperature = 0,
   handleStream,
+  handleDone,
+  abort = new AbortController(),
 }: ChatParams) => {
   const params: Anthropic.MessageCreateParamsStreaming = {
     max_tokens: 1024,
@@ -19,10 +23,8 @@ export const chat = async ({
     model: 'claude-3-haiku-20240307', // claude-3-sonnet-20240229, claude-3-opus-20240229
     stream: true,
     system,
-    temperature: temperature ?? 0,
+    temperature,
   };
-
-  const abort = new AbortController();
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -51,8 +53,8 @@ export const chat = async ({
       const { done, value } = await reader.read();
       if (done) break;
 
-      const text = textDecoder.decode(value, { stream: true });
-      handleStream(text);
+      const chunk = textDecoder.decode(value, { stream: true });
+      handleStream(chunk);
     }
     reader.releaseLock();
   } catch (err) {
@@ -63,6 +65,6 @@ export const chat = async ({
     }
     if (!abortErr) throw err;
   } finally {
-    // TODO: update UI state
+    handleDone();
   }
 };

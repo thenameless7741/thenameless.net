@@ -1,3 +1,6 @@
+import { Cube } from '@phosphor-icons/react/dist/ssr';
+
+import IconLabelButton from '@/ui/icon-label-button';
 import s from './non-interactive.module.scss';
 
 interface Props {
@@ -10,6 +13,7 @@ interface Props {
     assistant?: string;
   };
   input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
+  toggleInteractive: () => void;
 }
 
 const NonInteractive = (p: Props) => {
@@ -21,6 +25,16 @@ const NonInteractive = (p: Props) => {
         p.input ? s['has-input'] : '',
       ].join(' ')}
     >
+      <div className={s.header}>
+        <IconLabelButton
+          className={s.action}
+          Icon={Cube}
+          onPress={() => p.toggleInteractive()}
+        >
+          interactive mode
+        </IconLabelButton>
+      </div>
+
       {!!p.system && (
         <div className={s.system}>
           <div className={s.label}>{p.labels?.system ?? 'system'}</div>

@@ -1,7 +1,6 @@
 @use '@/styles/token' as t;
 
 .settings {
-  --pad: #{t.$space-3};
   position: fixed;
   inset: 0;
   block-size: 100%;
@@ -38,11 +37,19 @@
 }
 
 .main {
+  padding-inline: var(--pad);
+
   /* sync with layout */
   @include t.device(ltb) {
-    --page-pad: #{t.$space-3};
+    --pad: #{t.$space-3};
   }
   @include t.device(tb) {
-    --page-pad: #{t.$space-6};
+    --pad: #{t.$space-6};
   }
+}
+
+.wip {
+  @include t.font(22, 28);
+  margin-block: t.$space-6;
+  font-family: t.$font-title;
 }

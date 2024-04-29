@@ -1,6 +1,12 @@
 import Anthropic from '@anthropic-ai/sdk';
+import {
+  ArrowClockwise,
+  ArrowElbowDownRight,
+} from '@phosphor-icons/react/dist/ssr';
+import { useState } from 'react';
 
-import Button from '@/ui/button';
+import IconLabelButton from '@/ui/icon-label-button';
+import TextArea from '@/ui/text-area';
 import { chat } from './api';
 import s from './interactive.module.scss';
 
@@ -16,25 +22,70 @@ interface Props {
 }
 
 const Interactive = (p: Props) => {
-  const assistant: string[] = [];
-  const input: Record<string, string>[] = !p.input
-    ? []
-    : Array.isArray(p.input)
+  const input: Record<string, string>[] = p.input
+    ? Array.isArray(p.input)
       ? p.input
-      : [p.input];
+      : [p.input]
+    : [];
+
+  const [user, setUser] = useState(p.user ?? '');
+  const [assistant, setAssistant] = useState<string[]>([]);
 
   return (
     <div className={s.playground}>
-      <Button
-        onPress={async () => {
-          const messages: Anthropic.Messages.MessageParam[] = [
-            { role: 'user', content: 'Hello, 世界!' },
-          ];
-          chat({ messages });
-        }}
+      <TextArea
+        className={s.user}
+        label="user"
+        onChange={setUser}
+        rows={5}
+        placeholder=""
+        value={user.replace(/^User: /, '')}
+      />
+
+      <div
+        className={s.io}
+        style={{ '--size': p.input?.length } as React.CSSProperties}
       >
-        test
-      </Button>
+        <div className={s.assistant}>
+          <div className={s.label}>assistant</div>
+          <div className={s.content}>{assistant[0] ?? ''}</div>
+        </div>
+      </div>
+
+      <div className={s.footer}>
+        <IconLabelButton
+          Icon={ArrowElbowDownRight}
+          onPress={async () => {
+            setAssistant((prev) => prev.map(() => ''));
+
+            const messages: Anthropic.Messages.MessageParam[] = [
+              { role: 'user', content: user },
+            ];
+
+            chat({
+              messages,
+              handleStream: (s) =>
+                setAssistant((prev) => {
+                  const next = [...prev];
+                  next[0] = (next[0] ?? '') + s;
+                  return next;
+                }),
+            });
+          }}
+        >
+          generate
+        </IconLabelButton>
+
+        <IconLabelButton
+          Icon={ArrowClockwise}
+          onPress={() => {
+            setUser(p.user ?? '');
+            setAssistant(['']);
+          }}
+        >
+          reset
+        </IconLabelButton>
+      </div>
     </div>
   );
 };

@@ -4,9 +4,15 @@ interface ChatParams {
   messages: Anthropic.Messages.MessageParam[];
   system?: string;
   temperature?: number;
+  handleStream: (s: string) => void;
 }
 
-export const chat = async ({ messages, system, temperature }: ChatParams) => {
+export const chat = async ({
+  messages,
+  system,
+  temperature,
+  handleStream,
+}: ChatParams) => {
   const params: Anthropic.MessageCreateParamsStreaming = {
     max_tokens: 1024,
     messages,
@@ -46,7 +52,7 @@ export const chat = async ({ messages, system, temperature }: ChatParams) => {
       if (done) break;
 
       const text = textDecoder.decode(value, { stream: true });
-      // TODO: update store
+      handleStream(text);
     }
     reader.releaseLock();
   } catch (err) {

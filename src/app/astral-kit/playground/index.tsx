@@ -14,11 +14,16 @@ interface Props {
     assistant?: string;
   };
   input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
+  interactive?: boolean;
 }
 
 const Playground = (p: Props) => {
   const interactive = store((s) => s.interactive);
 
-  return interactive ? <Interactive {...p} /> : <NonInteractive {...p} />;
+  return p.interactive ?? interactive ? (
+    <Interactive {...p} />
+  ) : (
+    <NonInteractive {...p} />
+  );
 };
 export default Playground;

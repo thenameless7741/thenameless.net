@@ -1,0 +1,58 @@
+@use '@/styles/token' as t;
+
+.textfield {
+  --border-color: #{t.$purple-1};
+  inline-size: 100%;
+
+  &:has(> .textarea[data-hovered]),
+  &:has(> .textarea[data-focused]),
+  &:has(> .textarea[data-focus-visible]) {
+    --border-color: #{t.$purple-2};
+  }
+}
+
+.textarea {
+  $pad: 12;
+  $border: 1;
+  $text: 25;
+
+  /* reset */
+  border: none;
+  @supports selector(&:focus-visible) {
+    &:focus {
+      outline: none;
+    }
+  }
+  overscroll-behavior: none;
+  resize: none;
+
+  @include t.outline(); /* include after reset */
+  @include t.font(17, $text);
+
+  display: block;
+  block-size: #{($text + 2 * ($border + $pad)) / 16}rem;
+  max-block-size: 50dvh;
+  inline-size: 100%;
+  padding: #{$pad}px;
+  border: 1px solid var(--border-color);
+  border-radius: 1px;
+  background-color: transparent;
+  font-family: t.$font-body;
+  transition:
+    border-color 300ms,
+    t.$outline-transition,
+    color 300ms;
+
+  &::placeholder {
+    color: t.$violet-4; /* sync with disabled theme */
+    opacity: 0.4;
+  }
+}
+
+/* TODO: style description, error */
+
+.label {
+  @include t.font(12, 12, 0.1);
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}

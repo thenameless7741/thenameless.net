@@ -82,7 +82,7 @@ const Interactive = (p: Props) => {
               });
             }}
           >
-            generate
+            run
           </IconLabelButton>
         )}
 
@@ -122,7 +122,7 @@ const Interactive = (p: Props) => {
         style={{ '--size': p.input?.length } as React.CSSProperties}
       >
         <div className={s.assistant}>
-          <div className={s.label}>assistant</div>
+          <div className={s.label}>{`Claude's Response`}</div>
           <div className={s.content}>
             {assistant[0] ?? (
               <span className={s.placeholder}>{placeholder}</span>

@@ -33,8 +33,6 @@ Let's take a look at how Claude responds to some <Mark>correctly-formatted promp
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 />
 
----
-
 **Note:** Claude's response may be much longer than it appears. To view the full response, scroll down the text box.
 
 <Playground
@@ -93,7 +91,7 @@ User: What year was Celine Dion born in?`}
   "type": "invalid_request_error",
   "message": "messages: first message must use the \"user\" role"
 }`}
-labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+  labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 />
 
 **"User" and "Assistant" messages MUST <Mark>alternate</Mark>**, and messages <Mark>MUST start with a "User:" turn</Mark>.

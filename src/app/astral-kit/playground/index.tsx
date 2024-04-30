@@ -30,8 +30,6 @@ const Playground = (p: Props) => {
   }, []);
   if (!hydrated) return null;
 
-  console.log(interactiveSettings, interactive ?? interactiveSettings);
-
   return interactive ?? interactiveSettings ? (
     <Interactive {...p} toggleInteractive={() => setInteractive(false)} />
   ) : (

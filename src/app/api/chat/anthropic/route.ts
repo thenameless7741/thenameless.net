@@ -25,12 +25,24 @@ export const POST = async (req: NextRequest) => {
 
   const readableStream = new ReadableStream({
     start: async (controller) => {
-      for await (const event of stream) {
-        if (event.type === 'content_block_delta') {
-          controller.enqueue(textEncoder.encode(event.delta.text));
+      try {
+        for await (const event of stream) {
+          if (event.type === 'content_block_delta') {
+            controller.enqueue(textEncoder.encode(event.delta.text));
+          }
+        }
+        controller.close();
+      } catch (res) {
+        if (typeof res === 'object' && res !== null && 'error' in res) {
+          const { error } = res.error as { type: string; error: string };
+          controller.enqueue(
+            textEncoder.encode(JSON.stringify(error, null, 2)),
+          );
+          controller.close();
+        } else {
+          throw res;
         }
       }
-      controller.close();
     },
   });
   return new NextResponse(readableStream, {

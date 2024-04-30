@@ -38,6 +38,11 @@ const Interactive = (p: Props) => {
       ? p.input
       : [p.input]
     : [];
+
+  const hiddenFields: ('system' | 'input')[] = [];
+  !system && hiddenFields.push('system');
+  !input.length && hiddenFields.push('input');
+
   const placeholder = '(awaiting your input...)';
 
   const handleStream = (chunk: string) =>
@@ -55,7 +60,13 @@ const Interactive = (p: Props) => {
   // TODO: implement prompt with multiple roles
 
   return (
-    <div className={s.playground}>
+    <div
+      className={[
+        s.playground,
+        hiddenFields.includes('system') ? '' : s['has-system'],
+        hiddenFields.includes('input') ? '' : s['has-input'],
+      ].join(' ')}
+    >
       <div className={s.header}>
         {waiting ? (
           <IconLabelButton
@@ -85,6 +96,7 @@ const Interactive = (p: Props) => {
 
               chat({
                 messages,
+                system,
                 handleStream,
                 handleDone,
                 abort,
@@ -117,6 +129,17 @@ const Interactive = (p: Props) => {
         </IconLabelButton>
       </div>
 
+      {!hiddenFields.includes('system') && (
+        <TextArea
+          className={s.system}
+          label="System Prompt"
+          onChange={setSystem}
+          rows={5}
+          placeholder=""
+          value={system}
+        />
+      )}
+
       <div>
         {prompt.length > 0 ? (
           prompt.map((m, i) => (
@@ -133,7 +156,7 @@ const Interactive = (p: Props) => {
         ) : (
           <TextArea
             className={s.user}
-            label="user"
+            label="User"
             onChange={setUser}
             rows={5}
             placeholder=""

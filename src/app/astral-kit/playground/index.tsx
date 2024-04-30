@@ -16,7 +16,7 @@ interface Props {
     system?: string;
     user?: string;
     assistant?: string;
-  };
+  }; // non-interactive only
 }
 
 interface Message {

@@ -28,17 +28,12 @@
   position: relative;
   left: -1 * t.$space-1; /* alignment with run button */
 
-  @include t.device(llt) {
-    position: relative;
-    top: t.$space-3;
+  @include t.device(ltb) {
+    margin-block-start: t.$space-3;
   }
 }
 
-.system {
-  @extend .section;
-}
-
-.user {
+.editable-section {
   @extend .section;
   /* reset */
   --background: transparent;
@@ -51,16 +46,25 @@
     border: none;
     margin-block-start: t.$space-3;
   }
+
+  & > label {
+    color: var(--primary);
+  }
+}
+
+.system {
+  @extend .editable-section;
+}
+
+.user {
+  @extend .editable-section;
+
   @include t.device(lt) {
     .playground.has-input:not(.has-system) > & {
       grid-column: 1 / -1;
       max-inline-size: max-content;
       margin-inline: auto;
     }
-  }
-
-  & > label {
-    color: var(--primary);
   }
 }
 

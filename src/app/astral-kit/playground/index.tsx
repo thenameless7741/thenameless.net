@@ -10,12 +10,18 @@ interface Props {
   system?: string;
   user?: string;
   assistant?: string | string[]; // array size relative to input
+  input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
+  prompt?: Message[]; // an alternative to user, assistant & input fields
   labels?: {
     system?: string;
     user?: string;
     assistant?: string;
   };
-  input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
+}
+
+interface Message {
+  role: 'user' | 'assistant';
+  content: string;
 }
 
 const Playground = (p: Props) => {

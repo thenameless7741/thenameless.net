@@ -28,7 +28,7 @@ Let's look a few examples of prompts sent to Messages API.
 Let's take a look at how Claude responds to some <Mark>correctly-formatted prompts</Mark>. Don't worry about how the answers are being generated.
 
 <Playground
-  user={`User: Hi Claude, how are you?`}
+  user={`Hi Claude, how are you?`}
   assistant={`I'm doing well, thanks for asking! As an AI assistant, I don't have feelings in the same way humans do, but I'm functioning properly and ready to assist you with any questions or tasks you may have. How can I help you today?`}
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 />
@@ -36,7 +36,7 @@ Let's take a look at how Claude responds to some <Mark>correctly-formatted promp
 **Note:** Claude's response may be much longer than it appears. To view the full response, scroll down the text box.
 
 <Playground
-  user={`User: Can you tell me the color of the ocean?`}
+  user={`Can you tell me the color of the ocean?`}
   assistant={`The color of the ocean can vary depending on a few factors:
 
 - Depth - The ocean appears blue in deeper waters due to the way sunlight interacts with the water molecules. Shallower waters may appear more green, turquoise, or even brown depending on the seafloor.
@@ -54,7 +54,7 @@ labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 ---
 
 <Playground
-  user={`User: What year was Celine Dion born in?`}
+  user={`What year was Celine Dion born in?`}
   assistant={`Celine Dion was born on March 30, 1968.`}
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 />
@@ -62,35 +62,45 @@ labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 Now let's take a look at some <Mark>prompts that do not include the correct formatting</Mark>. For these malformatted prompts, the API returns an error. Here's a prompt that's missing user role.
 
 <Playground
-  user={`What year was Celine Dion born in?`}
   assistant={`{
   "type": "invalid_request_error",
   "message": "messages.0.role: Input should be 'user' or 'assistant'"
 }`}
+  prompt={[{ role: '', content: 'What year was Celine Dion born in?' }]}
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 />
 
 Here's a prompt that fails to alternate between the User and Assistant roles.
 
 <Playground
-  user={`User: What year was Celine Dion born in?
-User: Also, can you tell me some other facts about her?`}
   assistant={`{
   "type": "invalid_request_error",
   "message": "messages: roles must alternate between \"user\" and \"assistant\", but found multiple \"user\" roles in a row"
 }`}
+  prompt={[
+    { role: 'user', content: 'What year was Celine Dion born in?' },
+    {
+      role: 'user',
+      content: 'Also, can you tell me some other facts about her?',
+    },
+  ]}
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 />
 
 Here's a prompt that starts with an "Assistant".
 
 <Playground
-  user={`Asssitant: Hello! I’m Claude.
-User: What year was Celine Dion born in?`}
   assistant={`{
   "type": "invalid_request_error",
   "message": "messages: first message must use the \"user\" role"
 }`}
+  prompt={[
+    { role: 'assistant', content: 'Hello! I’m Claude.' },
+    {
+      role: 'user',
+      content: 'What year was Celine Dion born in?',
+    },
+  ]}
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 />
 
@@ -102,7 +112,7 @@ Structurally, system prompts exist separately from the list of User & Assistant 
 
 <Playground
   system={`Your answer should always be a series of critical thinking questions that further the conversation (do not provide answers to your questions). Do not actually answer the user question.`}
-  user={`User: Why is the sky blue?`}
+  user={`Why is the sky blue?`}
   assistant={`Here are some critical thinking questions to further explore why the sky is blue:
 
 - What causes the sky to appear blue in color?
@@ -136,7 +146,7 @@ Using proper User/Assistant formatting, <Mark>write a prompt</Mark> below to <Ma
 Remember, if your answer is correct (which means formatting and prompt is good), Claude's response will turn GREEN.
 
 <Playground
-  user={`User: Count to 3.`}
+  user={`Count to 3.`}
   assistant={`1, 2, 3.`}
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 />
@@ -156,7 +166,7 @@ Modify <Mark>the **system prompt**</Mark> to make Claude <Mark>respond like it's
 
 <Playground
   system={`Write like you're a 3 year old child.`}
-  user={`User: How big is the sky?`}
+  user={`How big is the sky?`}
   assistant={`da sky is SOOO big! it's like, waaaay up dere! you can't even see da end of it! it's blue and fluffy and has lotsa clouds in it. i wanna jump up and touch da sky, but i can't reach it. it's too high up! da sky is just so big and pretty, i wanna stare at it all day!`}
   labels={{
     system: 'System Prompt',

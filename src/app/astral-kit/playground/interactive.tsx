@@ -16,7 +16,13 @@ interface Props {
   system?: string;
   user?: string;
   input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
+  prompt?: Message[];
   toggleInteractive: () => void;
+}
+
+interface Message {
+  role: 'user' | 'assistant';
+  content: string;
 }
 
 const Interactive = (p: Props) => {
@@ -24,6 +30,7 @@ const Interactive = (p: Props) => {
   const [system, setSystem] = useState(p.system ?? '');
   const [user, setUser] = useState(p.user ?? '');
   const [assistant, setAssistant] = useState<string[]>([]);
+  const [prompt, setPrompt] = useState<Message[]>(p.prompt ?? []);
   const [waiting, setWaiting] = useState(false);
 
   const input: Record<string, string>[] = p.input
@@ -45,6 +52,8 @@ const Interactive = (p: Props) => {
     setWaiting(false);
   };
 
+  // TODO: implement prompt with multiple roles
+
   return (
     <div className={s.playground}>
       <div className={s.header}>
@@ -59,18 +68,18 @@ const Interactive = (p: Props) => {
         ) : (
           <IconLabelButton
             className={s.action}
-            isDisabled={!system.trim() && !user.trim()}
+            isDisabled={!system.trim() && !user.trim() && !prompt.length}
             Icon={Play}
             onPress={async () => {
-              if (!system.trim() && !user.trim()) return;
+              if (!system.trim() && !user.trim() && !prompt.length) return;
 
               setWaiting(true);
 
               setAssistant((prev) => prev.map(() => ''));
 
-              const messages: Anthropic.Messages.MessageParam[] = [
-                { role: 'user', content: user },
-              ];
+              const messages: Anthropic.Messages.MessageParam[] = user
+                ? [{ role: 'user', content: user }]
+                : prompt;
               const abort = new AbortController();
               ref.current.abort = abort;
 
@@ -108,14 +117,30 @@ const Interactive = (p: Props) => {
         </IconLabelButton>
       </div>
 
-      <TextArea
-        className={s.user}
-        label="user"
-        onChange={setUser}
-        rows={5}
-        placeholder=""
-        value={user.replace(/^User: /, '')}
-      />
+      <div>
+        {prompt.length > 0 ? (
+          prompt.map((m, i) => (
+            <TextArea
+              key={i}
+              className={s.user}
+              label={m.role || '(unspecified role)'}
+              onChange={setUser}
+              rows={5}
+              placeholder=""
+              value={m.content}
+            />
+          ))
+        ) : (
+          <TextArea
+            className={s.user}
+            label="user"
+            onChange={setUser}
+            rows={5}
+            placeholder=""
+            value={user}
+          />
+        )}
+      </div>
 
       <div
         className={s.io}

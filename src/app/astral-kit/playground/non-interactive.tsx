@@ -7,16 +7,39 @@ interface Props {
   system?: string;
   user?: string;
   assistant?: string | string[]; // array size relative to input
+  input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
+  prompt?: Message[];
   labels?: {
     system?: string;
     user?: string;
     assistant?: string;
   };
-  input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
   toggleInteractive: () => void;
 }
 
+interface Message {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
 const NonInteractive = (p: Props) => {
+  let prompt = 'User: ' + p.user;
+  if (p.prompt) {
+    prompt = p.prompt
+      .map((m) => {
+        let c = m.content;
+
+        if (m.role === 'user') {
+          c = 'User: ' + c;
+        } else if (m.role === 'assistant') {
+          c = 'Assistant: ' + c;
+        } // else, error
+
+        return c;
+      })
+      .join('\n');
+  }
+
   return (
     <div
       className={[
@@ -44,7 +67,7 @@ const NonInteractive = (p: Props) => {
 
       <div className={s.user}>
         <div className={s.label}>{p.labels?.user ?? 'user'}</div>
-        <div className={s.content}>{p.user}</div>
+        <div className={s.content}>{prompt}</div>
       </div>
 
       <div

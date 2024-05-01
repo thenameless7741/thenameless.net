@@ -18,6 +18,9 @@ interface Props {
   input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
   prompt?: Message[];
   toggleInteractive: () => void;
+  exercise?: {
+    requiredFields: ('system' | 'user')[];
+  };
 }
 
 interface Message {
@@ -27,16 +30,31 @@ interface Message {
 
 const Interactive = (p: Props) => {
   /* states */
-
   const ref = useRef<{ abort: AbortController | null }>({ abort: null });
 
-  const [system, setSystem] = useState(p.system ?? '');
-  const [assistant, setAssistant] = useState<string[]>([]);
-  const getInitialPrompt = (): Message[] =>  // deep clone
-    p.prompt
-      ? p.prompt.map((m) => ({ ...m }))
-      : [{ role: 'user', content: p.user ?? '' }];
+  const [system, setSystem] = useState(() => {
+    const hide = p.exercise?.requiredFields.includes('system');
+    return hide ? '' : p.system ?? '';
+  });
+  const getInitialPrompt = (): Message[] => {
+    const hide = p.exercise?.requiredFields.includes('user');
+
+    if (p.prompt) {
+      return p.prompt.map((m) => {
+        let content = m.content;
+        if (m.role === 'user' && hide) {
+          content = '';
+        }
+        // deep clone
+        return { ...m, content };
+      });
+    }
+
+    const content = hide ? '' : p.user ?? '';
+    return [{ role: 'user', content }];
+  };
   const [prompt, setPrompt] = useState<Message[]>(getInitialPrompt);
+  const [assistant, setAssistant] = useState<string[]>([]);
   const [waiting, setWaiting] = useState(false);
 
   /* computed properties */
@@ -48,7 +66,7 @@ const Interactive = (p: Props) => {
     : [];
 
   const hiddenFields: ('system' | 'input')[] = [];
-  !system && hiddenFields.push('system');
+  !p.system && hiddenFields.push('system');
   !input.length && hiddenFields.push('input');
 
   /* header's handlers */

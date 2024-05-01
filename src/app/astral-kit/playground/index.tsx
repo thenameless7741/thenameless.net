@@ -17,6 +17,9 @@ interface Props {
     user?: string;
     assistant?: string;
   }; // non-interactive only
+  exercise?: {
+    requiredFields: ('system' | 'user')[];
+  };
 }
 
 interface Message {

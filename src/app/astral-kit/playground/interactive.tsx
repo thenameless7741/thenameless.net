@@ -26,12 +26,20 @@ interface Message {
 }
 
 const Interactive = (p: Props) => {
+  /* states */
+
   const ref = useRef<{ abort: AbortController | null }>({ abort: null });
+
   const [system, setSystem] = useState(p.system ?? '');
-  const [user, setUser] = useState(p.user ?? '');
   const [assistant, setAssistant] = useState<string[]>([]);
-  const [prompt, setPrompt] = useState<Message[]>(p.prompt ?? []);
+  const getInitialPrompt = (): Message[] =>  // deep clone
+    p.prompt
+      ? p.prompt.map((m) => ({ ...m }))
+      : [{ role: 'user', content: p.user ?? '' }];
+  const [prompt, setPrompt] = useState<Message[]>(getInitialPrompt);
   const [waiting, setWaiting] = useState(false);
+
+  /* computed properties */
 
   const input: Record<string, string>[] = p.input
     ? Array.isArray(p.input)
@@ -43,8 +51,43 @@ const Interactive = (p: Props) => {
   !system && hiddenFields.push('system');
   !input.length && hiddenFields.push('input');
 
-  const placeholder = '(awaiting your input...)';
+  /* header's handlers */
 
+  const empty = !system.trim() && !prompt.length;
+
+  const handleRun = async () => {
+    if (empty) return;
+
+    setWaiting(true);
+
+    setAssistant((prev) => prev.map(() => ''));
+
+    const abort = new AbortController();
+    ref.current.abort = abort;
+
+    chat({
+      messages: prompt,
+      system,
+      handleStream,
+      handleDone,
+      abort,
+    });
+  };
+  const handleReset = () => {
+    setSystem(p.system ?? '');
+    setPrompt(getInitialPrompt);
+    setAssistant([]);
+    handleDone();
+  };
+  const handleReaderMode = () => p.toggleInteractive();
+
+  /* handlers */
+
+  const handleContentChange = (content: string, i: number) => {
+    const m: Message = { ...prompt[i], content };
+    const ms = [...prompt.slice(0, i), m, ...prompt.slice(i + 1)];
+    setPrompt(ms);
+  };
   const handleStream = (chunk: string) =>
     setAssistant((prev) => {
       const next = [...prev];
@@ -57,8 +100,6 @@ const Interactive = (p: Props) => {
     setWaiting(false);
   };
 
-  // TODO: implement prompt with multiple roles
-
   return (
     <div
       className={[
@@ -67,67 +108,14 @@ const Interactive = (p: Props) => {
         hiddenFields.includes('input') ? '' : s['has-input'],
       ].join(' ')}
     >
-      <div className={s.header}>
-        {waiting ? (
-          <IconLabelButton
-            className={s.action}
-            Icon={Stop}
-            onPress={handleDone}
-          >
-            stop
-          </IconLabelButton>
-        ) : (
-          <IconLabelButton
-            className={s.action}
-            isDisabled={!system.trim() && !user.trim() && !prompt.length}
-            Icon={Play}
-            onPress={async () => {
-              if (!system.trim() && !user.trim() && !prompt.length) return;
-
-              setWaiting(true);
-
-              setAssistant((prev) => prev.map(() => ''));
-
-              const messages: Anthropic.Messages.MessageParam[] = user
-                ? [{ role: 'user', content: user }]
-                : prompt;
-              const abort = new AbortController();
-              ref.current.abort = abort;
-
-              chat({
-                messages,
-                system,
-                handleStream,
-                handleDone,
-                abort,
-              });
-            }}
-          >
-            run
-          </IconLabelButton>
-        )}
-
-        <IconLabelButton
-          className={s.action}
-          Icon={ArrowClockwise}
-          onPress={() => {
-            setSystem(p.system ?? '');
-            setUser(p.user ?? '');
-            setAssistant([]);
-            handleDone();
-          }}
-        >
-          reset
-        </IconLabelButton>
-
-        <IconLabelButton
-          className={s.action}
-          Icon={BookOpen}
-          onPress={() => p.toggleInteractive()}
-        >
-          reader mode
-        </IconLabelButton>
-      </div>
+      <Header
+        empty={empty}
+        waiting={waiting}
+        handleStop={handleDone}
+        handleRun={handleRun}
+        handleReset={handleReset}
+        handleReaderMode={handleReaderMode}
+      />
 
       {!hiddenFields.includes('system') && (
         <TextArea
@@ -141,28 +129,17 @@ const Interactive = (p: Props) => {
       )}
 
       <div>
-        {prompt.length > 0 ? (
-          prompt.map((m, i) => (
-            <TextArea
-              key={i}
-              className={s.user}
-              label={m.role || '(unspecified role)'}
-              onChange={setUser}
-              rows={5}
-              placeholder=""
-              value={m.content}
-            />
-          ))
-        ) : (
+        {prompt.map((m, i) => (
           <TextArea
+            key={i}
             className={s.user}
-            label="User"
-            onChange={setUser}
+            label={m.role || '(unspecified role)'}
+            onChange={(content) => handleContentChange(content, i)}
             rows={5}
             placeholder=""
-            value={user}
+            value={m.content}
           />
-        )}
+        ))}
       </div>
 
       <div
@@ -173,7 +150,7 @@ const Interactive = (p: Props) => {
           <div className={s.label}>{`Claude's Response`}</div>
           <div className={s.content}>
             {assistant[0] ?? (
-              <span className={s.placeholder}>{placeholder}</span>
+              <span className={s.placeholder}>(awaiting your input...)</span>
             )}
           </div>
         </div>
@@ -182,3 +159,52 @@ const Interactive = (p: Props) => {
   );
 };
 export default Interactive;
+
+interface HeaderProps {
+  empty: boolean;
+  waiting: boolean;
+  handleStop: () => void;
+  handleRun: () => void;
+  handleReset: () => void;
+  handleReaderMode: () => void;
+}
+const Header = (p: HeaderProps) => {
+  return (
+    <div className={s.header}>
+      {p.waiting ? (
+        <IconLabelButton
+          className={s.action}
+          Icon={Stop}
+          onPress={p.handleStop}
+        >
+          stop
+        </IconLabelButton>
+      ) : (
+        <IconLabelButton
+          className={s.action}
+          isDisabled={p.empty}
+          Icon={Play}
+          onPress={p.handleRun}
+        >
+          run
+        </IconLabelButton>
+      )}
+
+      <IconLabelButton
+        className={s.action}
+        Icon={ArrowClockwise}
+        onPress={p.handleReset}
+      >
+        reset
+      </IconLabelButton>
+
+      <IconLabelButton
+        className={s.action}
+        Icon={BookOpen}
+        onPress={p.handleReaderMode}
+      >
+        reader mode
+      </IconLabelButton>
+    </div>
+  );
+};

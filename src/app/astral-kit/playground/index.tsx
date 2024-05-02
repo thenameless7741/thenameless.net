@@ -2,30 +2,12 @@
 
 import { useEffect, useState } from 'react';
 
+import store from '@/app/astral-kit/store';
 import Interactive from './interactive';
 import NonInteractive from './non-interactive';
-import store from '@/app/astral-kit/store';
+import { PlaygroundProps as PP } from './types';
 
-interface Props {
-  system?: string;
-  user?: string;
-  assistant?: string | string[]; // array size relative to input
-  input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
-  prompt?: Message[]; // an alternative to user, assistant & input fields
-  labels?: {
-    system?: string;
-    user?: string;
-    assistant?: string;
-  }; // non-interactive only
-  exercise?: {
-    requiredFields: ('system' | 'user')[];
-  };
-}
-
-interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-}
+type Props = PP.Base & PP.Interactive & PP.NonInteractive;
 
 const Playground = (p: Props) => {
   const [hydrated, setHydrated] = useState(false);

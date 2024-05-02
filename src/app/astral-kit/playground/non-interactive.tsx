@@ -1,26 +1,13 @@
 import { Cube } from '@phosphor-icons/react/dist/ssr';
 
 import IconLabelButton from '@/ui/icon-label-button';
+import { PlaygroundProps as PP, Params } from './types';
 import s from './non-interactive.module.scss';
 
-interface Props {
-  system?: string;
-  user?: string;
-  assistant?: string | string[]; // array size relative to input
-  input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
-  prompt?: Message[];
-  labels?: {
-    system?: string;
-    user?: string;
-    assistant?: string;
+type Props = PP.Base &
+  PP.NonInteractive & {
+    toggleInteractive: () => void;
   };
-  toggleInteractive: () => void;
-}
-
-interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-}
 
 const NonInteractive = (p: Props) => {
   let prompt = 'User: ' + p.user;
@@ -79,7 +66,7 @@ const NonInteractive = (p: Props) => {
             <Params key={i} label={`input #${i + 1}`} params={params} />
           ))
         ) : (
-          <Params params={p.input as Record<string, string>} />
+          <Params params={p.input as Params} />
         )}
 
         {Array.isArray(p.assistant) ? (
@@ -104,7 +91,7 @@ const Params = ({
   params,
 }: {
   label?: string;
-  params: Record<string, string>;
+  params: Params;
 }) => {
   return (
     <div className={s.params}>

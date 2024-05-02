@@ -1,4 +1,3 @@
-import Anthropic from '@anthropic-ai/sdk';
 import {
   ArrowClockwise,
   BookOpen,
@@ -10,34 +9,24 @@ import { useRef, useState } from 'react';
 import IconLabelButton from '@/ui/icon-label-button';
 import TextArea from '@/ui/text-area';
 import { chat } from './api';
+import { PlaygroundProps as PP, Params, PromptMessage } from './types';
 import s from './interactive.module.scss';
 
-interface Props {
-  system?: string;
-  user?: string;
-  input?: Record<string, string> | Record<string, string>[]; // array size relative to assistant
-  prompt?: Message[];
-  toggleInteractive: () => void;
-  exercise?: {
-    requiredFields: ('system' | 'user')[];
+type Props = PP.Base &
+  PP.Interactive & {
+    toggleInteractive: () => void;
   };
-}
-
-interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-}
 
 const Interactive = (p: Props) => {
   /* states */
   const ref = useRef<{ abort: AbortController | null }>({ abort: null });
 
   const [system, setSystem] = useState(() => {
-    const hide = p.exercise?.requiredFields.includes('system');
+    const hide = p.exercise?.answers.includes('system');
     return hide ? '' : p.system ?? '';
   });
-  const getInitialPrompt = (): Message[] => {
-    const hide = p.exercise?.requiredFields.includes('user');
+  const getInitialPrompt = (): PromptMessage[] => {
+    const hide = p.exercise?.answers.includes('user');
 
     if (p.prompt) {
       return p.prompt.map((m) => {
@@ -53,13 +42,13 @@ const Interactive = (p: Props) => {
     const content = hide ? '' : p.user ?? '';
     return [{ role: 'user', content }];
   };
-  const [prompt, setPrompt] = useState<Message[]>(getInitialPrompt);
+  const [prompt, setPrompt] = useState<PromptMessage[]>(getInitialPrompt);
   const [assistant, setAssistant] = useState<string[]>([]);
   const [waiting, setWaiting] = useState(false);
 
   /* computed properties */
 
-  const input: Record<string, string>[] = p.input
+  const input: Params[] = p.input
     ? Array.isArray(p.input)
       ? p.input
       : [p.input]
@@ -102,7 +91,7 @@ const Interactive = (p: Props) => {
   /* handlers */
 
   const handleContentChange = (content: string, i: number) => {
-    const m: Message = { ...prompt[i], content };
+    const m: PromptMessage = { ...prompt[i], content };
     const ms = [...prompt.slice(0, i), m, ...prompt.slice(i + 1)];
     setPrompt(ms);
   };

@@ -11,7 +11,7 @@ import { useRef, useState } from 'react';
 import IconLabelButton from '@/ui/icon-label-button';
 import TextArea from '@/ui/text-area';
 import { chat } from './api';
-import { evalFns } from './data';
+import evals from './evals';
 import { PlaygroundProps as PP, Params, PromptMessage } from './types';
 import s from './interactive.module.scss';
 
@@ -23,6 +23,7 @@ type Props = PP.Base &
 const Interactive = (p: Props) => {
   /* states */
   const ref = useRef<{ abort: AbortController | null }>({ abort: null });
+  const assistantRef = useRef<string[]>([]);
 
   const [system, setSystem] = useState(() => {
     const hide = p.exercise?.answers.includes('system');
@@ -72,7 +73,8 @@ const Interactive = (p: Props) => {
     setWaiting(true);
     !!p.exercise && setCorrect(null);
 
-    setAssistant((prev) => prev.map(() => ''));
+    setAssistant([]);
+    assistantRef.current = [];
 
     const abort = new AbortController();
     ref.current.abort = abort;
@@ -87,17 +89,15 @@ const Interactive = (p: Props) => {
 
     if (!p.exercise) return;
 
-    const evalFn = evalFns[p.exercise.eval];
-    // workaround for getting the latest assistant value
-    setAssistant((assistant) => {
-      setCorrect(evalFn(assistant[0]));
-      return assistant;
-    });
+    const evalFn = evals[p.exercise.eval];
+    const correct = await evalFn(assistantRef.current[0]);
+    setCorrect(correct);
   };
   const handleReset = () => {
     setSystem(p.system ?? '');
     setPrompt(getInitialPrompt);
     setAssistant([]);
+    assistantRef.current = [];
     handleDone();
     setCorrect(null);
   };
@@ -114,6 +114,8 @@ const Interactive = (p: Props) => {
     setAssistant((prev) => {
       const next = [...prev];
       next[0] = (next[0] ?? '') + chunk;
+
+      assistantRef.current = next;
       return next;
     });
   const handleDone = () => {
@@ -172,7 +174,7 @@ const Interactive = (p: Props) => {
           <div className={s.label}>
             {`Claude's Response`}
             {!!p.exercise &&
-              (assistant[0] ? (
+              (correct !== null ? (
                 correct ? (
                   <Check
                     aria-label="correct answer"

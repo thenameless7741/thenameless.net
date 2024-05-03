@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Beginner']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-25'
+updatedAt: '2024-05-04'
 ---
 
 ## Lesson
@@ -143,7 +143,7 @@ This tutorial's still a work-in-progress, so these exercises aren't interactive 
 
 Using proper User/Assistant formatting, <Mark>write a prompt</Mark> below to <Mark>get Claude to count to three</Mark>.
 
-Remember, if your answer is correct (which means formatting and prompt is good), Claude's response will turn GREEN.
+Remember, if your answer is correct (which means formatting and prompt is good), you will see a green check mark in the top right corner of the playground.
 
 <Playground
   user={`Count to 3.`}
@@ -158,9 +158,11 @@ Remember, if your answer is correct (which means formatting and prompt is good),
 <Details>
   <summary>If you need a hint, click me.</summary>
 
-Make sure that you <Mark>include proper "User:" (and "Assistant:" if applicable)
-indicators in your prompt</Mark>. The conditional formatting in this exercise is looking
-for an answer that contains the exact Arabic numerals "1" & "2" & "3".
+Provide a short instruction that asks Claude to <Mark>count to three</Mark>.
+
+The solution checker for this exercise will accept an answer containing the numbers "1", "2", and "3" in that exact order, even if they are written in a different language or script, such as "一", "二", and "三" in Chinese.
+
+If you're stuck, you can always switch to **READER MODE** to see the solution.
 
 </Details>
 

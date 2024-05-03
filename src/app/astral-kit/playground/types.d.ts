@@ -30,5 +30,5 @@ export interface PromptMessage {
 export interface Exercise {
   questions: ('system' | 'user')[];
   answers: ('system' | 'user')[];
-  eval: (assistant: string) => boolean;
+  eval: string;
 }

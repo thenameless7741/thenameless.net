@@ -58,9 +58,26 @@
 
 .label {
   @include t.font(12, 12, 0.1);
+  position: relative;
   color: var(--primary);
   font-family: t.$font-label;
   text-transform: uppercase;
+}
+
+.label-icon {
+  position: absolute;
+  top: 50%;
+  right: t.$space-3;
+  transform: translateY(-50%);
+}
+
+.correct {
+  @extend .label-icon;
+  color: #52d080; /* green-3 */
+}
+.incorrect {
+  @extend .label-icon;
+  color: #ec798b; /* red-3 */
 }
 
 .content {

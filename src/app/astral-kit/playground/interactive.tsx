@@ -1,14 +1,17 @@
 import {
   ArrowClockwise,
   BookOpen,
+  Check,
   Play,
   Stop,
+  X,
 } from '@phosphor-icons/react/dist/ssr';
 import { useRef, useState } from 'react';
 
 import IconLabelButton from '@/ui/icon-label-button';
 import TextArea from '@/ui/text-area';
 import { chat } from './api';
+import { evalFns } from './data';
 import { PlaygroundProps as PP, Params, PromptMessage } from './types';
 import s from './interactive.module.scss';
 
@@ -45,6 +48,7 @@ const Interactive = (p: Props) => {
   const [prompt, setPrompt] = useState<PromptMessage[]>(getInitialPrompt);
   const [assistant, setAssistant] = useState<string[]>([]);
   const [waiting, setWaiting] = useState(false);
+  const [correct, setCorrect] = useState<boolean | null>(null);
 
   /* computed properties */
 
@@ -66,18 +70,28 @@ const Interactive = (p: Props) => {
     if (empty) return;
 
     setWaiting(true);
+    !!p.exercise && setCorrect(null);
 
     setAssistant((prev) => prev.map(() => ''));
 
     const abort = new AbortController();
     ref.current.abort = abort;
 
-    chat({
+    await chat({
       messages: prompt,
       system,
       handleStream,
       handleDone,
       abort,
+    });
+
+    if (!p.exercise) return;
+
+    const evalFn = evalFns[p.exercise.eval];
+    // workaround for getting the latest assistant value
+    setAssistant((assistant) => {
+      setCorrect(evalFn(assistant[0]));
+      return assistant;
     });
   };
   const handleReset = () => {
@@ -85,6 +99,7 @@ const Interactive = (p: Props) => {
     setPrompt(getInitialPrompt);
     setAssistant([]);
     handleDone();
+    setCorrect(null);
   };
   const handleReaderMode = () => p.toggleInteractive();
 
@@ -154,7 +169,27 @@ const Interactive = (p: Props) => {
         style={{ '--size': p.input?.length } as React.CSSProperties}
       >
         <div className={s.assistant}>
-          <div className={s.label}>{`Claude's Response`}</div>
+          <div className={s.label}>
+            {`Claude's Response`}
+            {!!p.exercise &&
+              (assistant[0] ? (
+                correct ? (
+                  <Check
+                    aria-label="correct answer"
+                    className={s.correct}
+                    weight="bold"
+                    size={16}
+                  />
+                ) : (
+                  <X
+                    aria-label="incorrect answer"
+                    className={s.incorrect}
+                    weight="bold"
+                    size={16}
+                  />
+                )
+              ) : null)}
+          </div>
           <div className={s.content}>
             {assistant[0] ?? (
               <span className={s.placeholder}>(awaiting your input...)</span>

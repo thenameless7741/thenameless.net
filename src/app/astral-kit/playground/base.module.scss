@@ -93,8 +93,7 @@
 
   @include t.device(lt) {
     &:last-child {
-      flex-grow: 1;
-      justify-content: flex-end;
+      margin-inline-start: auto;
     }
   }
 

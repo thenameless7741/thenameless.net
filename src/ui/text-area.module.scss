@@ -47,6 +47,11 @@
     color: t.$violet-4; /* sync with disabled theme */
     opacity: 0.4;
   }
+
+  &[data-disabled] {
+    --border-color: #{t.$gray-1};
+    cursor: not-allowed;
+  }
 }
 
 /* TODO: style description, error */

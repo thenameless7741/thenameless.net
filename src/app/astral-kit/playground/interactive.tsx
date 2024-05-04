@@ -14,7 +14,12 @@ import TextArea from '@/ui/text-area';
 import { PlaygroundContext } from '../store';
 import { chat } from './api';
 import evals from './evals';
-import { PlaygroundProps as PP, Params, PromptMessage } from './types';
+import {
+  EditableField,
+  PlaygroundProps as PP,
+  Params,
+  PromptMessage,
+} from './types';
 import s from './interactive.module.scss';
 
 type Props = PP.Base &
@@ -29,16 +34,16 @@ const Interactive = (p: Props) => {
   const assistant = useStore(store, (s) => s.assistant);
 
   const [system, setSystem] = useState(() => {
-    const hide = p.exercise?.answers.includes('system');
-    return hide ? '' : p.system ?? '';
+    const exercise = p.exercise?.answers.includes('system');
+    return exercise ? '' : p.system ?? '';
   });
   const getInitialPrompt = (): PromptMessage[] => {
-    const hide = p.exercise?.answers.includes('user');
+    const exercise = p.exercise?.answers.includes('user');
 
     if (p.prompt) {
       return p.prompt.map((m) => {
         let content = m.content;
-        if (m.role === 'user' && hide) {
+        if (m.role === 'user' && exercise) {
           content = '';
         }
         // deep clone
@@ -46,7 +51,7 @@ const Interactive = (p: Props) => {
       });
     }
 
-    const content = hide ? '' : p.user ?? '';
+    const content = exercise ? '' : p.user ?? '';
     return [{ role: 'user', content }];
   };
   const [prompt, setPrompt] = useState<PromptMessage[]>(getInitialPrompt);
@@ -61,9 +66,9 @@ const Interactive = (p: Props) => {
       : [p.input]
     : [];
 
-  const hiddenFields: ('system' | 'input')[] = [];
-  !p.system && hiddenFields.push('system');
-  !input.length && hiddenFields.push('input');
+  const fields: EditableField[] = ['system', 'user', 'input'];
+  const answers: EditableField[] = p.exercise?.answers ?? [];
+  const questions: EditableField[] = fields.filter((a) => !answers.includes(a));
 
   /* header's handlers */
 
@@ -128,8 +133,8 @@ const Interactive = (p: Props) => {
     <div
       className={[
         s.playground,
-        hiddenFields.includes('system') ? '' : s['has-system'],
-        hiddenFields.includes('input') ? '' : s['has-input'],
+        p.system ? s['has-system'] : '',
+        input.length > 0 ? s['has-input'] : '',
       ].join(' ')}
     >
       <Header
@@ -141,9 +146,10 @@ const Interactive = (p: Props) => {
         handleReaderMode={handleReaderMode}
       />
 
-      {!hiddenFields.includes('system') && (
+      {!!p.system && (
         <TextArea
           className={s.system}
+          isDisabled={!!p.exercise && questions.includes('system')}
           label="System Prompt"
           onChange={setSystem}
           rows={5}
@@ -157,6 +163,7 @@ const Interactive = (p: Props) => {
           <TextArea
             key={i}
             className={s.user}
+            isDisabled={!!p.exercise && questions.includes('user')}
             label={m.role || '(unspecified role)'}
             onChange={(content) => handleContentChange(content, i)}
             rows={5}

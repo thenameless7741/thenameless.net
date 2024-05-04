@@ -1,9 +1,11 @@
+import { Icon } from '@phosphor-icons/react';
 import {
   ArrowClockwise,
   BookOpen,
   Check,
   Play,
   Stop,
+  Warning,
   X,
 } from '@phosphor-icons/react/dist/ssr';
 import { useContext, useRef, useState } from 'react';
@@ -15,6 +17,7 @@ import { PlaygroundContext } from '../store';
 import { chat } from './api';
 import evals from './evals';
 import {
+  Answer,
   EditableField,
   PlaygroundProps as PP,
   Params,
@@ -56,7 +59,7 @@ const Interactive = (p: Props) => {
   };
   const [prompt, setPrompt] = useState<PromptMessage[]>(getInitialPrompt);
   const [waiting, setWaiting] = useState(false);
-  const [correct, setCorrect] = useState<boolean | null>(null);
+  const [answer, setAnswer] = useState<Answer | null>(null);
 
   /* computed properties */
 
@@ -67,8 +70,23 @@ const Interactive = (p: Props) => {
     : [];
 
   const fields: EditableField[] = ['system', 'user', 'input'];
-  const answers: EditableField[] = p.exercise?.answers ?? [];
-  const questions: EditableField[] = fields.filter((a) => !answers.includes(a));
+  const answerFields: EditableField[] = p.exercise?.answers ?? [];
+  const questionFields: EditableField[] = fields.filter(
+    (a) => !answerFields.includes(a),
+  );
+
+  let AnswerIcon: Icon | null = null;
+  switch (answer) {
+    case 'correct':
+      AnswerIcon = Check;
+      break;
+    case 'incorrect':
+      AnswerIcon = X;
+      break;
+    case 'unknown':
+      AnswerIcon = Warning;
+      break;
+  }
 
   /* header's handlers */
 
@@ -78,7 +96,7 @@ const Interactive = (p: Props) => {
     if (empty) return;
 
     setWaiting(true);
-    !!p.exercise && setCorrect(null);
+    !!p.exercise && setAnswer(null);
 
     store.setState({ assistant: [] });
 
@@ -98,14 +116,14 @@ const Interactive = (p: Props) => {
     const evalFn = evals[p.exercise.eval];
     const { assistant } = store.getState();
     const correct = await evalFn(assistant[0]);
-    setCorrect(correct);
+    setAnswer(correct);
   };
   const handleReset = () => {
     setSystem(p.system ?? '');
     setPrompt(getInitialPrompt);
     store.setState({ assistant: [] });
     handleDone();
-    setCorrect(null);
+    setAnswer(null);
   };
   const handleReaderMode = () => p.toggleInteractive();
 
@@ -149,7 +167,7 @@ const Interactive = (p: Props) => {
       {!!p.system && (
         <TextArea
           className={s.system}
-          isDisabled={!!p.exercise && questions.includes('system')}
+          isDisabled={!!p.exercise && questionFields.includes('system')}
           label="System Prompt"
           onChange={setSystem}
           rows={5}
@@ -163,7 +181,7 @@ const Interactive = (p: Props) => {
           <TextArea
             key={i}
             className={s.user}
-            isDisabled={!!p.exercise && questions.includes('user')}
+            isDisabled={!!p.exercise && questionFields.includes('user')}
             label={m.role || '(unspecified role)'}
             onChange={(content) => handleContentChange(content, i)}
             rows={5}
@@ -180,24 +198,14 @@ const Interactive = (p: Props) => {
         <div className={s.assistant}>
           <div className={s.label}>
             {`Claude's Response`}
-            {!!p.exercise &&
-              (correct !== null ? (
-                correct ? (
-                  <Check
-                    aria-label="correct answer"
-                    className={s.correct}
-                    weight="bold"
-                    size={16}
-                  />
-                ) : (
-                  <X
-                    aria-label="incorrect answer"
-                    className={s.incorrect}
-                    weight="bold"
-                    size={16}
-                  />
-                )
-              ) : null)}
+            {!!p.exercise && !!answer && !!AnswerIcon && (
+              <AnswerIcon
+                aria-label={`${answer} answer`}
+                className={s[answer]}
+                weight="bold"
+                size={16}
+              />
+            )}
           </div>
           <div className={s.content}>
             {assistant[0] ?? (

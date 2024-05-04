@@ -33,3 +33,5 @@ export interface Exercise {
 }
 
 export type EditableField = 'system' | 'user' | 'input';
+
+export type Answer = 'correct' | 'incorrect' | 'unknown';

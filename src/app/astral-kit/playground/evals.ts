@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 
 import { tool } from './api';
+import { Answer } from './types';
 
 type Block = Anthropic.Beta.Tools.Messages.ToolUseBlock;
 
@@ -9,7 +10,7 @@ interface EvalError {
   description?: string;
 }
 
-const evals: { [name: string]: (assistant: string) => Promise<boolean> } = {
+const evals: { [name: string]: (assistant: string) => Promise<Answer> } = {
   '01-counting-to-three': async (assistant) => {
     const printNumbers: Anthropic.Beta.Tools.Tool = {
       name: 'print_numbers',
@@ -43,13 +44,15 @@ Use the \`${printNumbers.name}\` tool.`;
     });
     if ('error' in res) {
       console.error(res);
-      return false;
+      return 'unknown';
     }
 
     const numbers = res?.input.numbers;
-    if (numbers?.length !== 3) return false;
+    if (numbers?.length !== 3) return 'incorrect';
 
-    return [1, 2, 3].every((n) => numbers.includes(n));
+    return [1, 2, 3].every((n) => numbers.includes(n))
+      ? 'correct'
+      : 'incorrect';
   },
 
   // '01-system-prompt': (assistant) => {

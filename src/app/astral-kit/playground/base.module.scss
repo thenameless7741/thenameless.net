@@ -79,6 +79,10 @@
   @extend .label-icon;
   color: #ec798b; /* red-3 */
 }
+.unknown {
+  @extend .label-icon;
+  color: #dc9742; /* yellow-3 */
+}
 
 .content {
   @include t.font(17, 25);

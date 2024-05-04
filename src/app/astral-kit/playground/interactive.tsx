@@ -153,7 +153,7 @@ const Interactive = (p: Props) => {
           label="System Prompt"
           onChange={setSystem}
           rows={5}
-          placeholder=""
+          placeholder="Enter your system prompt here..."
           value={system}
         />
       )}
@@ -167,7 +167,7 @@ const Interactive = (p: Props) => {
             label={m.role || '(unspecified role)'}
             onChange={(content) => handleContentChange(content, i)}
             rows={5}
-            placeholder=""
+            placeholder="Enter your prompt for User role here..."
             value={m.content}
           />
         ))}

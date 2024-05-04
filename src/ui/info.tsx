@@ -1,3 +1,4 @@
+'use client';
 import { Info } from '@phosphor-icons/react/dist/ssr';
 
 import Tooltip, { TooltipTrigger } from '@/ui/tooltip';

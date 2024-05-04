@@ -2,6 +2,8 @@ import { createContext, useContext } from 'react';
 import { create, useStore } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import { ToastState } from '@/ui/toast';
+
 interface Props {
   interactive: boolean;
 }
@@ -22,6 +24,7 @@ const store = create<State>()(
 export default store;
 
 interface PlaygroundProps {
+  toast: ToastState<object>;
   assistant: string[];
 }
 
@@ -29,6 +32,7 @@ export interface PlaygroundState extends PlaygroundProps {}
 
 export const createPlaygroundStore = (initProps: Partial<PlaygroundProps>) => {
   const defaultProps: PlaygroundProps = {
+    toast: null!, // initialized at the component level
     assistant: [],
   };
 
@@ -38,7 +42,7 @@ export const createPlaygroundStore = (initProps: Partial<PlaygroundProps>) => {
   }));
 };
 
-type PlaygroundStore = ReturnType<typeof createPlaygroundStore>;
+export type PlaygroundStore = ReturnType<typeof createPlaygroundStore>;
 
 export const PlaygroundContext = createContext<PlaygroundStore | null>(null);
 

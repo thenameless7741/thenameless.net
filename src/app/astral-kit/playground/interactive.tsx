@@ -34,6 +34,7 @@ const Interactive = (p: Props) => {
   /* states */
   const ref = useRef<{ abort: AbortController | null }>({ abort: null });
   const store = useContext(PlaygroundContext)!;
+  const toast = useStore(store, (s) => s.toast);
   const assistant = useStore(store, (s) => s.assistant);
 
   const [system, setSystem] = useState(() => {
@@ -115,8 +116,15 @@ const Interactive = (p: Props) => {
 
     const evalFn = evals[p.exercise.eval];
     const { assistant } = store.getState();
-    const correct = await evalFn(assistant[0]);
-    setAnswer(correct);
+    const answer = await evalFn(assistant[0]);
+    setAnswer(answer);
+
+    if (answer === 'unknown') {
+      // @ts-ignore incomplete type
+      toast.add('Apologies, there seems to be a problem. Please try again.', {
+        timeout: 5_000,
+      });
+    }
   };
   const handleReset = () => {
     setSystem(p.system ?? '');
@@ -209,7 +217,11 @@ const Interactive = (p: Props) => {
           </div>
           <div className={s.content}>
             {assistant[0] ?? (
-              <span className={s.placeholder}>(awaiting your input...)</span>
+              <span className={s.placeholder}>
+                {answer === 'unknown'
+                  ? '(please try again...)'
+                  : '(awaiting your input...)'}
+              </span>
             )}
           </div>
         </div>

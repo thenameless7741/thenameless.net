@@ -2,12 +2,14 @@
 
 .textfield {
   --border-color: #{t.$purple-1};
+  --label-color: #{t.$violet-5};
   inline-size: 100%;
 
   &:has(> .textarea[data-hovered]),
   &:has(> .textarea[data-focused]),
   &:has(> .textarea[data-focus-visible]) {
     --border-color: #{t.$purple-2};
+    --label-color: #{t.$violet-6};
   }
 }
 
@@ -58,6 +60,14 @@
 
 .label {
   @include t.font(12, 12, 0.1);
+  color: var(--label-color);
+  cursor: pointer;
   font-family: t.$font-label;
   text-transform: uppercase;
+  transition: color 300ms;
+
+  .textfield[data-disabled] > & {
+    --label-color: #{t.$gray-5};
+    cursor: not-allowed;
+  }
 }

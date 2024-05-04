@@ -27,6 +27,7 @@
 .header {
   position: relative;
   left: -1 * t.$space-1; /* alignment with run button */
+  margin-block-end: t.$space-3;
 
   @include t.device(ltb) {
     margin-block-start: t.$space-3;
@@ -40,15 +41,32 @@
   --secondary: transparent;
 
   block-size: max-content;
+  padding: 0;
+  border: none;
 
-  @include t.device(llt) {
-    padding: 0;
-    border: none;
-    margin-block-start: t.$space-3;
+  @include t.device(lt) {
+    margin-block-start: 1px; /* border alignment */
+  }
+
+  & + & {
+    margin-block-start: t.$space-6;
   }
 
   & > label {
-    color: var(--primary);
+    color: var(--label-color);
+    @include t.font(11, 11, 0.1);
+
+    @include t.device(lt) {
+      position: relative;
+      top: calc(#{t.$space-3} + 0.6em); /* alignment */
+      left: 0.5em;
+      max-inline-size: max-content;
+      margin-block-start: -1 * t.$space-6;
+      margin-block-end: 0; /* reset */
+      padding-inline: t.$space-2;
+      border-radius: 1px;
+      background-color: white;
+    }
   }
 }
 

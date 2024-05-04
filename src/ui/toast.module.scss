@@ -1,0 +1,47 @@
+@use '@/styles/token' as t;
+
+.toast {
+  @include t.font(16, 20);
+  display: flex;
+  align-items: center;
+  gap: t.$space-2;
+  padding-block: t.$space-1;
+  padding-inline-start: t.$space-3;
+  border: 1px solid t.$violet-1;
+  border-radius: 1px;
+  background-color: white;
+  color: t.$gray-6;
+  font-family: t.$font-body;
+  animation: slide-down t.$ease-out-expo 300ms both;
+
+  @keyframes slide-down {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  & > button {
+    flex-shrink: 0;
+    padding: t.$space-2;
+  }
+}
+
+.region {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-2;
+  position: fixed;
+  top: t.$space-2;
+  inline-size: max-content;
+
+  @include t.device(ltb) {
+    right: t.$space-3;
+  }
+  @include t.device(tb) {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

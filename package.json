@@ -9,6 +9,7 @@
     "@anthropic-ai/sdk": "^0.20.7",
     "@leeoniya/ufuzzy": "^1.0.14",
     "@phosphor-icons/react": "^2.0.15",
+    "@react-aria/toast": "^3.0.0-beta.11",
     "next": "^14.0.4",
     "next-mdx-remote": "^4.4.1",
     "react": "^18.2.0",

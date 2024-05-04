@@ -1,7 +1,8 @@
-import { create } from 'zustand';
+import { createContext, useContext } from 'react';
+import { create, useStore } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export interface Props {
+interface Props {
   interactive: boolean;
 }
 
@@ -19,3 +20,32 @@ const store = create<State>()(
   ),
 );
 export default store;
+
+interface PlaygroundProps {
+  assistant: string[];
+}
+
+export interface PlaygroundState extends PlaygroundProps {}
+
+export const createPlaygroundStore = (initProps: Partial<PlaygroundProps>) => {
+  const defaultProps: PlaygroundProps = {
+    assistant: [],
+  };
+
+  return create<PlaygroundState>((set, get) => ({
+    ...defaultProps,
+    ...initProps,
+  }));
+};
+
+type PlaygroundStore = ReturnType<typeof createPlaygroundStore>;
+
+export const PlaygroundContext = createContext<PlaygroundStore | null>(null);
+
+export const usePlaygroundContext = <T>(
+  selector: (s: PlaygroundState) => T,
+): T => {
+  const store = useContext(PlaygroundContext);
+  if (!store) throw new Error('store: missing PlaygroundContext in the tree');
+  return useStore(store, selector);
+};

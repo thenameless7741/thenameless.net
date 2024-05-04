@@ -6,10 +6,12 @@ import {
   Stop,
   X,
 } from '@phosphor-icons/react/dist/ssr';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
+import { useStore } from 'zustand';
 
 import IconLabelButton from '@/ui/icon-label-button';
 import TextArea from '@/ui/text-area';
+import { PlaygroundContext } from '../store';
 import { chat } from './api';
 import evals from './evals';
 import { PlaygroundProps as PP, Params, PromptMessage } from './types';
@@ -23,7 +25,8 @@ type Props = PP.Base &
 const Interactive = (p: Props) => {
   /* states */
   const ref = useRef<{ abort: AbortController | null }>({ abort: null });
-  const assistantRef = useRef<string[]>([]);
+  const store = useContext(PlaygroundContext)!;
+  const assistant = useStore(store, (s) => s.assistant);
 
   const [system, setSystem] = useState(() => {
     const hide = p.exercise?.answers.includes('system');
@@ -47,7 +50,6 @@ const Interactive = (p: Props) => {
     return [{ role: 'user', content }];
   };
   const [prompt, setPrompt] = useState<PromptMessage[]>(getInitialPrompt);
-  const [assistant, setAssistant] = useState<string[]>([]);
   const [waiting, setWaiting] = useState(false);
   const [correct, setCorrect] = useState<boolean | null>(null);
 
@@ -73,8 +75,7 @@ const Interactive = (p: Props) => {
     setWaiting(true);
     !!p.exercise && setCorrect(null);
 
-    setAssistant([]);
-    assistantRef.current = [];
+    store.setState({ assistant: [] });
 
     const abort = new AbortController();
     ref.current.abort = abort;
@@ -90,14 +91,14 @@ const Interactive = (p: Props) => {
     if (!p.exercise) return;
 
     const evalFn = evals[p.exercise.eval];
-    const correct = await evalFn(assistantRef.current[0]);
+    const { assistant } = store.getState();
+    const correct = await evalFn(assistant[0]);
     setCorrect(correct);
   };
   const handleReset = () => {
     setSystem(p.system ?? '');
     setPrompt(getInitialPrompt);
-    setAssistant([]);
-    assistantRef.current = [];
+    store.setState({ assistant: [] });
     handleDone();
     setCorrect(null);
   };
@@ -110,14 +111,13 @@ const Interactive = (p: Props) => {
     const ms = [...prompt.slice(0, i), m, ...prompt.slice(i + 1)];
     setPrompt(ms);
   };
-  const handleStream = (chunk: string) =>
-    setAssistant((prev) => {
+  const handleStream = (chunk: string) => {
+    store.setState(({ assistant: prev }) => {
       const next = [...prev];
       next[0] = (next[0] ?? '') + chunk;
-
-      assistantRef.current = next;
-      return next;
+      return { assistant: next };
     });
+  };
   const handleDone = () => {
     ref.current.abort?.abort();
     ref.current.abort = null;

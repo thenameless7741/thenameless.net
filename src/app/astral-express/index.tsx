@@ -4,6 +4,12 @@ import Link from '@/ui/link';
 import s from './index.module.scss';
 
 const AstralExpress = async () => {
+  const links = [
+    { href: '/astral-kit', children: 'Astral Kit' },
+    { href: '/cosmos-arena', children: 'Cosmos Arena' },
+    { href: '/stellar-sea', children: 'Stellar Sea' },
+  ];
+
   return (
     <div className={s['astral-express']}>
       <Image
@@ -16,13 +22,9 @@ const AstralExpress = async () => {
 
       <footer className={s.footer}>
         <div className={s.links}>
-          <Link className={s.link} href="/stellar-sea">
-            Stellar Sea
-          </Link>
-
-          <Link className={s.link} href="/cosmos-arena">
-            Cosmos Arena
-          </Link>
+          {links.map((l) => (
+            <Link key={l.href} className={s.link} {...l} />
+          ))}
         </div>
       </footer>
     </div>

@@ -30,9 +30,13 @@
 }
 
 .close {
-  @include t.device(tb) {
-    position: relative;
-    left: t.$space-1; /* sync with header's preferences icon */
+  position: relative; /* sync with header's preferences icon */
+
+  @media (min-width: 40em) and (max-width: 74.99em) {
+    left: t.$space-3;
+  }
+  @include t.device(lt) {
+    left: t.$space-1;
   }
 }
 

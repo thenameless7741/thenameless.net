@@ -52,7 +52,7 @@
   }
 }
 
-.wip {
+.heading {
   @include t.font(22, 28);
   margin-block: t.$space-6;
   font-family: t.$font-title;

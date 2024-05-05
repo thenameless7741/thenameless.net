@@ -6,6 +6,7 @@ import { ToastState } from '@/ui/toast';
 
 interface Props {
   interactive: boolean;
+  metric: boolean;
 }
 
 export interface State extends Props {}
@@ -14,10 +15,11 @@ const store = create<State>()(
   persist(
     (set, get) => ({
       interactive: false, // TODO: revert to true
+      metric: false,
     }),
     {
       name: 'astral-kit',
-      partialize: ({ interactive }) => ({ interactive }),
+      partialize: ({ interactive, metric }) => ({ interactive, metric }),
     },
   ),
 );

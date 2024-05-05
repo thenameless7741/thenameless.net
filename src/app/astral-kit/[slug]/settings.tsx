@@ -11,6 +11,7 @@ interface Props {
 
 const Settings = ({ close }: Props) => {
   const interactive = store((s) => s.interactive);
+  const metric = store((s) => s.metric);
 
   return (
     <div className={s.settings}>
@@ -20,14 +21,24 @@ const Settings = ({ close }: Props) => {
         </header>
 
         <main className={s.main}>
-          <div className={s.wip}>Alpha Feature (work-in-progress)</div>
+          <div className={s.heading}>Settings</div>
+
+          <Checkbox
+            className={s.checkbox}
+            defaultSelected={metric}
+            onChange={(metric) => store.setState({ metric })}
+          >
+            Token usage & latency metrics
+          </Checkbox>
+
+          <div className={s.heading}>(work-in-progress)</div>
 
           <Checkbox
             className={s.checkbox}
             defaultSelected={interactive}
             onChange={(interactive) => store.setState({ interactive })}
           >
-            Interactive Playground
+            Interactive playground
           </Checkbox>
         </main>
       </div>

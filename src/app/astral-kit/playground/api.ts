@@ -1,5 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 
+import store from '../store';
+
 interface ChatParams {
   messages: Anthropic.Messages.MessageParam[];
   system?: string;
@@ -28,10 +30,13 @@ export const chat = async ({
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const { showMetric } = store.getState();
+
     const res = await fetch(`${baseUrl}/api/chat/anthropic`, {
       body: JSON.stringify({
-        apiKey: '', // TODO: implement UI for storing user's API key
         params,
+        apiKey: '', // TODO: implement UI for storing user's API key
+        metric: showMetric,
       }),
       headers: {
         'Content-Type': 'application/json',

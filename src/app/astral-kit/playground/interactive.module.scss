@@ -53,8 +53,8 @@
   }
 
   & > label {
-    color: var(--label-color);
     @include t.font(11, 11, 0.1);
+    color: var(--label-color);
 
     @include t.device(lt) {
       position: relative;
@@ -145,4 +145,63 @@
 
 .param-value {
   @extend .content;
+}
+
+.metric {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr;
+  grid-template-rows: repeat(2, auto);
+  gap: t.$space-2;
+  margin-inline-end: t.$space-3;
+  padding-block-start: t.$space-3;
+  border-block-start: 1px solid #{t.$gray-1}80;
+  color: t.$gray-5;
+}
+
+.metric-item {
+  list-style: none;
+
+  &:nth-child(odd) {
+    grid-column: 1 / 3;
+  }
+  &:nth-child(even) {
+    grid-column: 3 / 5;
+  }
+
+  @include t.device(ltb) {
+    display: flex;
+    flex-direction: column;
+    gap: t.$space-1;
+  }
+  @include t.device(tb) {
+    display: grid;
+    grid-template-columns: subgrid;
+    align-items: baseline;
+  }
+}
+
+.metric-label {
+  @include t.font(10, 10, 0.1);
+  color: var(--label-color);
+  font-family: t.$font-label;
+  text-transform: uppercase;
+
+  @include t.device(ltb) {
+    &::after {
+      content: ': ';
+    }
+  }
+}
+
+.metric-value {
+  @include t.font(14, 18);
+  font-family: t.$font-body;
+
+  @include t.device(tb) {
+    &::before {
+      position: relative;
+      left: -1 * t.$space-1;
+      content: ':\00a0\00a0';
+    }
+  }
 }

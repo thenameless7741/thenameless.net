@@ -13,12 +13,13 @@ import { useStore } from 'zustand';
 
 import IconLabelButton from '@/ui/icon-label-button';
 import TextArea from '@/ui/text-area';
-import { PlaygroundContext } from '../store';
+import store, { usePlaygroundContext, PlaygroundContext } from '../store';
 import { chat } from './api';
 import evals from './evals';
 import {
   Answer,
   EditableField,
+  Metric,
   PlaygroundProps as PP,
   Params,
   PromptMessage,
@@ -33,9 +34,10 @@ type Props = PP.Base &
 const Interactive = (p: Props) => {
   /* states */
   const ref = useRef<{ abort: AbortController | null }>({ abort: null });
-  const store = useContext(PlaygroundContext)!;
-  const toast = useStore(store, (s) => s.toast);
-  const assistant = useStore(store, (s) => s.assistant);
+  const showMetric = store((s) => s.showMetric);
+  const playgroundStore = useContext(PlaygroundContext)!;
+  const toast = useStore(playgroundStore, (s) => s.toast);
+  const assistant = useStore(playgroundStore, (s) => s.assistant);
 
   const [system, setSystem] = useState(() => {
     const exercise = p.exercise?.answers.includes('system');
@@ -99,7 +101,7 @@ const Interactive = (p: Props) => {
     setWaiting(true);
     !!p.exercise && setAnswer(null);
 
-    store.setState({ assistant: [] });
+    playgroundStore.setState({ assistant: [], metric: null });
 
     const abort = new AbortController();
     ref.current.abort = abort;
@@ -115,7 +117,7 @@ const Interactive = (p: Props) => {
     if (!p.exercise) return;
 
     const evalFn = evals[p.exercise.eval];
-    const { assistant } = store.getState();
+    const { assistant } = playgroundStore.getState();
     const answer = await evalFn(assistant[0]);
     setAnswer(answer);
 
@@ -129,7 +131,7 @@ const Interactive = (p: Props) => {
   const handleReset = () => {
     setSystem(p.system ?? '');
     setPrompt(getInitialPrompt);
-    store.setState({ assistant: [] });
+    playgroundStore.setState({ assistant: [], metric: null });
     handleDone();
     setAnswer(null);
   };
@@ -143,10 +145,25 @@ const Interactive = (p: Props) => {
     setPrompt(ms);
   };
   const handleStream = (chunk: string) => {
-    store.setState(({ assistant: prev }) => {
+    const { showMetric } = store.getState();
+    const metricToken = '<|metric|>';
+    let metric: Metric | null = null;
+
+    if (showMetric && chunk.includes(metricToken)) {
+      const texts = chunk.split(metricToken);
+      chunk = texts[0];
+
+      try {
+        metric = JSON.parse(texts[1]);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    playgroundStore.setState(({ assistant: prev }) => {
       const next = [...prev];
       next[0] = (next[0] ?? '') + chunk;
-      return { assistant: next };
+      return { assistant: next, metric };
     });
   };
   const handleDone = () => {
@@ -215,6 +232,7 @@ const Interactive = (p: Props) => {
               />
             )}
           </div>
+
           <div className={s.content}>
             {assistant[0] ?? (
               <span className={s.placeholder}>
@@ -224,6 +242,8 @@ const Interactive = (p: Props) => {
               </span>
             )}
           </div>
+
+          {showMetric && <Metric />}
         </div>
       </div>
     </div>
@@ -277,5 +297,33 @@ const Header = (p: HeaderProps) => {
         reader mode
       </IconLabelButton>
     </div>
+  );
+};
+
+const Metric = () => {
+  const m = usePlaygroundContext((s) => s.metric);
+  if (!m) return null;
+
+  const nf = new Intl.NumberFormat('en-US');
+
+  return (
+    <ul className={s.metric}>
+      <li className={s['metric-item']}>
+        <span className={s['metric-label']}>Input</span>
+        <span className={s['metric-value']}>{nf.format(m.input)} tokens</span>
+      </li>
+      <li className={s['metric-item']}>
+        <span className={s['metric-label']}>TTFT</span>
+        <span className={s['metric-value']}>{nf.format(m.ttft)} ms</span>
+      </li>
+      <li className={s['metric-item']}>
+        <span className={s['metric-label']}>Output</span>
+        <span className={s['metric-value']}>{nf.format(m.output)} tokens</span>
+      </li>
+      <li className={s['metric-item']}>
+        <span className={s['metric-label']}>E2E</span>
+        <span className={s['metric-value']}>{nf.format(m.e2e)} ms</span>
+      </li>
+    </ul>
   );
 };

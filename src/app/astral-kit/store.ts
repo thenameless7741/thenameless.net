@@ -3,10 +3,11 @@ import { create, useStore } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { ToastState } from '@/ui/toast';
+import { Metric } from './playground/types';
 
 interface Props {
   interactive: boolean;
-  metric: boolean;
+  showMetric: boolean;
 }
 
 export interface State extends Props {}
@@ -15,11 +16,14 @@ const store = create<State>()(
   persist(
     (set, get) => ({
       interactive: false, // TODO: revert to true
-      metric: false,
+      showMetric: false,
     }),
     {
       name: 'astral-kit',
-      partialize: ({ interactive, metric }) => ({ interactive, metric }),
+      partialize: ({ interactive, showMetric }) => ({
+        interactive,
+        showMetric,
+      }),
     },
   ),
 );
@@ -28,6 +32,7 @@ export default store;
 interface PlaygroundProps {
   toast: ToastState<object>;
   assistant: string[];
+  metric: Metric | null;
 }
 
 export interface PlaygroundState extends PlaygroundProps {}
@@ -36,6 +41,7 @@ export const createPlaygroundStore = (initProps: Partial<PlaygroundProps>) => {
   const defaultProps: PlaygroundProps = {
     toast: null!, // initialized at the component level
     assistant: [],
+    metric: null,
   };
 
   return create<PlaygroundState>((set, get) => ({

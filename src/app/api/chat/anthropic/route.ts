@@ -6,10 +6,11 @@ export const runtime = 'edge';
 interface Payload {
   params: Anthropic.MessageCreateParamsStreaming;
   apiKey: string;
+  metric?: boolean;
 }
 
 export const POST = async (req: NextRequest) => {
-  const { params, apiKey }: Payload = await req.json();
+  const { params, apiKey, metric }: Payload = await req.json();
   // if (!apiKey) {
   //   return NextResponse.json(
   //     { error: 'Anthropic API key is required' },
@@ -20,15 +21,43 @@ export const POST = async (req: NextRequest) => {
   // TODO: remove apiKey when a form for storing API key is implemented
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-  const stream = anthropic.messages.stream(params);
   const textEncoder = new TextEncoder();
+  const stream = anthropic.messages.stream(params);
+  const start = new Date().getTime();
 
   const readableStream = new ReadableStream({
     start: async (controller) => {
+      const m = { input: 0, output: 0, ttft: 0, e2e: 0 };
+
       try {
         for await (const event of stream) {
-          if (event.type === 'content_block_delta') {
-            controller.enqueue(textEncoder.encode(event.delta.text));
+          switch (event.type) {
+            case 'message_start':
+              m.input = event.message.usage.input_tokens;
+              break;
+            case 'content_block_delta':
+              if (!m.ttft) {
+                const end = new Date().getTime();
+                m.ttft = end - start;
+              }
+
+              const chunk = event.delta.text;
+              controller.enqueue(textEncoder.encode(chunk));
+              break;
+            case 'message_delta':
+              m.output = event.usage.output_tokens;
+              break;
+            case 'message_stop':
+              if (!metric) continue;
+
+              const end = new Date().getTime();
+              m.e2e = end - start;
+
+              const text = `<|metric|>${JSON.stringify(m)}`;
+              controller.enqueue(textEncoder.encode(text));
+              break;
+            default:
+              break;
           }
         }
         controller.close();

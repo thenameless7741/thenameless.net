@@ -11,7 +11,7 @@ interface Props {
 
 const Settings = ({ close }: Props) => {
   const interactive = store((s) => s.interactive);
-  const metric = store((s) => s.metric);
+  const showMetric = store((s) => s.showMetric);
 
   return (
     <div className={s.settings}>
@@ -25,8 +25,8 @@ const Settings = ({ close }: Props) => {
 
           <Checkbox
             className={s.checkbox}
-            defaultSelected={metric}
-            onChange={(metric) => store.setState({ metric })}
+            defaultSelected={showMetric}
+            onChange={(showMetric) => store.setState({ showMetric })}
           >
             Token usage & latency metrics
           </Checkbox>

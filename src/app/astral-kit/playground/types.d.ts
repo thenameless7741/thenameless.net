@@ -35,3 +35,10 @@ export interface Exercise {
 export type EditableField = 'system' | 'user' | 'input';
 
 export type Answer = 'correct' | 'incorrect' | 'unknown';
+
+export interface Metric {
+  input: number;
+  output: number;
+  ttft: number;
+  e2e: number;
+}

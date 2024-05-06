@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Beginner']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-25'
+updatedAt: '2024-05-06'
 ---
 
 ## Lesson
@@ -26,7 +26,7 @@ However, when we prime Claude to inhabit the role of a cat, Claude's perspective
 
 <Playground
   system={` `}
-  user={`User: In one sentence, what do you think about skateboarding?`}
+  user={`In one sentence, what do you think about skateboarding?`}
   assistant={`Skateboarding is an exhilarating and creative form of self-expression that combines athleticism, artistry, and a unique sense of freedom and community.`}
   labels={{
     system: 'System Prompt (without Role Prompting)',
@@ -39,7 +39,7 @@ Here is the same user question, except with role prompting.
 
 <Playground
   system={`You are a cat.`}
-  user={`User: In one sentence, what do you think about skateboarding?`}
+  user={`In one sentence, what do you think about skateboarding?`}
   assistant={`*meows* Skateboarding looks like a fun way for humans to zoom around on four wheels while balancing precariously, though I much prefer chasing feathers and napping in sunbeams.`}
   labels={{
     system: 'System Prompt (with Role Prompting)',
@@ -54,7 +54,7 @@ For example, in the example below, there is a definitive correct answer, which i
 
 <Playground
   system={` `}
-  user={`User: Jack is looking at Anne. Anne is looking at George. Jack is married, George is not, and we don’t know if Anne is married. Is a married person looking at an unmarried person?`}
+  user={`Jack is looking at Anne. Anne is looking at George. Jack is married, George is not, and we don’t know if Anne is married. Is a married person looking at an unmarried person?`}
   assistant={`To solve this problem, we need to analyze the given information and determine if a married person is looking at an unmarried person.
 
 Given information:
@@ -81,7 +81,7 @@ It turns out that with this new role assignment, Claude gets it right. (Although
 
 <Playground
   system={`You are a logic bot designed to answer complex logic problems.`}
-  user={`User: Jack is looking at Anne. Anne is looking at George. Jack is married, George is not, and we don’t know if Anne is married. Is a married person looking at an unmarried person?`}
+  user={`Jack is looking at Anne. Anne is looking at George. Jack is married, George is not, and we don’t know if Anne is married. Is a married person looking at an unmarried person?`}
   assistant={`To solve this problem, we need to analyze the given information and determine the relationships between the individuals.
 
 Given information:
@@ -120,13 +120,13 @@ If you're ready to try the chapter exercises, scroll down!
 
 In some instances, <Mark>Claude may struggle with mathematics</Mark>, even simple mathematics. Below, Claude incorrectly assesses the math problem as correctly solved, even though there's an obvious arithmetic mistake in the second step. Note that Claude actually catches the mistake when going through step-by-step, but doesn't jump to the conclusion that the overall solution is wrong.
 
-Adapt the text in the prompt box and / or the system prompt box to <Mark>make Claude grade the solution as **incorrectly** solved</Mark>, rather than correctly solved.
+Adapt the system prompt box to <Mark>make Claude grade the solution as **incorrectly** solved</Mark>, rather than correctly solved.
 
-If your answer is correct, Claude's response will turn GREEN.
+If your answer is correct, Claude's answer will have a green check mark on it.
 
 <Playground
   system={`You're an extremely skilled mathematics professor.`}
-  user={`User: Is this equation solved correctly below?
+  user={`Is this equation solved correctly below?
 
 2x - 3 = 9
 2x = 6
@@ -157,6 +157,7 @@ x = 6
 
 So, the equation is not solved correctly in the given solution.`}
 labels={{ system: 'System Prompt', user: 'Prompt', assistant: "Claude's Response" }}
+exercise={{ eval: '03-math-correction', answers: ['system'] }}
 />
 
 <Details>
@@ -164,7 +165,7 @@ labels={{ system: 'System Prompt', user: 'Prompt', assistant: "Claude's Response
 
 Give Claude a role that might make Claude better at solving math problems!
 
-The conditional formatting in this exercise is looking for an answer that includes the words "incorrect" or "not correct".
+If Claude still thinks that the solution is correct, ask it to walk you through the problem <Mark>step-by-step</Mark>.
 
 </Details>
 

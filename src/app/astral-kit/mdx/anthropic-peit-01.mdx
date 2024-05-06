@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Beginner']
 createdAt: '2024-04-19'
-updatedAt: '2024-05-04'
+updatedAt: '2024-05-06'
 ---
 
 ## Lesson
@@ -143,16 +143,13 @@ This tutorial's still a work-in-progress, so these exercises aren't interactive 
 
 Using proper User/Assistant formatting, <Mark>write a prompt</Mark> below to <Mark>get Claude to count to three</Mark>.
 
-Remember, if your answer is correct (which means formatting and prompt is good), you will see a green check mark in the top right corner of the playground.
+Remember, if your answer is correct (which means formatting and prompt is good), you will see a green check mark in the top-right of Claude's response.
 
 <Playground
   user={`Count to 3.`}
   assistant={`1, 2, 3.`}
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
-  exercise={{
-    answers: ['user'],
-    eval: '01-counting-to-three',
-  }}
+  exercise={{ answers: ['user'], eval: '01-counting-to-three' }}
 />
 
 <Details>
@@ -160,7 +157,7 @@ Remember, if your answer is correct (which means formatting and prompt is good),
 
 Provide a short instruction that asks Claude to <Mark>count to three</Mark>.
 
-The solution checker for this exercise will accept an answer containing the numbers "1", "2", and "3" in that exact order, even if they are written in a different language or script, such as "一", "二", and "三" in Chinese.
+The exercise accepts an answer containing the numbers "1", "2", and "3" in that exact order, even if they are written in a different language or script, such as "一", "二", and "三" in Chinese.
 
 If you're stuck, you can always switch to **READER MODE** to see the solution.
 
@@ -179,16 +176,15 @@ Modify <Mark>the **system prompt**</Mark> to make Claude <Mark>respond like it's
     user: 'Prompt',
     assistant: "Claude's Response",
   }}
-  exercise={{
-    eval: '01-system-prompt',
-    answers: ['system'],
-  }}
+  exercise={{ eval: '01-system-prompt', answers: ['system'] }}
 />
 
 <Details>
   <summary>If you need a hint, click me.</summary>
 
-There are many ways to solve this, just by asking! The conditional formatting in this exercise is looking for answers that contain "soo" or "giggles".
+There are many ways to solve this, just by asking! The exercise accepts a wide range of answers, as long as they sound like something a child would say.
+
+As a reminder, you can switch to **READER MODE** to see the solution.
 
 </Details>
 

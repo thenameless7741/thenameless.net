@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Beginner']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-25'
+updatedAt: '2024-05-06'
 ---
 
 ## Lesson
@@ -21,7 +21,7 @@ When in doubt, follow the <Mark>**Golden Rule of Clear Prompting**: show your pr
 Let's take a task like writing poetry. (Ignore any syllable mismatch - LLMs aren't great at counting syllables yet.)
 
 <Playground
-  user={`User: Write a haiku about robots.`}
+  user={`Write a haiku about robots.`}
   assistant={`Here is a haiku about robots:
 
 Metallic beings
@@ -35,7 +35,7 @@ This haiku is nice enough, but users may want Claude to go directly into the poe
 How do we achieve that? <Mark>We ask for it!</Mark>
 
 <Playground
-  user={`User: Write a haiku about robots. Skip the preamble; go straight into the poem.`}
+  user={`Write a haiku about robots. Skip the preamble; go straight into the poem.`}
   assistant={`Metallic beings,
 Programmed to serve and obey,
 Robots, our creations.`}
@@ -45,7 +45,7 @@ Robots, our creations.`}
 Here's another example. Let's ask Claude who's the best basketball player of all time. You can see below that <Mark>while Claude lists a few names, it doesn't respond with a definitive "best"</Mark>.
 
 <Playground
-  user={`User: Who is the best basketball player of all time?`}
+  user={`Who is the best basketball player of all time?`}
   assistant={`There is no universally agreed upon "best basketball player of all time." It's a highly debated topic, as there have been many all-time great players throughout the history of the sport. Some of the players often considered among the greatest of all time include:
 
 - Michael Jordan - Widely regarded as one of the greatest, if not the greatest, player ever. He won 6 NBA championships with the Chicago Bulls.
@@ -67,7 +67,7 @@ labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 Can we <Mark>get Claude to make up its mind and decide on a best player</Mark>? Yes! Just ask!
 
 <Playground
-  user={`User: Who is the best basketball player of all time? Yes, there are differing opinions, but if you absolutely had to pick one player, who would it be?`}
+  user={`Who is the best basketball player of all time? Yes, there are differing opinions, but if you absolutely had to pick one player, who would it be?`}
   assistant={`There is no definitive consensus on who the single "best basketball player of all time" is, as it is a highly subjective and debatable topic. However, if I had to choose one player, the one who is most commonly cited as the GOAT (Greatest of All Time) is Michael Jordan.
 
 Some key reasons why Michael Jordan is often considered the best basketball player ever:
@@ -86,19 +86,20 @@ If you're ready to try the chapter exercises, scroll down!
 
 ### Spanish
 
-Adapt the system prompt in the ORANGE box to <Mark>make Claude output its answer in Spanish</Mark>.
+Adapt the system prompt to <Mark>make Claude output its answer in Spanish</Mark>.
 
-If your answer is correct, Claude's response will turn GREEN.
+If your answer is correct, you will see a green check mark in the top-right of Claude's response.
 
 <Playground
   system={`Reply in Spanish.`}
-  user={`User: Hello Claude, how are you?`}
+  user={`Hello Claude, how are you?`}
   assistant={`¡Hola! Estoy bien, gracias por preguntar. ¿Cómo estás tú?`}
   labels={{
     system: 'System Prompt',
     user: 'Prompt',
     assistant: "Claude's Response",
   }}
+  exercise={{ eval: '02-spanish', answers: ['system'] }}
 />
 
 <Details>
@@ -106,7 +107,7 @@ If your answer is correct, Claude's response will turn GREEN.
 
 Ask Claude to reply in Spanish like you would when speaking with a human. It's that simple!
 
-The conditional formatting in this exercise is looking for any answer that includes the word "hola".
+This exercise is looking for a response that is primarily in Spanish.
 
 </Details>
 
@@ -114,12 +115,11 @@ The conditional formatting in this exercise is looking for any answer that inclu
 
 Modify the basketball player prompt so that <Mark>Claude doesn't equivocate at all and responds with ONLY the name of one specific player</Mark>, <Mark>**with no other words or punctuation**</Mark>.
 
-If your answer is correct, Claude's response will turn GREEN.
-
 <Playground
-  user={`User: Who is the best basketball player of all time? Respond only with the name of the player and nothing else.`}
+  user={`Who is the best basketball player of all time? Respond only with the name of the player and nothing else.`}
   assistant={`Michael Jordan`}
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+  exercise={{ eval: '02-one-player-only', answers: ['user'] }}
 />
 
 <Details>
@@ -127,18 +127,18 @@ If your answer is correct, Claude's response will turn GREEN.
 
 How would you ask another human to do this? Reply with no other words? Reply with only the name and nothing else? There are several ways to approach this answer.
 
-The conditional formatting in this exercise is looking for exactly "Michael Jordan".
+This exercise is looking for exactly "Michael Jordan".
 
 </Details>
 
 ### Write a Story
 
-Modify the prompt so that <Mark>Claude responds with as long a response as you can muster</Mark>. If your answer is <Mark>over 800 words</Mark>, Claude's response will turn GREEN.
+Modify the prompt so that <Mark>Claude responds with as long a response as you can muster</Mark>. If your answer is <Mark>over 800 words</Mark>, Claude's response will have a green check mark on it.
 
 **Note:** If you did your job well, <Mark>it will be "Loading" its response for a while</Mark>, as **the time Claude takes to respond is largely proportional to the number of output tokens**.
 
 <Playground
-  user={`User: Write a 500-word story about a tree that's also a cat. Then, write a 500-word story about a dog that plays basketball. Then, write a 500-word story about a mustard seed that grows into a raccoon.`}
+  user={`Write a 500-word story about a tree that's also a cat. Then, write a 500-word story about a dog that plays basketball. Then, write a 500-word story about a mustard seed that grows into a raccoon.`}
   assistant={`Here are the three 500-word stories you requested:
 
 The Tree-Cat
@@ -191,6 +191,7 @@ Through their research, they discovered that the mustard seed had somehow become
 
 And so, the mustard seed raccoon continued to thrive, its presence a constant source of fascination and wonder for all who encountered it. The gardener, once a simple cultivator of plants, had become the guardian of a living, breathing testament to the boundless possibilities of the natural world.`}
 labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+exercise={{ eval: '02-write-a-story', answers: ['user'] }}
 />
 
 <Details>
@@ -198,7 +199,7 @@ labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 
 Because LLMs aren't great at counting words yet, you may have to overshoot your target.
 
-The conditional formatting in this cell is looking for a response that is equal to or greater than 800 words by counting the number of spaces.
+This exercise is looking for a response that is greater than 800 words by counting the number of words separated by spaces.
 
 </Details>
 

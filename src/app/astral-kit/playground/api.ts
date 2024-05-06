@@ -20,7 +20,7 @@ export const chat = async ({
   abort = new AbortController(),
 }: ChatParams) => {
   const params: Anthropic.MessageCreateParamsStreaming = {
-    max_tokens: 1024,
+    max_tokens: 2048,
     messages,
     model: 'claude-3-haiku-20240307', // claude-3-sonnet-20240229, claude-3-opus-20240229
     stream: true,

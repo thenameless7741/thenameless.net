@@ -1,4 +1,5 @@
 import { Cube } from '@phosphor-icons/react/dist/ssr';
+import React from 'react';
 
 import IconLabelButton from '@/ui/icon-label-button';
 import { PlaygroundProps as PP, Params } from './types';
@@ -99,10 +100,10 @@ const Params = ({
 
       <div className={s['params-grid']}>
         {Object.entries(params).map(([k, v]) => (
-          <>
+          <React.Fragment key={k}>
             <div className={s['param-key']}>{k}</div>
             <div className={s['param-value']}>{v}</div>
-          </>
+          </React.Fragment>
         ))}
       </div>
     </div>

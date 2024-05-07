@@ -8,7 +8,8 @@ import {
   Warning,
   X,
 } from '@phosphor-icons/react/dist/ssr';
-import { useContext, useRef, useState } from 'react';
+import React, { useContext, useId, useRef, useState } from 'react';
+import { Label } from 'react-aria-components';
 import { useStore } from 'zustand';
 
 import IconLabelButton from '@/ui/icon-label-button';
@@ -33,6 +34,7 @@ type Props = PP.Base &
 
 const Interactive = (p: Props) => {
   /* states */
+  const id = useId();
   const ref = useRef<{ abort: AbortController | null }>({ abort: null });
   const showMetric = store((s) => s.showMetric);
   const playgroundStore = useContext(PlaygroundContext)!;
@@ -57,20 +59,19 @@ const Interactive = (p: Props) => {
       });
     }
 
-    const content = exercise ? '' : p.user ?? '';
+    const content = exercise ? p.exercise?.initialUser ?? '' : p.user ?? '';
     return [{ role: 'user', content }];
   };
   const [prompt, setPrompt] = useState<PromptMessage[]>(getInitialPrompt);
+  const getInitialInput = (): Params[] => {
+    const input = p.input ? (Array.isArray(p.input) ? p.input : [p.input]) : [];
+    return input.map((params) => ({ ...params }));
+  };
+  const [input, setInput] = useState(getInitialInput);
   const [waiting, setWaiting] = useState(false);
   const [answer, setAnswer] = useState<Answer | null>(null);
 
   /* computed properties */
-
-  const input: Params[] = p.input
-    ? Array.isArray(p.input)
-      ? p.input
-      : [p.input]
-    : [];
 
   const fields: EditableField[] = ['system', 'user', 'input'];
   const answerFields: EditableField[] = p.exercise?.answers ?? [];
@@ -101,13 +102,21 @@ const Interactive = (p: Props) => {
     setWaiting(true);
     !!p.exercise && setAnswer(null);
 
+    const messages = prompt.map((p) => ({ ...p })); // clone
+    !!input.length &&
+      Object.entries(input[0]).forEach(([k, v]) => {
+        messages.forEach((m) => {
+          m.content = m.content.replaceAll(`{{${k}}}`, v);
+        });
+      });
+
     playgroundStore.setState({ assistant: [], metric: null });
 
     const abort = new AbortController();
     ref.current.abort = abort;
 
     await chat({
-      messages: prompt,
+      messages,
       system,
       handleStream,
       handleDone,
@@ -131,6 +140,7 @@ const Interactive = (p: Props) => {
   const handleReset = () => {
     setSystem(p.system ?? '');
     setPrompt(getInitialPrompt);
+    setInput(getInitialInput);
     playgroundStore.setState({ assistant: [], metric: null });
     handleDone();
     setAnswer(null);
@@ -140,6 +150,16 @@ const Interactive = (p: Props) => {
   /* handlers */
 
   const handleContentChange = (content: string, i: number) => {
+    const varRegex = /{{([^}]+)}}/g;
+    const vars = content.match(varRegex)?.map((v) => v.slice(2, -2)) ?? [];
+
+    const oldParams: Params = { ...input[0] };
+    const params: Params = {};
+    vars.forEach((k) => (params[k] = oldParams[k] ?? ''));
+
+    const disabled = !!p.exercise && questionFields.includes('input');
+    !disabled && setInput([params]);
+
     const m: PromptMessage = { ...prompt[i], content };
     const ms = [...prompt.slice(0, i), m, ...prompt.slice(i + 1)];
     setPrompt(ms);
@@ -201,7 +221,7 @@ const Interactive = (p: Props) => {
         />
       )}
 
-      <div>
+      <div className={s.prompt}>
         {prompt.map((m, i) => (
           <TextArea
             key={i}
@@ -220,6 +240,23 @@ const Interactive = (p: Props) => {
         className={s.io}
         style={{ '--size': p.input?.length } as React.CSSProperties}
       >
+        {!!input.length && (
+          <Params
+            id={id}
+            disabled={!!p.exercise && questionFields.includes('input')}
+            params={input[0]}
+            updateParams={(params) => {
+              const i = 0; // TODO: support multiple params (input)
+
+              setInput((input) => [
+                ...input.slice(0, i),
+                params,
+                ...input.slice(i + 1),
+              ]);
+            }}
+          />
+        )}
+
         <div className={s.assistant}>
           <div className={s.label}>
             {`Claude's Response`}
@@ -296,6 +333,56 @@ const Header = (p: HeaderProps) => {
       >
         reader mode
       </IconLabelButton>
+    </div>
+  );
+};
+
+interface ParamsProps {
+  id: string;
+  disabled: boolean;
+  params: Params;
+  updateParams: (params: Params) => void;
+  label?: string;
+}
+
+const Params = ({
+  id,
+  disabled,
+  params,
+  updateParams,
+  label = 'input',
+}: ParamsProps) => {
+  return (
+    <div className={s.params}>
+      <div className={s.label}>{label}</div>
+
+      <div className={s['params-grid']}>
+        {Object.entries(params).map(([k, v]) => (
+          <React.Fragment key={k}>
+            <Label
+              className={s['param-key']}
+              id={`${id}-${k}-label`}
+              htmlFor={`${id}-${k}-value`}
+            >
+              {k}
+            </Label>
+
+            <TextArea
+              key={k}
+              className={s['param-value']}
+              isDisabled={disabled}
+              aria-labelledby={`${id}-${k}-label`}
+              id={`${id}-${k}-value`}
+              onChange={(v) => {
+                updateParams({ ...params, [k]: v });
+              }}
+              rows={1}
+              placeholder={`Enter the value for ${k} here...`}
+              value={v}
+            />
+          </React.Fragment>
+        ))}
+      </div>
     </div>
   );
 };

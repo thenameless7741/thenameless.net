@@ -1,6 +1,8 @@
 import { Cube } from '@phosphor-icons/react/dist/ssr';
 import React from 'react';
+import Prism from 'react-syntax-highlighter/dist/esm/prism';
 
+import prism from '@/styles/prism';
 import IconLabelButton from '@/ui/icon-label-button';
 import { PlaygroundProps as PP, Params } from './types';
 import s from './non-interactive.module.scss';
@@ -55,7 +57,9 @@ const NonInteractive = (p: Props) => {
 
       <div className={s.user}>
         <div className={s.label}>{p.labels?.user ?? 'user'}</div>
-        <div className={s.content}>{prompt}</div>
+        <Prism className={s.content} style={prism} language="django">
+          {prompt}
+        </Prism>
       </div>
 
       <div

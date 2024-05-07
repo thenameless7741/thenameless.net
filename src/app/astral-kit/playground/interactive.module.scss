@@ -74,16 +74,18 @@
   @extend .editable-section;
 }
 
-.user {
-  @extend .editable-section;
-
+.prompt {
   @include t.device(lt) {
     .playground.has-input:not(.has-system) > & {
       grid-column: 1 / -1;
-      max-inline-size: max-content;
+      inline-size: 40rem;
       margin-inline: auto;
     }
   }
+}
+
+.user {
+  @extend .editable-section;
 }
 
 .assistant {
@@ -113,7 +115,11 @@
 }
 
 .params {
-  @extend .section;
+  @extend .editable-section;
+
+  @include t.device(lt) {
+    margin-block-start: t.$space-3;
+  }
 }
 
 .params-grid {
@@ -133,6 +139,7 @@
   @extend .ellipsis;
   @include t.font(17, 25);
   max-inline-size: 8rem;
+  padding-block-start: t.$space-3; /* alignment with baseline */
   font-family: t.$font-body;
 
   &::before {
@@ -144,7 +151,7 @@
 }
 
 .param-value {
-  @extend .content;
+  @extend .editable-section;
 }
 
 .metric {

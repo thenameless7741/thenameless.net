@@ -28,8 +28,9 @@ export interface PromptMessage {
 }
 
 export interface Exercise {
-  answers: EditableField[];
   eval: string;
+  answers: EditableField[];
+  initialUser?: string;
 }
 
 export type EditableField = 'system' | 'user' | 'input';

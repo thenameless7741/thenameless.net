@@ -54,7 +54,7 @@ export type PlaygroundStore = ReturnType<typeof createPlaygroundStore>;
 
 export const PlaygroundContext = createContext<PlaygroundStore | null>(null);
 
-export const usePlaygroundContext = <T>(
+export const usePlaygroundContext = <T,>(
   selector: (s: PlaygroundState) => T,
 ): T => {
   const store = useContext(PlaygroundContext);

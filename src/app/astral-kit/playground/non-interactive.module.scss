@@ -16,7 +16,7 @@
   @include t.device(lt) {
     .playground.has-input:not(.has-system) > & {
       grid-column: 1 / -1;
-      max-inline-size: max-content;
+      inline-size: 40rem;
       margin-inline: auto;
     }
   }
@@ -24,6 +24,17 @@
 
 .assistant {
   @extend .section;
+}
+
+.content {
+  .user > & > code {
+    /* custom prism override */
+    color: inherit !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    /* base prism override */
+    white-space: pre-wrap !important;
+  }
 }
 
 .io {

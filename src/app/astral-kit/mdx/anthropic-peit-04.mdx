@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Intermediate']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-25'
+updatedAt: '2024-05-07'
 ---
 
 ## Lesson
@@ -23,7 +23,7 @@ In this first example, we're <Mark>asking Claude to act as an animal noise gener
 **Note: You don't have to call your substitution placeholder anything in particular** in practice. For this example, definitely use `{{ANIMAL}}`, as that's how the exercise is formatted. But in general, just as easily, we could have called it `{{CREATURE}}` or `{{A}}` (but it's **generally good to have your stand-ins be specific and relevant** so that your prompt is easy to understand even without the substitution, just for user parseability). Just make sure that whatever you name your substitution placeholder is what you use for the substitution formula.
 
 <Playground
-  user={`User: I will tell you the name of an animal. Please respond with the noise that animal makes. {{ANIMAL}}`}
+  user={`I will tell you the name of an animal. Please respond with the noise that animal makes. {{ANIMAL}}`}
   assistant={`Moo.`}
   labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
   input={{ ANIMAL: 'Cow' }}
@@ -38,7 +38,7 @@ We use the `{{double-curly-brackets}}` formatting in our own code as well.
 When introducing substitution variables like this, it is very important to <Mark>make sure Claude knows where variables start and end</Mark> (vs. instructions or task descriptions). Let's look at an example where there is no separation between the instructions and the substitution variable.
 
 <Playground
-  user={`User: Yo Claude. {{EMAIL}} <----- Make this email more polite but don't change anything else about it.`}
+  user={`Yo Claude. {{EMAIL}} <----- Make this email more polite but don't change anything else about it.`}
   assistant={`Dear Claude,
 
 I hope this email finds you well. As the CEO, I would like to request your presence at our office tomorrow at 6 am. I understand this may be an early start, but I believe it is necessary for the success of our company. Please let me know if you have any concerns or conflicts with this schedule, and we can work together to find a suitable arrangement.
@@ -59,7 +59,7 @@ How do we solve this? **Wrap the input in XML tags**! We did this below, and as 
 **Note:** While Claude can recognize and work with a wide range of separators and delimeters, we recommend that you **use specifically XML tags as separators for Claude**, as Claude was trained specifically to recognize XML tags as a prompt organizing mechanism. Outside of function calling, **there are no special sauce XML tags that Claude has been trained on that you should use to maximally boost your performance**. We have purposefully made Claude very malleable and customizable this way.
 
 <Playground
-  user={`User: Yo Claude. <email>{{EMAIL}}</email> <----- Make this email more polite but don't change anything else about it.`}
+  user={`Yo Claude. <email>{{EMAIL}}</email> <----- Make this email more polite but don't change anything else about it.`}
   assistant={`Dear [Your Name],
 
 I hope this email finds you well. As the CEO, I would like to request your presence at 6am. I understand this may be an early start, but I believe it is necessary for the success of our organization. Please let me know if this time works for you, and I appreciate your cooperation.
@@ -74,7 +74,7 @@ Let's see another example of how XML tags can help us.
 In the following prompt, <Mark>Claude incorrectly interprets what part of the prompt is the instruction vs. the input</Mark>. It incorrectly considers "Each is about an animal, like rabbits" to be part of the list due to the formatting, when the user (the one filling out the `{{SENTENCES}}` variable) presumably did not want that.
 
 <Playground
-  user={`User: Below is a list of sentences. Tell me the second item on the list.\n
+  user={`Below is a list of sentences. Tell me the second item on the list.\n
 - Each is about an animal, like rabbits.
 {{SENTENCES}}`}
   assistant={`The second item on the list is "I like how cows sound".`}
@@ -89,7 +89,7 @@ In the following prompt, <Mark>Claude incorrectly interprets what part of the pr
 To fix this, we just need to <Mark>surround the user input sentences in XML tags</Mark>. This shows Claude where the input data begins and ends despite the misleading hyphen before "Each is about an animal, like rabbits."
 
 <Playground
-  user={`User: Below is a list of sentences. Tell me the second item on the list.\n
+  user={`Below is a list of sentences. Tell me the second item on the list.\n
 - Each is about an animal, like rabbits.
   <sentences>{{ SENTENCES }}</sentences>`}
   assistant={`The second item on the list is "This sentence is about spiders".`}
@@ -109,24 +109,23 @@ If you're ready to try the chapter exercises, scroll down!
 
 ### Haiku Topic
 
-Write a prompt in the highlighted template box that will <Mark>take in a variable called `{{TOPIC}}` and output a haiku</Mark> about the topic. This exercise is just meant to test your understanding of the variable templating structure.
+Write a prompt in the user box that will <Mark>take in a variable called `{{TOPIC}}` and output a haiku</Mark> about the topic. This exercise is just meant to test your understanding of the variable templating structure.
 
 <Playground
-  user={`User: Write a haiku about {{TOPIC}}.`}
+  user={`Write a haiku about {{TOPIC}}.`}
   assistant={`Here is a haiku about pigs:\n
 Snouts in the mud, snort
 Curly tails, pink and plump, oink
 Pigs roam the farmyard`}
   labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
   input={{ TOPIC: `Pigs` }}
+  exercise={{ eval: '04-haiku-topic', answers: ['user'] }}
 />
 
 <Details>
   <summary>If you need a hint, click me.</summary>
 
-Don't forget to include "User:" at the start of your message list, as well as the exact phrase `{{TOPIC}}` wherever you want the topic to be substituted in. Changing the input should make Claude write a haiku about a different topic.
-
-The conditional formatting in this exercise is looking for a solution that includes the words "haiku" and "pig".
+Don't forget to include the exact phrase `{{TOPIC}}` wherever you want the topic to be substituted in.
 
 </Details>
 
@@ -139,12 +138,25 @@ Try not to change anything else about the prompt. The messy and mistake-ridden w
 
 **Note:** Although Claude can somewhat parse through broken prompts with poor grammar and misspelled words, **having a clearly written, spell-checked and grammatically correct prompt far decreases the risk of Claude making mistakes and far increases the quality of Claude's output**.
 
+<Playground
+  user={`Hia its me i have a q about dogs jkaerjv <question>{{QUESTION}}</question> jklmvca tx it help me muhch much atx fst fst answer short short tx`}
+  assistant={`Yes, dogs can be brown.`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{ QUESTION: `ar cn brown?` }}
+  exercise={{
+    eval: '04-dog-question-with-typos',
+    answers: ['user'],
+    initialUser:
+      'Hia its me i have a q about dogs jkaerjv {{QUESTION}} jklmvca tx it help me muhch much atx fst fst answer short short tx',
+  }}
+/>
+
 <Details>
   <summary>If you need a hint, click me.</summary>
 
 Hint: If you surround `{{QUESTION}}` in XML tags, how does that change Claude's response?
 
-The conditional formatting in this exercise is looking for a response that includes the word "brown".
+This exercise is looking for a response that affirms dogs can be brown.
 
 </Details>
 
@@ -155,10 +167,16 @@ Fix the prompt in the highlighted template box <Mark>**WITHOUT** adding XML tags
 Just as with the above exercises, try not to change anything else about the prompt. This will show you what kind of language Claude can parse and understand. Claude's response will turn GREEN if your prompt produces the right answer.
 
 <Playground
-  user={`User: Hia its me i have a q about dogs jkaerjv <question>{{QUESTION}}</question> jklmvca tx it help me muhch much atx fst fst answer short short tx`}
+  user={`Hia its me i have a q about dogs {{QUESTION}} tx it help me muhch much atx fst fst answer short short tx`}
   assistant={`Yes, dogs can be brown.`}
   labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
   input={{ QUESTION: `ar cn brown?` }}
+  exercise={{
+    eval: '04-dog-question-with-typos',
+    answers: ['user'],
+    initialUser:
+      'Hia its me i have a q about dogs jkaerjv {{QUESTION}} jklmvca tx it help me muhch much atx fst fst answer short short tx',
+  }}
 />
 
 <Details>
@@ -166,7 +184,7 @@ Just as with the above exercises, try not to change anything else about the prom
 
 Try removing one word or section of characters at a time, starting with the parts that make the least sense. Doing this one word at a time will also help you see just how much Claude can or can't parse and understand.
 
-The conditional formatting in this exercise is looking for a response that includes the word "brown".
+This exercise is looking for a response that affirms dogs can be brown.
 
 </Details>
 

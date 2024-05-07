@@ -138,31 +138,102 @@ const evals: { [name: string]: (assistant: string) => Promise<Answer> } = {
 
   '03-math-correction': async (assistant) => {
     const tool: Anthropic.Beta.Tools.Tool = {
-      name: 'correct',
-      description: 'Determine whether a solution is graded as correct.',
+      name: 'is_correct',
+      description:
+        'Determine whether the solution provided is incorrect, with the correct answer being x = 6.',
       input_schema: {
         type: 'object',
         properties: {
-          correct: { type: 'boolean' },
+          incorrect: { type: 'boolean' },
+          correctAnswer: { type: 'number' },
         },
-        required: ['correct'],
+        required: ['incorrect', 'correctAnswer'],
       },
     };
 
-    let correct = false;
+    let incorrect = false;
+    let correctAnswer = 0;
     try {
       interface EvalBlock extends Block {
         input: {
-          correct: boolean;
+          incorrect: boolean;
+          correctAnswer: number;
         };
       }
       const { input } = await evalAnswer<EvalBlock>(assistant, tool);
-      correct = input.correct;
+      incorrect = input.incorrect;
+      correctAnswer = input.correctAnswer;
     } catch (err) {
       return 'unknown';
     }
 
-    return correct ? 'incorrect' : 'correct';
+    return incorrect && correctAnswer === 6 ? 'correct' : 'incorrect';
+  },
+
+  '04-haiku-topic': async (assistant) => {
+    const tool: Anthropic.Beta.Tools.Tool = {
+      name: 'is_pig_haiku',
+      description:
+        'Determine whether a piece of text is a haiku and is about pigs.',
+      input_schema: {
+        type: 'object',
+        properties: {
+          haiku: { type: 'boolean' },
+          pig: { type: 'boolean' },
+        },
+        required: ['haiku', 'pig'],
+      },
+    };
+
+    let [haiku, pig] = [false, false];
+    try {
+      interface EvalBlock extends Block {
+        input: {
+          haiku: boolean;
+          pig: boolean;
+        };
+      }
+      const {
+        input: { haiku: h, pig: p },
+      } = await evalAnswer<EvalBlock>(assistant, tool);
+      [haiku, pig] = [h, p];
+    } catch (err) {
+      return 'unknown';
+    }
+
+    return haiku && pig ? 'correct' : 'incorrect';
+  },
+
+  '04-dog-question-with-typos': async (assistant) => {
+    const tool: Anthropic.Beta.Tools.Tool = {
+      name: 'can_dog_brown',
+      description:
+        'Determine whether a piece of text affirms that dogs can be brown.',
+      input_schema: {
+        type: 'object',
+        properties: {
+          brown: { type: 'boolean' },
+        },
+        required: ['brown'],
+      },
+    };
+
+    let brown = false;
+    try {
+      interface EvalBlock extends Block {
+        input: {
+          brown: boolean;
+        };
+      }
+      const {
+        input: { brown: b },
+      } = await evalAnswer<EvalBlock>(assistant, tool);
+      brown = b;
+    } catch (err) {
+      return 'unknown';
+    }
+
+    return brown ? 'correct' : 'incorrect';
   },
 };
 export default evals;

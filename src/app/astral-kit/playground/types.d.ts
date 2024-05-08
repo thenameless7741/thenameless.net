@@ -2,8 +2,8 @@ export namespace PlaygroundProps {
   export interface Base {
     system?: string;
     user?: string;
-    input?: Params | Params[]; // array size relative to assistant, and vice versa
     prompt?: PromptMessage[]; // an alternative to user, assistant & input fields
+    input?: Params | Params[]; // array size relative to assistant, and vice versa
   }
 
   export interface Interactive {
@@ -32,6 +32,7 @@ export interface Exercise {
   answers: EditableField[];
   initialUser?: string;
   initialPrompt?: PromptMessage[]; // array size relative to prompt
+  initialInput?: Params[]; // array size relative to input
 }
 
 export type EditableField = 'system' | 'user' | 'input' | 'prompt';

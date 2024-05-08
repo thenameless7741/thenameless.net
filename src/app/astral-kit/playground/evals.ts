@@ -225,15 +225,106 @@ const evals: { [name: string]: (assistant: string) => Promise<Answer> } = {
           brown: boolean;
         };
       }
-      const {
-        input: { brown: b },
-      } = await evalAnswer<EvalBlock>(assistant, tool);
-      brown = b;
+      const { input } = await evalAnswer<EvalBlock>(assistant, tool);
+      brown = input.brown;
     } catch (err) {
       return 'unknown';
     }
 
     return brown ? 'correct' : 'incorrect';
+  },
+
+  '05-steph-curry-goat': async (assistant) => {
+    const tool: Anthropic.Beta.Tools.Tool = {
+      name: 'goat_description',
+      description:
+        'Determine whether a piece of text describes why Stephen Curry is the Greatest of All Time (GOAT).',
+      input_schema: {
+        type: 'object',
+        properties: {
+          curry_goat: { type: 'boolean' },
+        },
+        required: ['curry_goat'],
+      },
+    };
+
+    let curryGoat = false;
+    try {
+      interface EvalBlock extends Block {
+        input: {
+          curry_goat: boolean;
+        };
+      }
+      const { input } = await evalAnswer<EvalBlock>(assistant, tool);
+      curryGoat = input.curry_goat;
+    } catch (err) {
+      return 'unknown';
+    }
+
+    return curryGoat ? 'correct' : 'incorrect';
+  },
+
+  '05-two-haikus': async (assistant) => {
+    const tool: Anthropic.Beta.Tools.Tool = {
+      name: 'haiku_counter',
+      description: 'Determine the number of haikus in the text.',
+      input_schema: {
+        type: 'object',
+        properties: {
+          haiku: { type: 'number' },
+        },
+        required: ['haiku'],
+      },
+    };
+
+    let haiku = 0;
+    try {
+      interface EvalBlock extends Block {
+        input: {
+          haiku: number;
+        };
+      }
+      const { input } = await evalAnswer<EvalBlock>(assistant, tool);
+      haiku = input.haiku;
+    } catch (err) {
+      return 'unknown';
+    }
+
+    return haiku == 2 ? 'correct' : 'incorrect';
+  },
+
+  '05-two-haikus-two-animals': async (assistant) => {
+    const tool: Anthropic.Beta.Tools.Tool = {
+      name: 'haiku_counter',
+      description: 'Determine if a piece of text is a haiku about cats and dogs.',
+      input_schema: {
+        type: 'object',
+        properties: {
+          cat_haiku: { type: 'boolean' },
+          dog_haiku: { type: 'boolean' },
+        },
+        required: ['cat_haiku', 'dog_haiku'],
+      },
+    };
+
+    let catHaiku = false;
+    let dogHaiku = false;
+    try {
+      interface EvalBlock extends Block {
+        input: {
+          cat_haiku: boolean;
+          dog_haiku: boolean;
+        };
+      }
+      const {
+        input: { cat_haiku: c, dog_haiku: d },
+      } = await evalAnswer<EvalBlock>(assistant, tool);
+      [catHaiku, dogHaiku] = [c, d];
+    } catch (err) {
+      return 'unknown';
+    }
+
+    return catHaiku && dogHaiku ? 'correct' : 'incorrect';
   },
 };
 export default evals;

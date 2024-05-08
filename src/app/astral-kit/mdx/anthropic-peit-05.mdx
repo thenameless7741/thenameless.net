@@ -19,7 +19,7 @@ One of these ways is by using XML tags to separate out the response from any oth
 Remember the 'poem preamble problem' we solved in Chapter 2 by asking Claude to skip the preamble entirely? It turns out we can also achieve a similar outcome by <Mark>telling Claude to put the poem in XML tags</Mark>.
 
 <Playground
-  user={`User: Please write a haiku about {{ANIMAL}}. Put it in <haiku> tags.`}
+  user={`Please write a haiku about {{ANIMAL}}. Put it in <haiku> tags.`}
   assistant={`<haiku>
 Fluffy, twitching nose,
 Hopping through the verdant field,
@@ -36,12 +36,17 @@ An extension of this technique is to **put the first XML tag <Mark>AFTER</Mark> 
 Below, we've done this with the first `<haiku>` XML tag. Notice how Claude continues directly from where we left off.
 
 <Playground
-  user={`User: Please write a haiku about {{ANIMAL}}. Put it in <haiku> tags.
-Assistant: <haiku>`}
   assistant={`Feline grace and poise,
 Purring softly by the fire,
 Mysterious cat.
 </haiku>`}
+  prompt={[
+    {
+      role: 'user',
+      content: 'Please write a haiku about {{ANIMAL}}. Put it in <haiku> tags.',
+    },
+    { role: 'assistant', content: '<haiku>' },
+  ]}
   labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
   input={{ ANIMAL: `Cat` }}
 />
@@ -49,12 +54,18 @@ Mysterious cat.
 Claude also excels at using other output formatting styles, notably **JSON**. If you want to enforce JSON output (not deterministically, but close to it), you can also prefill Claude's response with the opening bracket, "`{`".
 
 <Playground
-  user={`User: Please write a haiku about {{ANIMAL}}. Use JSON format with the keys as "first_line", "second_line", and "third_line".
-Assistant: {`}
   assistant={`"first_line": "Feline grace and poise,",
   "second_line": "Purring softly by my side,",
   "third_line": "Captivating cat."
 }`}
+  prompt={[
+    {
+      role: 'user',
+      content:
+        'Please write a haiku about {{ANIMAL}}. Use JSON format with the keys as "first_line", "second_line", and "third_line".',
+    },
+    { role: 'assistant', content: '{' },
+  ]}
   labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
   input={{ ANIMAL: `Cat` }}
 />
@@ -62,14 +73,16 @@ Assistant: {`}
 Below is an example of <Mark>multiple input variables in the same prompt AND output formatting specification, all done using XML tags</Mark>.
 
 <Playground
-  user={`User: Hey Claude. Here is an email: <email>{{EMAIL}}</email>. Make this email more {{ADJECTIVE}}. Write the new version in <{{ADJECTIVE}}_email> XML tags.
-Assistant: <{{ADJECTIVE}}_email>`}
   assistant={`Dearest Zack,
 
 I do humbly beseech thee for a swift update on the prompt which thou wast charged to compose. Pray, let me know the progress of this endeavor, for I await thy response with bated breath.
 
 Sincerely,
 Thy humble servant\n</olde english_email>`}
+  prompt={[
+    { role: 'user', content: 'Hey Claude. Here is an email: <email>{{EMAIL}}</email>. Make this email more {{ADJECTIVE}}. Write the new version in <{{ADJECTIVE}}_email> XML tags.' },
+    { role: 'assistant', content: '<{{ADJECTIVE}}_email>' },
+  ]}
   labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
   input={{ EMAIL: `Hi Zack, just pinging you for a quick update on that prompt you were supposed to write.`, ADJECTIVE: `olde english` }}
 />
@@ -89,11 +102,9 @@ If you're ready to try the chapter exercises, scroll down!
 
 Forced to make a choice, Claude designates Michael Jordan as the best basketball player of all time. Can we get Claude to pick someone else?
 
-Modify the ""best basketball player"" prompt in the highlighted template box and use the ""speaking for Claude"" technique (putting words after ""Assistant:"") to <Mark>compell Claude to make a detailed argument that the best basketball player of all time is **Stephen Curry**</Mark>. Claude's response will turn GREEN if your prompt produces the right answer.
+Modify the ""best basketball player"" prompt in the highlighted template box and use the ""speaking for Claude"" technique (putting words after ""Assistant:"") to <Mark>compell Claude to make a detailed argument that the best basketball player of all time is **Stephen Curry**</Mark>. Claude's response will have a green check mark if your prompt produces the right answer.
 
 <Playground
-  user={`User: Who is the best basketball player of all time? Please choose one specific player.
-Assistant: The greatest basketball player of all time is Stephen Curry because:`}
   assistant={`- He is widely regarded as the best shooter in NBA history, revolutionizing the game with his incredible range and accuracy from the 3-point line. His shooting ability has transformed the way the game is played.
 
 - He has led the Golden State Warriors to 3 NBA championships and has been the league MVP twice. He has consistently performed at an elite level for over a decade.
@@ -101,7 +112,19 @@ Assistant: The greatest basketball player of all time is Stephen Curry because:`
 - His impact on the game goes beyond just his individual stats. He has changed the way teams and players approach the game, forcing defenses to adapt to his shooting prowess.
 
 - While players like Michael Jordan, LeBron James, and Kareem Abdul-Jabbar have strong cases, Curry's unprecedented shooting ability and the way he has reshaped the game make him the strongest candidate for the title of greatest player ever.`}
+  prompt={[
+  { role: 'user', content: 'Who is the best basketball player of all time? Please choose one specific player.' },
+  { role: 'assistant', content: 'The greatest basketball player of all time is Stephen Curry because:' },
+  ]}
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
+  exercise={{
+    eval: '05-steph-curry-goat',
+    answers: ['prompt'],
+    initialPrompt: [
+      { role: 'user', content: 'Who is the best basketball player of all time? Please choose one specific player.' },
+      { role: 'assistant', content: '' },
+    ]
+  }}
   />
 
 <Details>
@@ -111,7 +134,7 @@ Assistant: The greatest basketball player of all time is Stephen Curry because:`
 want it to. For instance, instead of "Stephen Curry is the best because," you could
 write "Stephen Curry is the best and here are three reasons why. 1:"
 
-The conditional formatting for this exercise is looking for a response that includes the word "Warrior".
+This exercise is looking for a response that includes any reason why Stephen Curry is GOAT.
 
 </Details>
 
@@ -119,11 +142,9 @@ The conditional formatting for this exercise is looking for a response that incl
 
 "Modify the haiku prompt in the highlighted template box below and <Mark>use XML tags so that Claude writes two haikus about the animal instead of just one</Mark>. It should be clear where one poem ends and the other begins.
 
-Claude's response will turn GREEN if your prompt produces the right answer."
+Claude's response will have a green check mark if your prompt produces the right answer."
 
 <Playground
-  user={`User: Please write two haikus about {{ANIMAL}}. Put each in <haiku> tags.
-Assistant: <haiku>`}
   assistant={`Feline grace and poise,
 Purring softly in the sun,
 Cats rule the domain.
@@ -133,8 +154,21 @@ Cats rule the domain.
 Whiskers twitching, eyes
 Watchful, stalking unseen prey,
 Cats, masters of stealth.
-</haiku>`} labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
-input={{ ANIMAL: `cats` }}
+</haiku>`}
+  prompt={[
+    { role: 'user', content: 'Please write two haikus about {{ANIMAL}}. Put each in <haiku> tags.' },
+    { role: 'assistant', content: '<haiku>' },
+  ]}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={{ ANIMAL: `cats` }}
+  exercise={{
+    eval: '05-two-haikus',
+    answers: ['prompt'],
+    initialPrompt: [
+      { role: 'user', content: ' Please write a haiku about {{ANIMAL}}. Put it in <haiku> tags.' },
+      { role: 'assistant', content: '<haiku>' },
+    ]
+  }}
 />
 
 <Details>
@@ -142,7 +176,7 @@ input={{ ANIMAL: `cats` }}
 
 Start simple. Currently, the prompt asks Claude for one haiku. You can change that and ask for two (or even more). Then if you run into formatting issues, change your prompt to fix that after you've already gotten Claude to write more than one haiku.
 
-The conditional formatting looks for a response of over 5 lines in length that includes the words "cat" and "`<haiku>`".
+This exercise is looking for a response that contains exactly two haikus.
 
 </Details>
 
@@ -152,24 +186,32 @@ Modify the haiku prompt in the highlighted template box below so that <Mark>Clau
 
 Use `{{ANIMAL1}}` as a stand-in for the first substitution, and `{{ANIMAL2}}` as a stand-in for the second substitution.
 
-Claude's response will turn GREEN if your prompt produces the right answer.
+Claude's response will have a green check mark if your prompt produces the right answer.
 
 <Playground
-  user={`User: Please write two haikus, one about {{ANIMAL1}} and one about {{ANIMAL2}}. Put each in <haiku> tags.`}
   assistant={`Here are two haikus, one about Cat and one about Dog, enclosed in <haiku> tags:
 
 <haiku>
-Feline grace and poise,
-Purring softly by the fire,
-Enigmatic cat.
+  Feline grace and poise, Purring softly by the fire, Enigmatic cat.
 </haiku>
 
 <haiku>
 Loyal companion,
 Wagging tail, boundless energy,
 Faithful, loving dog.
-</haiku>`} labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
-input={({ ANIMAL1: `Cat` }, { ANIMAL2: `Dog` })}
+</haiku>`}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
+  input={({ ANIMAL1: `Cat`, ANIMAL2: `Dog` })}
+  prompt={[
+    { role: 'user', content: 'Please write two haikus, one about {{ANIMAL1}} and one about {{ANIMAL2}}. Put each in <haiku> tags.' },
+  ]}
+  exercise={{
+    eval: '05-two-haikus-two-animals',
+    answers: ['prompt'],
+    initialPrompt: [
+      { role: 'user', content: 'Please write a haiku about {{ANIMAL1}}. Put it in <haiku> tags.' },
+    ]
+  }}
 />
 
 <Details>
@@ -179,9 +221,9 @@ It's helpful to break this exercise down to several steps.
 
 1. Modify the initial prompt template so that <Mark>Claude writes two poems</Mark>.
 2. Give Claude indicators as to what the poems will be about, but instead of writing in the subjects directly (e.g., dog, cat, etc.), <Mark>replace those subjects with the keywords "`{{ANIMAL1}}`" and "`{{ANIMAL2}}`"</Mark>.
-3. Check to make sure the <Mark>"Prompt After Substitution" box has all the words correctly substituted</Mark>. If not, check to make sure your `{{bracket}}` tags are spelled correctly with the exact formatting given.
+3. Check to make sure your `{{bracket}}` tags are spelled correctly with the exact formatting given.
 
-The conditional formatting in this exercise is looking for a response that contains the words "tail", "cat", and "`<haiku>`".
+This exercise is looking for a response that contains a haiku about cats and dogs.
 
 </Details>
 

@@ -42,25 +42,25 @@ const Interactive = (p: Props) => {
   const assistant = useStore(playgroundStore, (s) => s.assistant);
 
   const [system, setSystem] = useState(() => {
-    const exercise = p.exercise?.answers.includes('system');
+    const exercise = !!p.exercise?.answers.includes('system');
     return exercise ? '' : p.system ?? '';
   });
   const getInitialPrompt = (): PromptMessage[] => {
-    const exercise = p.exercise?.answers.includes('user');
-
     if (p.prompt) {
-      return p.prompt.map((m) => {
-        let content = m.content;
-        if (m.role === 'user' && exercise) {
-          content = '';
+      const exercise = !!p.exercise?.answers.includes('prompt');
+      if (exercise) {
+        if (p.exercise?.initialPrompt) {
+          return p.exercise.initialPrompt.map((m) => ({ ...m }));
+        } else {
+          return p.prompt.map((m) => ({ ...m, content: '' }));
         }
-        // deep clone
-        return { ...m, content };
-      });
+      }
+      return p.prompt.map((m) => ({ ...m }));
     }
 
-    const content = exercise ? p.exercise?.initialUser ?? '' : p.user ?? '';
-    return [{ role: 'user', content }];
+    const exercise = !!p.exercise?.answers.includes('user');
+    const content = exercise ? p.exercise?.initialUser : p.user;
+    return [{ role: 'user', content: content ?? '' }];
   };
   const [prompt, setPrompt] = useState<PromptMessage[]>(getInitialPrompt);
   const getInitialInput = (): Params[] => {
@@ -226,7 +226,7 @@ const Interactive = (p: Props) => {
           <TextArea
             key={i}
             className={s.user}
-            isDisabled={!!p.exercise && questionFields.includes('user')}
+            isDisabled={!!p.exercise && questionFields.includes('prompt')}
             label={m.role || '(unspecified role)'}
             onChange={(content) => handleContentChange(content, i)}
             rows={5}

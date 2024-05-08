@@ -31,9 +31,10 @@ export interface Exercise {
   eval: string;
   answers: EditableField[];
   initialUser?: string;
+  initialPrompt?: PromptMessage[]; // array size relative to prompt
 }
 
-export type EditableField = 'system' | 'user' | 'input';
+export type EditableField = 'system' | 'user' | 'input' | 'prompt';
 
 export type Answer = 'correct' | 'incorrect' | 'unknown';
 

@@ -296,7 +296,8 @@ const evals: { [name: string]: (assistant: string) => Promise<Answer> } = {
   '05-two-haikus-two-animals': async (assistant) => {
     const tool: Anthropic.Beta.Tools.Tool = {
       name: 'haiku_counter',
-      description: 'Determine if a piece of text is a haiku about cats and dogs.',
+      description:
+        'Determine if a piece of text is a haiku about cats and dogs.',
       input_schema: {
         type: 'object',
         properties: {
@@ -325,6 +326,81 @@ const evals: { [name: string]: (assistant: string) => Promise<Answer> } = {
     }
 
     return catHaiku && dogHaiku ? 'correct' : 'incorrect';
+  },
+
+  '06-classifying-emails--0': async (assistant) => {
+    return assistant.includes('B) Broken or defective item')
+      ? 'correct'
+      : 'incorrect';
+  },
+  '06-classifying-emails--1': async (assistant) => {
+    return assistant.includes('D) Other') ? 'correct' : 'incorrect';
+  },
+  '06-classifying-emails--2': async (assistant) => {
+    return assistant.includes('C) Billing question') ? 'correct' : 'incorrect';
+  },
+  '06-classifying-emails--3': async (assistant) => {
+    return assistant.includes('D) Other') ? 'correct' : 'incorrect';
+  },
+
+  '06-email-classification-formatting--0': async (assistant) => {
+    return assistant.includes('<answer>B</answer>') ? 'correct' : 'incorrect';
+  },
+  '06-email-classification-formatting--1': async (assistant) => {
+    return assistant.includes('<answer>A</answer>') ? 'correct' : 'incorrect';
+  },
+  '06-email-classification-formatting--2': async (assistant) => {
+    return assistant.includes('<answer>C</answer>') ? 'correct' : 'incorrect';
+  },
+  '06-email-classification-formatting--3': async (assistant) => {
+    return assistant.includes('<answer>D</answer>') ? 'correct' : 'incorrect';
+  },
+
+  '07-email-formatting-via-examples--0': async (assistant) => {
+    return assistant.trim() === 'B' ? 'correct' : 'incorrect';
+  },
+  '07-email-formatting-via-examples--1': async (assistant) => {
+    return assistant.trim() === 'A' ? 'correct' : 'incorrect';
+  },
+  '07-email-formatting-via-examples--2': async (assistant) => {
+    return assistant.trim() === 'C' ? 'correct' : 'incorrect';
+  },
+  '07-email-formatting-via-examples--3': async (assistant) => {
+    return assistant.trim() === 'D' ? 'correct' : 'incorrect';
+  },
+
+  '08-beyonce-hallucination': async (assistant) => {
+    const tool: Anthropic.Beta.Tools.Tool = {
+      name: 'is_uncertain',
+      description:
+        'Determining whether there is uncertainty in a given piece of text.',
+      input_schema: {
+        type: 'object',
+        properties: {
+          uncertain: { type: 'boolean' },
+        },
+        required: ['uncertain'],
+      },
+    };
+
+    let uncertain = false;
+    try {
+      interface EvalBlock extends Block {
+        input: {
+          uncertain: boolean;
+        };
+      }
+      const { input } = await evalAnswer<EvalBlock>(assistant, tool);
+      uncertain = input.uncertain;
+    } catch (err) {
+      return 'unknown';
+    }
+
+    return uncertain ? 'correct' : 'incorrect';
+  },
+
+  '08-prospectus-hallucination': async (assistant) => {
+    return assistant.includes('49-fold') ? 'correct' : 'incorrect';
   },
 };
 export default evals;

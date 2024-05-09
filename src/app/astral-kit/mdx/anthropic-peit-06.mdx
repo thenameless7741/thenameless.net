@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Intermediate']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-25'
+updatedAt: '2024-05-09'
 ---
 
 ## Lesson
@@ -21,7 +21,7 @@ Guess what? Claude is the same way.
 In the movie review prompt below, it's clear to a human reader that the second sentence belies the first. But <Mark>Claude takes the word "unrelated" too literally</Mark>.
 
 <Playground
-  user={`User: Is this movie review sentiment positive or negative?
+  user={`Is this movie review sentiment positive or negative?
 
 This movie blew my mind with its freshness and originality. In totally unrelated news, I have been living under a rock since the year 1900.`}
   assistant={`The sentiment of this movie review is positive.
@@ -36,7 +36,7 @@ To improve Claude's response, let's **allow Claude to think things out first bef
 
 <Playground
   system={`You are a savvy reader of movie reviews.`}
-  user={`User: Is this review sentiment positive or negative? First, write the best arguments for each side in <positive-argument> and <negative-argument> XML tags, then answer.
+  user={`Is this review sentiment positive or negative? First, write the best arguments for each side in <positive-argument> and <negative-argument> XML tags, then answer.
 
 This movie blew my mind with its freshness and originality. In totally unrelated news, I have been living under a rock since 1900.`}
   assistant={`<positive-argument>
@@ -58,7 +58,7 @@ Based on the review, the sentiment appears to be more negative than positive. Th
 In most situations (but not all, confusingly enough), **Claude is more likely to choose the second of two options**, possibly because in its <Mark>training data from the web</Mark>, second options were more likely to be correct.
 
 <Playground
-  user={`User: Is this review sentiment negative or positive? First write the best arguments for each side in <negative-argument> and <positive-argument> XML tags, then answer.
+  user={`Is this review sentiment negative or positive? First write the best arguments for each side in <negative-argument> and <positive-argument> XML tags, then answer.
 
 This movie blew my mind with its freshness and originality. Unrelatedly, I have been living under a rock since 1900.`}
   assistant={`<negative-argument>
@@ -78,7 +78,7 @@ Based on the review, the sentiment appears to be positive. The reviewer's praise
 Let's go through an example where Claude's answer is incorrect to see how asking Claude to think can fix that.
 
 <Playground
-  user={`User: Name a famous movie starring an actor who was born in the year 1956.`}
+  user={`Name a famous movie starring an actor who was born in the year 1956.`}
   assistant={`Here's a famous movie starring an actor born in 1956:
 
 The Shawshank Redemption (1994) starring Tim Robbins. Tim Robbins was born on October 31, 1958.`}
@@ -88,7 +88,7 @@ The Shawshank Redemption (1994) starring Tim Robbins. Tim Robbins was born on Oc
 Let's fix this by asking Claude to think step by step, this time in `<brainstorm>` tags.
 
 <Playground
-  user={`User: Name a famous movie starring an actor who was born in the year 1956. First brainstorm about some actors and their birth years in <brainstorm> tags, then give your answer.`}
+  user={`Name a famous movie starring an actor who was born in the year 1956. First brainstorm about some actors and their birth years in <brainstorm> tags, then give your answer.`}
   assistant={`Here's a brainstorm of some actors and their birth years:
 
 <brainstorm>
@@ -120,12 +120,19 @@ In this exercise, we'll be instructing Claude to <Mark>sort emails into the foll
 
 For the first part of the exercise, change the prompt template to <Mark>make Claude output the correct classification and ONLY the classification</Mark>. Your answer needs to <Mark>include the letter (A - D) of the correct choice, with the parentheses, as well as the name of the category</Mark>.
 
-Refer to the "Correct Classification" in column K to know which emails should be classified under what category. Claude's response will turn GREEN if your prompt yields the correct answer.
+Refer to the "Correct Classification" in column K to know which emails should be classified under what category. Claude's response will have a green check if your prompt yields the correct answer.
 
 **Tip:** Use precognition and other techniques you've learned leading up to this chapter! Remember, **thinking only counts when it's out loud**!
 
 <Playground
-  user={`User: Please classify this email into the following categories: {{EMAIL}}
+  assistant={[
+    `B) Broken or defective item`,
+    `D) Other`,
+    `C) Billing question`,
+    `D) Other (Seeking technical assistance)`,
+  ]}
+  prompt={[
+    { role: 'user', content: `Please classify this email into the following categories: {{EMAIL}}
 
 Do not include any extra words except the category.
 
@@ -134,13 +141,8 @@ Do not include any extra words except the category.
 (B) Broken or defective item
 (C) Billing question
 (D) Other (please explain)
-</categories>
-Assistant: (`}
-  assistant={[
-    `B) Broken or defective item`,
-    `D) Other`,
-    `C) Billing question`,
-    `D) Other (Seeking technical assistance)`,
+</categories>` },
+    { role: 'assistant', content: `(` },
   ]}
   labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
   input={[
@@ -149,6 +151,14 @@ Assistant: (`}
     { EMAIL: `I HAVE BEEN WAITING 4 MONTHS FOR MY MONTHLY CHARGES TO END AFTER CANCELLING!!  WTF IS GOING ON???` },
     { EMAIL: `How did I get here I am not good with computer.  Halp.` },
   ]}
+  exercise={{
+    eval: '06-classifying-emails',
+    answers: ['prompt'],
+    initialPrompt: [
+      { role: 'user', content: 'Please classify this email as either green or blue: {{EMAIL}}' },
+      { role: 'assistant', content: '' },
+    ]
+  }}
 />
 
 **BONUS QUESTION:** Time to think like a data scientist! Why is the second email the trickiest one to classify correctly? If the classification is debatable for humans, it's likely also tough for Claude!
@@ -164,7 +174,7 @@ Let's take this exercise step by step:
 3. Claude may still be incorrectly categorizing or not including the names of the categories when it answers. Fix this by telling Claude to include the full category name in its answer.
 4. Be sure that you still <Mark>have `{{EMAIL}}` somewhere in your prompt</Mark> template so that we can properly substitute in emails for Claude to evaluate.
 
-The conditional formatting in this exercise is looking for the correct categorization letter + the closing parentheses and the first letter of the name of the category, such as "C) B" or "B) B" etc.
+The conditional formatting in this exercise is looking for the correct categorization letter + the closing parentheses and the name of the category, such as "C) Billing question" or "B) Broken or defective item" etc.
 
 </Details>
 
@@ -184,6 +194,7 @@ Do not include any extra words except the category.
 (C) Billing question
 (D) Other (please explain)
 </categories>
+
 Assistant: (
 ```
 
@@ -201,25 +212,13 @@ In this exercise, we're going to <Mark>refine the output of the above prompt to 
 
 Use your favorite output formatting technique to <Mark>make Claude wrap just the letter of the correct classification in "`<answer></answer>`" tags</Mark>. _Refer to the above exercise if you forget which letter is correct for each email._
 
-Claude's response will turn GREEN if your prompt yields the correct answer. For instance, <Mark>the answer to the first email should contain the exact string "`<answer>`B`</answer>`"</Mark>.
+Claude's response will have a green check mark if your prompt yields the correct answer. For instance, <Mark>the answer to the first email should contain the exact string "`<answer>`B`</answer>`"</Mark>.
 
 **Tip:** As a first step, <Mark>copy the final correct version of your prompt from Exercise 1 down into the highlighted prompt template box below</Mark>. Then edit and refine your initial prompt from there.
 
-**Note:** In this exercise, you can see that **Claude in Sheets is a powerful prompt** evaluation tool. Using substitutions, you can <Mark>easily check how well a prompt does in multiple contexts</Mark> by only modifying one prompt and yielding several responses from Claude as a result. Here, we evaluate the prompt across four instances, but you can easily expand this evaluation to as many rows as needed.
+**Note:** Using substitutions, you can <Mark>easily check how well a prompt does in multiple contexts</Mark> by only modifying one prompt and yielding several responses from Claude as a result. Here, we evaluate the prompt across four instances, but you can easily expand this evaluation to as many rows as needed.
 
 <Playground
-  user={`User: Please classify this email into the following categories: {{EMAIL}}
-
-Do not include any extra words except the category. Think step by step before you answer.
-
-<categories>
-(A) Pre-sale question
-(B) Broken or defective item
-(C) Billing question
-(D) Other (please explain)
-</categories>
-
-Answer with only the letter of the answer wrapped in <answer> tags, such as <answer>B</answer>.`}
   assistant={[
     `Analyzing the email step-by-step:
 1. The email is about a problem with the Mixmaster4000 product, indicating a broken or defective item.
@@ -242,6 +241,20 @@ Based on the given information, the appropriate category is:
 
 <answer>D</answer>`,
   ]}
+  prompt={[
+    { role: 'user', content: `Please classify this email into the following categories: {{EMAIL}}
+
+Do not include any extra words except the category. Think step by step before you answer.
+
+<categories>
+(A) Pre-sale question
+(B) Broken or defective item
+(C) Billing question
+(D) Other (please explain)
+</categories>
+
+Answer with only the letter of the answer wrapped in <answer> tags, such as <answer>B</answer>.` },
+  ]}
   labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
   input={[
     { EMAIL: `Hi -- My Mixmaster4000 is producing a strange noise when I operate it. It also smells a bit smoky and plasticky, like burning electronics.  I need a replacement.` },
@@ -249,6 +262,13 @@ Based on the given information, the appropriate category is:
     { EMAIL: `I HAVE BEEN WAITING 4 MONTHS FOR MY MONTHLY CHARGES TO END AFTER CANCELLING!!  WTF IS GOING ON???` },
     { EMAIL: `How did I get here I am not good with computer.  Halp.` },
   ]}
+  exercise={{
+    eval: '06-email-classification-formatting',
+    answers: ['prompt'],
+    initialPrompt: [
+      { role: 'user', content: 'Please classify this email as either green or blue: {{EMAIL}}' },
+    ]
+  }}
 />
 
 <Details>

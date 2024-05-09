@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-25'
+updatedAt: '2024-05-09'
 ---
 
 ## Lesson
@@ -19,7 +19,7 @@ There are many ways to prompt Claude to "think again". The ways that feel natura
 In this example, we ask Claude to come up with ten words... but one of them isn't a real word.
 
 <Playground
-  user={`User: Name ten words that all end with the exact letters "ab".`}
+  user={`Name ten words that all end with the exact letters "ab".`}
   assistant={`Here are 10 words that end with the letters "ab":
 
 1. Cab
@@ -37,11 +37,9 @@ In this example, we ask Claude to come up with ten words... but one of them isn'
 
 <Mark>Asking Claude to make its answer more accurate fixes the error</Mark>!
 
-Below, we've <Mark>pulled down Claude's incorrect response from above and substituted it into a prompt that asks Claude to double-check</Mark> its previous answer.
+Below, we've <Mark>pulled down Claude's incorrect response from above and added it into a prompt that asks Claude to double-check</Mark> its previous answer.
 
 <Playground
-  user={`{{CONVO_HISTORY}}
-User: Please find replacements for all "words" that are not real words.`}
   assistant={`Here are 10 real words that end with the letters "ab":
 
 1. Cab
@@ -54,9 +52,9 @@ User: Please find replacements for all "words" that are not real words.`}
 8. Slab
 9. Tab
 10. Blab`}
-  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
-  input={{ CONVO_HISTORY: `User: Name ten words that all end with the exact letters "ab".
-Assistant: Here are 10 words that end with the letters "ab":
+  prompt={[
+    { role: 'user', content: `Name ten words that all end with the exact letters "ab".` },
+    { role: 'assistant', content: `Here are 10 words that end with the letters "ab":
 
 1. Cab
 2. Dab
@@ -67,16 +65,15 @@ Assistant: Here are 10 words that end with the letters "ab":
 7. Nab
 8. Slab
 9. Tab
-10. Zab` }}
+10. Zab` },
+    { role: 'user', content: `User: Please find replacements for all "words" that are not real words.` },
+  ]}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
 />
-
-**Note:** `{{CONVO_HISTORY}}` is old prompt + Claude's incorrect response (from above).
 
 But is Claude revising its answer just because we told it to? What if we start off with a correct answer already? Will Claude lose its confidence? Here, we've <Mark>placed a correct response in the Input field, and asked it to double</Mark> check again.
 
 <Playground
-  user={`{{CONVO_HISTORY}}
-User: Please find replacements for all "words" that are not real words.`}
   assistant={`Here are 10 real words that end with the letters "ab":
 
 1. Cab
@@ -89,9 +86,9 @@ User: Please find replacements for all "words" that are not real words.`}
 8. Slab
 9. Tab
 10. Blab`}
-  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
-  input={{ CONVO_HISTORY: `User: Name ten words that all end with the exact letters "ab".
-Assistant: 1. Cab
+  prompt={[
+    { role: 'user', content: `Name ten words that all end with the exact letters "ab".` },
+    { role: 'assistant', content: `1. Cab
 2. Dab
 3. Grab
 4. Gab
@@ -100,17 +97,18 @@ Assistant: 1. Cab
 7. Nab
 8. Slab
 9. Tab
-10. Blab` }}
+10. Blab` },
+    { role: 'user', content: `Please find replacements for all "words" that are not real words.` },
+  ]}
+  labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
 />
-
-**Note:** `{{CONVO_HISTORY}}` is hypothetical correct response from Claude.
 
 Turns out, nope! <Mark>Claude did not waver in its correct answer in this case</Mark>.
 
 You can also just <Mark>ask Claude to make its responses better</Mark>. Below, we asked Claude to first write a story, and then improve the story it wrote. Your personal tastes may vary, but many might agree that Claude's second version is better.
 
 <Playground
-  user={`User: Write a three-sentence short story about a girl who likes to run.`}
+  user={`Write a three-sentence short story about a girl who likes to run.`}
   assistant={`Here is a three-sentence short story about a girl who likes to run:
 
 Amelia loved to run. The wind in her hair, the rhythm of her steps, and the sense of freedom it gave her were all she needed. As she raced through the park, her worries melted away, and she felt alive.`}
@@ -120,26 +118,25 @@ Amelia loved to run. The wind in her hair, the rhythm of her steps, and the sens
 ---
 
 <Playground
-  user={`{{PAST_STORY}}
-User: Make the story better.`}
   assistant={`Here is the three-sentence short story with some improvements:
 
 Amelia's feet pounded the pavement as she ran, her heart racing with exhilaration. The world around her faded away, replaced by the steady rhythm of her breathing and the wind whipping through her hair. With each stride, she felt her troubles dissolve, replaced by a profound sense of liberation and joy.`}
+  prompt={[
+    { role: 'user', content: `Write a three-sentence short story about a girl who likes to run.` },
+    { role: 'assistant', content: `Here is a three-sentence short story about a girl who likes to run:
+
+Amelia loved to run. The wind in her hair, the rhythm of her steps, and the sense of freedom it gave her were all she needed. As she raced through the park, her worries melted away, and she felt alive.` },
+    { role: 'user', content: `Make the story better.` },
+  ]}
   labels={{ user: 'Prompt Template', assistant: "Claude's New Story" }}
-  input={{ PAST_STORY: `User: Write a three-sentence short story about a girl who likes to run.
-Assistant: Here is a three-sentence short story about a girl who likes to run:
-
-Amelia loved to run. The wind in her hair, the rhythm of her steps, and the sense of freedom it gave her were all she needed. As she raced through the park, her worries melted away, and she felt alive.` }}
 />
-
-**Note:** `{{PAST_STORY}}` is Claude's previous story.
 
 This form of substitution is very powerful. We've been using substitution placeholders to pass in lists, words, Claude's former responses, and so on. You can also <Mark>use substitution to do what we call "function calling," which is asking Claude to perform some function, and then taking the results of that function and asking Claude to do even more afterward with the results</Mark>. It works like any other substitution. More on this in the next appendix.
 
 Below is one more example of taking the results of one call to Claude and plugging it into another, longer call.
 
 <Playground
-  user={`User: Find all names from the below text:
+  user={`Find all names from the below text:
 
 "Hey, Jesse. It's me, Erin. I'm calling about the party that Joey is throwing tomorrow. Keisha said she would come and I think Mel will be there too."
 Assistant: <names>`}
@@ -152,12 +149,12 @@ Assistant: <names>`}
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 />
 
-**Note:** Claude's response is stored as `{{NAMES}}`.
+**Note:** Claude's response is stored as `{{NAMES}}` and used below.
 
 ---
 
 <Playground
-  user={`User: Here is a list of names:
+  user={`Here is a list of names:
 <names>{{NAMES}}
 Please alphabetize the list.`}
   assistant={`Here is the list of names alphabetized:
@@ -178,7 +175,7 @@ Please alphabetize the list.`}
 </names>` }}
 />
 
-**Note:**  `</names>` in Prompt Template comes from the previous output.
+**Note:**  `</names>` in Input comes from the previous output.
 
 <Pagination
   prev={{

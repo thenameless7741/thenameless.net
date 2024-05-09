@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Intermediate']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-25'
+updatedAt: '2024-05-09'
 ---
 
 ## Lesson
@@ -22,7 +22,7 @@ This sort of prompting is also called **"few shot prompting"**. You might also e
 Pretend you're a developer trying to build a "parent bot" that responds to questions from kids. <Mark>Claude's default response is quite formal and robotic</Mark>. This is going to break a child's heart.
 
 <Playground
-  user={`User: Will Santa bring me presents on Christmas?`}
+  user={`Will Santa bring me presents on Christmas?`}
   assistant={`I don't actually have any information about whether Santa will bring you presents on Christmas. Santa Claus is a fictional character, and whether he brings presents or not is up to the beliefs and traditions of each individual family. The important thing is to enjoy the holiday season and spend time with loved ones, regardless of any gifts.`}
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 />
@@ -31,7 +31,7 @@ Pretend you're a developer trying to build a "parent bot" that responds to quest
 You could take the time to describe your desired tone, but it's much easier just to <Mark>give Claude a few examples of ideal responses</Mark>.
 
 <Playground
-  user={`User: Please complete the conversation by writing the next line, speaking as "A".
+  user={`Please complete the conversation by writing the next line, speaking as "A".
 Q: Is the tooth fairy real?
 A: Of course, sweetie. Wrap up your tooth and put it under your pillow tonight. There might be something waiting for you in the morning.
 Q: Will Santa bring me presents on Christmas?`}
@@ -49,7 +49,7 @@ If you're ready to try the chapter exercises, scroll down!
 
 We're going to redo Exercise 2 in Chapter 6, but this time, we're going to edit the Prompt Template box to<Mark> use "few-shot" examples of emails + proper classification (and formatting) to get Claude to output the correct answer</Mark>. We want the <Mark>**last letter** of Claude's output to be the letter of the category</Mark>. _Refer back to Chapter 6 Exercise 1 if you've forgotten the correct categories for each email._
 
-Claude's response will turn GREEN if your prompt yields the correct answer.
+Claude's response will have a green check mark if your prompt yields the correct answer.
 
 Remember that these are the categories for the emails:
 
@@ -59,7 +59,14 @@ Remember that these are the categories for the emails:
 - (D) Other (please explain)
 
 <Playground
-  user={`User: Please classify emails into the following categories, and do not include explanations:
+  assistant={[
+    `B`,
+    `A`,
+    `C`,
+    `D`,
+  ]}
+  prompt={[
+    { role: 'user', content: `Please classify emails into the following categories, and do not include explanations:
 <categories>
 (A) Pre-sale question
 (B) Broken or defective item
@@ -79,13 +86,8 @@ Q: Please remove me from your mailing list.
 A: The correct category is: D
 </examples>
 
-Here is the email for you to categorize: {{EMAIL}}
-Assistant: The correct category is:`}
-  assistant={[
-    `B`,
-    `A`,
-    `C`,
-    `D`,
+Here is the email for you to categorize: {{EMAIL}}` },
+    { role: 'assistant', content: `The correct category is:` },
   ]}
   labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
   input={[
@@ -94,6 +96,14 @@ Assistant: The correct category is:`}
     { EMAIL: `I HAVE BEEN WAITING 4 MONTHS FOR MY MONTHLY CHARGES TO END AFTER CANCELLING!!  WTF IS GOING ON???` },
     { EMAIL: `How did I get here I am not good with computer.  Halp.` },
   ]}
+  exercise={{
+    eval: '07-email-formatting-via-examples',
+    answers: ['prompt'],
+    initialPrompt: [
+      { role: 'user', content: 'Please classify this email as either green or blue: {{EMAIL}}' },
+      { role: 'assistant', content: '' },
+    ]
+  }}
 />
 
 <Details>
@@ -111,7 +121,7 @@ You're going to have to <Mark>write some example emails and classify them for Cl
 2. Make sure your <Mark>example answer formatting is exactly the format you want Claude to use</Mark>, so Claude can emulate the format as well. This format should make it so that Claude's answer ends in the letter of the category. <Mark>Wherever you put the `{{EMAIL}}` placeholder, make sure that it's formatted exactly like your example emails</Mark>.
 3. Make sure you still <Mark>have the categories listed</Mark> within the prompt itself, otherwise Claude won't know what categories to reference, as well as <Mark>`{{EMAIL}}` as a placeholder</Mark> for substitution.
 
-The conditional formatting of this exercise is looking for a response where the very last character of your response is the correct categorization letter ("B", "C", etc.). The letters in column K should match the letters in the blue cells in the chapter 6.1 exercise.
+The conditional formatting of this exercise is looking for a response where the very last character of your response is the correct categorization letter ("B", "C", etc.).
 
 </Details>
 
@@ -142,6 +152,7 @@ A: The correct category is: D
 </examples>
 
 Here is the email for you to categorize: {{EMAIL}}
+
 Assistant: The correct category is:
 ```
 

@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-25'
+updatedAt: '2024-05-09'
 ---
 
 ## Lesson
@@ -396,7 +396,17 @@ Assistant: <relevant_quotes>
 Now let's <Mark>concatenate it all together, put in our substitutions</Mark>, and see it in action!
 
 <Playground
-  user={`User: You are an expert lawyer.
+  assistant={`"In 2006, Hawaii, Louisiana, and New Hampshire all enacted laws that address issues regarding the care of animals during disasters, such as providing shelters for pets and allowing service animals to be kept with the people they serve. In addition, Congress passed, and the President signed, the Pet Evacuation and Transportation Standards Act during 2006, which requires state and local emergency preparedness authorities to include in their evacuation plans information on how they will accommodate household pets and service animals in case of a disaster." [3]
+"California passed a law that will require its Office of Emergency Services, Department of Agriculture, and other agencies involved with disaster response preparation to develop a plan for the needs of service animals, livestock, equids, and household pets in the event of a disaster or major emergency." [3]
+</relevant_quotes>
+
+<answer>
+The research indicates that there are several laws in place regarding the treatment of pets during natural disasters like hurricanes. In 2006, several states, including Hawaii, Louisiana, and New Hampshire, enacted laws that require shelters to accommodate pets and allow service animals to remain with their owners during evacuations. [3] Additionally, the federal government passed the Pet Evacuation and Transportation Standards Act in 2006, which mandates that state and local emergency preparedness authorities include plans for accommodating household pets and service animals in their disaster response plans. [3] California has also passed a law requiring state agencies to develop plans for addressing the needs of pets, livestock, and other animals during emergencies. [3]
+
+In summary, there are now various laws in place that require emergency authorities to make provisions for the care and evacuation of pets during natural disasters like hurricanes.
+</answer>`}
+  prompt={[
+    { role: 'user', content: `You are an expert lawyer.
 
 Here is some research that's been compiled. Use it to answer a legal question from the user.
 <legal_research>
@@ -424,17 +434,9 @@ It should be no more than a couple of paragraphs. If possible, it should conclud
 
 Before you answer, pull out the most relevant quotes from the research in <relevant_quotes> tags.
 
-Put your two-paragraph response in <answer> tags.
-Assistant: <relevant_quotes>`}
-  assistant={`"In 2006, Hawaii, Louisiana, and New Hampshire all enacted laws that address issues regarding the care of animals during disasters, such as providing shelters for pets and allowing service animals to be kept with the people they serve. In addition, Congress passed, and the President signed, the Pet Evacuation and Transportation Standards Act during 2006, which requires state and local emergency preparedness authorities to include in their evacuation plans information on how they will accommodate household pets and service animals in case of a disaster." [3]
-"California passed a law that will require its Office of Emergency Services, Department of Agriculture, and other agencies involved with disaster response preparation to develop a plan for the needs of service animals, livestock, equids, and household pets in the event of a disaster or major emergency." [3]
-</relevant_quotes>
-
-<answer>
-The research indicates that there are several laws in place regarding the treatment of pets during natural disasters like hurricanes. In 2006, several states, including Hawaii, Louisiana, and New Hampshire, enacted laws that require shelters to accommodate pets and allow service animals to remain with their owners during evacuations. [3] Additionally, the federal government passed the Pet Evacuation and Transportation Standards Act in 2006, which mandates that state and local emergency preparedness authorities include plans for accommodating household pets and service animals in their disaster response plans. [3] California has also passed a law requiring state agencies to develop plans for addressing the needs of pets, livestock, and other animals during emergencies. [3]
-
-In summary, there are now various laws in place that require emergency authorities to make provisions for the care and evacuation of pets during natural disasters like hurricanes.
-</answer>`}
+Put your two-paragraph response in <answer> tags.` },
+    { role: 'assistant', content: `<relevant_quotes>` },
+  ]}
   labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
   input={{
     QUESTION: `Are there any laws about what to do with pets during a hurricane?`,

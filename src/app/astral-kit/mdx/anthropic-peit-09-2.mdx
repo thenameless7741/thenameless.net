@@ -5,7 +5,7 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Advanced']
 createdAt: '2024-04-19'
-updatedAt: '2024-04-25'
+updatedAt: '2024-05-09'
 ---
 
 Prompts within the financial profession can also be quite complex due to reasons similar to legal prompts. Here's an exercise for a financial use-case, wherein Claude is used to analyze tax information and answer questions. Just like with the legal services example, <Mark>we've changed around the ordering of a few elements</Mark>, as our solution prompt makes more sense with a different flow (however, other structures would also work).
@@ -389,7 +389,7 @@ A space to start off Claude's answer with some prefilled words to steer Claude's
 Now let's <Mark>concatenate it all together, put in our substitutions</Mark>, and see it in action!
 
 <Playground
-  user={`User: You are a master tax acountant. Your task is to answer user questions using any provided reference documentation.
+  user={`You are a master tax acountant. Your task is to answer user questions using any provided reference documentation.
 
 Here is the material you should use to answer the user's question:
 <docs>

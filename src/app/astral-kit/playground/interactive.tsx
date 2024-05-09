@@ -106,7 +106,7 @@ const Interactive = (p: Props) => {
     setWaiting(true);
     !!p.exercise && setAnswers([]);
 
-    const parallel = input.length > 0;
+    const parallel = input.length > 1;
     if (!parallel) {
       const abort = new AbortController();
       ref.current.aborts = [abort];
@@ -194,8 +194,9 @@ const Interactive = (p: Props) => {
     const params: Params = {};
     vars.forEach((k) => (params[k] = oldParams[k] ?? ''));
 
-    const disabled = !!p.exercise && questionFields.includes('input');
-    !disabled && setInput([params]);
+    if (p.exercise) {
+      !questionFields.includes('input') && setInput([params]);
+    }
 
     const m: PromptMessage = { ...prompt[i], content };
     const ms = [...prompt.slice(0, i), m, ...prompt.slice(i + 1)];

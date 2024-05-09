@@ -32,7 +32,7 @@ export default store;
 interface PlaygroundProps {
   toast: ToastState<object>;
   assistant: string[];
-  metric: Metric | null;
+  metrics: Metric[];
 }
 
 export interface PlaygroundState extends PlaygroundProps {}
@@ -41,7 +41,7 @@ export const createPlaygroundStore = (initProps: Partial<PlaygroundProps>) => {
   const defaultProps: PlaygroundProps = {
     toast: null!, // initialized at the component level
     assistant: [],
-    metric: null,
+    metrics: [],
   };
 
   return create<PlaygroundState>((set, get) => ({

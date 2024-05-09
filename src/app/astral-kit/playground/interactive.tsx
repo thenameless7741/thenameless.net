@@ -20,7 +20,6 @@ import evals from './evals';
 import {
   Answer,
   EditableField,
-  Metric,
   PlaygroundProps as PP,
   Params,
   PromptMessage,
@@ -34,8 +33,9 @@ type Props = PP.Base &
 
 const Interactive = (p: Props) => {
   /* states */
+
   const id = useId();
-  const ref = useRef<{ abort: AbortController | null }>({ abort: null });
+  const ref = useRef<{ aborts: AbortController[] }>({ aborts: [] });
   const showMetric = store((s) => s.showMetric);
   const playgroundStore = useContext(PlaygroundContext)!;
   const toast = useStore(playgroundStore, (s) => s.toast);
@@ -45,6 +45,7 @@ const Interactive = (p: Props) => {
     const exercise = !!p.exercise?.answers.includes('system');
     return exercise ? '' : p.system ?? '';
   });
+
   const getInitialPrompt = (): PromptMessage[] => {
     if (p.prompt) {
       const exercise = !!p.exercise?.answers.includes('prompt');
@@ -63,13 +64,16 @@ const Interactive = (p: Props) => {
     return [{ role: 'user', content: content ?? '' }];
   };
   const [prompt, setPrompt] = useState<PromptMessage[]>(getInitialPrompt);
+
   const getInitialInput = (): Params[] => {
     const input = p.input ? (Array.isArray(p.input) ? p.input : [p.input]) : [];
     return input.map((params) => ({ ...params }));
   };
   const [input, setInput] = useState(getInitialInput);
+
   const [waiting, setWaiting] = useState(false);
-  const [answer, setAnswer] = useState<Answer | null>(null);
+
+  const [answers, setAnswers] = useState<Answer[]>([]);
 
   /* computed properties */
 
@@ -79,18 +83,16 @@ const Interactive = (p: Props) => {
     (a) => !answerFields.includes(a),
   );
 
-  let AnswerIcon: Icon | null = null;
-  switch (answer) {
-    case 'correct':
-      AnswerIcon = Check;
-      break;
-    case 'incorrect':
-      AnswerIcon = X;
-      break;
-    case 'unknown':
-      AnswerIcon = Warning;
-      break;
-  }
+  const answerIcons: Icon[] = answers.map((answer) => {
+    switch (answer) {
+      case 'correct':
+        return Check;
+      case 'incorrect':
+        return X;
+      case 'unknown':
+        return Warning;
+    }
+  });
 
   /* header's handlers */
 
@@ -99,38 +101,73 @@ const Interactive = (p: Props) => {
   const handleRun = async () => {
     if (empty) return;
 
+    ref.current.aborts = [];
+    playgroundStore.setState({ assistant: [], metrics: [] });
     setWaiting(true);
-    !!p.exercise && setAnswer(null);
+    !!p.exercise && setAnswers([]);
 
-    const messages = prompt.map((p) => ({ ...p })); // clone
-    !!input.length &&
-      Object.entries(input[0]).forEach(([k, v]) => {
-        messages.forEach((m) => {
-          m.content = m.content.replaceAll(`{{${k}}}`, v);
+    const parallel = input.length > 0;
+    if (!parallel) {
+      const abort = new AbortController();
+      ref.current.aborts = [abort];
+
+      const messages = prompt.map((p) => ({ ...p })); // clone
+
+      await chat({
+        messages,
+        system,
+        handleStream: handleStream(),
+        abort,
+      });
+      handleDone();
+    } else {
+      const chatPromises = input.map(async (params, idx) => {
+        const abort = new AbortController();
+        ref.current.aborts.push(abort);
+
+        const messages = prompt.map((p) => ({ ...p })); // clone
+
+        Object.entries(params).forEach(([k, v]) => {
+          messages.forEach((m) => {
+            m.content = m.content.replaceAll(`{{${k}}}`, v);
+          });
+        });
+
+        return chat({
+          messages,
+          system,
+          handleStream: handleStream(idx),
+          abort,
         });
       });
-
-    playgroundStore.setState({ assistant: [], metric: null });
-
-    const abort = new AbortController();
-    ref.current.abort = abort;
-
-    await chat({
-      messages,
-      system,
-      handleStream,
-      handleDone,
-      abort,
-    });
+      await Promise.all(chatPromises);
+      handleDone();
+    }
 
     if (!p.exercise) return;
 
-    const evalFn = evals[p.exercise.eval];
     const { assistant } = playgroundStore.getState();
-    const answer = await evalFn(assistant[0]);
-    setAnswer(answer);
 
-    if (answer === 'unknown') {
+    let unknown = false;
+    if (parallel) {
+      const answerPromises = assistant.map((_, idx) => {
+        const name = `${p.exercise!.eval}--${idx}`;
+        const evalFn = evals[name];
+        return evalFn(assistant[idx]);
+      });
+      const answers = await Promise.all(answerPromises);
+
+      setAnswers(answers);
+      unknown = answers.includes('unknown');
+    } else {
+      const evalFn = evals[p.exercise.eval];
+      const answer = await evalFn(assistant[0]);
+
+      setAnswers([answer]);
+      unknown = answer === 'unknown';
+    }
+
+    if (unknown) {
       // @ts-ignore incomplete type
       toast.add('Apologies, there seems to be a problem. Please try again.', {
         timeout: 5_000,
@@ -141,9 +178,9 @@ const Interactive = (p: Props) => {
     setSystem(p.system ?? '');
     setPrompt(getInitialPrompt);
     setInput(getInitialInput);
-    playgroundStore.setState({ assistant: [], metric: null });
+    playgroundStore.setState({ assistant: [], metrics: [] });
     handleDone();
-    setAnswer(null);
+    setAnswers([]);
   };
   const handleReaderMode = () => p.toggleInteractive();
 
@@ -164,31 +201,38 @@ const Interactive = (p: Props) => {
     const ms = [...prompt.slice(0, i), m, ...prompt.slice(i + 1)];
     setPrompt(ms);
   };
-  const handleStream = (chunk: string) => {
-    const { showMetric } = store.getState();
-    const metricToken = '<|metric|>';
-    let metric: Metric | null = null;
+  const handleStream =
+    (idx = 0) =>
+    (chunk: string) => {
+      const { showMetric } = store.getState();
+      const metricToken = '<|metric|>';
 
-    if (showMetric && chunk.includes(metricToken)) {
-      const texts = chunk.split(metricToken);
-      chunk = texts[0];
+      if (showMetric && chunk.includes(metricToken)) {
+        const texts = chunk.split(metricToken);
+        chunk = texts[0];
 
-      try {
-        metric = JSON.parse(texts[1]);
-      } catch (err) {
-        console.error(err);
+        try {
+          const metric = JSON.parse(texts[1]);
+
+          playgroundStore.setState(({ metrics }) => {
+            const nextMetrics = [...metrics];
+            nextMetrics[idx] = metric;
+            return { metrics: nextMetrics };
+          });
+        } catch (err) {
+          console.error(err);
+        }
       }
-    }
 
-    playgroundStore.setState(({ assistant: prev }) => {
-      const next = [...prev];
-      next[0] = (next[0] ?? '') + chunk;
-      return { assistant: next, metric };
-    });
-  };
+      playgroundStore.setState(({ assistant }) => {
+        const nextAsisstant = [...assistant];
+        nextAsisstant[idx] = (nextAsisstant[idx] ?? '') + chunk;
+        return { assistant: nextAsisstant };
+      });
+    };
   const handleDone = () => {
-    ref.current.abort?.abort();
-    ref.current.abort = null;
+    ref.current.aborts?.forEach((abort) => abort.abort());
+    ref.current.aborts = [];
     setWaiting(false);
   };
 
@@ -240,48 +284,39 @@ const Interactive = (p: Props) => {
         className={s.io}
         style={{ '--size': p.input?.length } as React.CSSProperties}
       >
-        {!!input.length && (
-          <Params
-            id={id}
-            disabled={!!p.exercise && questionFields.includes('input')}
-            params={input[0]}
-            updateParams={(params) => {
-              const i = 0; // TODO: support multiple params (input)
+        {!!input.length &&
+          input.map((params, i) => (
+            <Params
+              key={i}
+              id={id}
+              disabled={!!p.exercise && questionFields.includes('input')}
+              params={params}
+              updateParams={(params) => {
+                setInput((input) => [
+                  ...input.slice(0, i),
+                  params,
+                  ...input.slice(i + 1),
+                ]);
+              }}
+            />
+          ))}
 
-              setInput((input) => [
-                ...input.slice(0, i),
-                params,
-                ...input.slice(i + 1),
-              ]);
-            }}
-          />
-        )}
+        {(input.length > 0 ? input : [0]).map((_, i) => {
+          const answer = answers[i];
+          const AnswerIcon = answerIcons[i];
 
-        <div className={s.assistant}>
-          <div className={s.label}>
-            {`Claude's Response`}
-            {!!p.exercise && !!answer && !!AnswerIcon && (
-              <AnswerIcon
-                aria-label={`${answer} answer`}
-                className={s[answer]}
-                weight="bold"
-                size={16}
-              />
-            )}
-          </div>
-
-          <div className={s.content}>
-            {assistant[0] ?? (
-              <span className={s.placeholder}>
-                {answer === 'unknown'
-                  ? '(please try again...)'
-                  : '(awaiting your input...)'}
-              </span>
-            )}
-          </div>
-
-          {showMetric && <Metric />}
-        </div>
+          return (
+            <Assistant
+              key={i}
+              idx={i}
+              content={assistant[i]}
+              answer={answer}
+              AnswerIcon={AnswerIcon}
+              showAnswerIcon={!!p.exercise && !!answer && !!AnswerIcon}
+              showMetric={showMetric}
+            />
+          );
+        })}
       </div>
     </div>
   );
@@ -387,8 +422,54 @@ const Params = ({
   );
 };
 
-const Metric = () => {
-  const m = usePlaygroundContext((s) => s.metric);
+interface AssistantProps {
+  idx?: number;
+  content?: string;
+  answer: Answer;
+  AnswerIcon: Icon;
+  showAnswerIcon: boolean;
+  showMetric: boolean;
+}
+const Assistant = ({
+  idx = 0,
+  content,
+  answer,
+  AnswerIcon,
+  showAnswerIcon,
+  showMetric,
+}: AssistantProps) => {
+  return (
+    <div className={s.assistant}>
+      <div className={s.label}>
+        {`Claude's Response`}
+        {showAnswerIcon && (
+          <AnswerIcon
+            aria-label={`${answer} answer`}
+            className={s[answer]}
+            weight="bold"
+            size={16}
+          />
+        )}
+      </div>
+
+      <div className={s.content}>
+        {content ?? (
+          <span className={s.placeholder}>
+            {answer === 'unknown'
+              ? '(please try again...)'
+              : '(awaiting your input...)'}
+          </span>
+        )}
+      </div>
+
+      {showMetric && <Metric idx={idx} />}
+    </div>
+  );
+};
+
+const Metric = ({ idx }: { idx: number }) => {
+  const metrics = usePlaygroundContext((s) => s.metrics);
+  const m = metrics[idx];
   if (!m) return null;
 
   const nf = new Intl.NumberFormat('en-US');

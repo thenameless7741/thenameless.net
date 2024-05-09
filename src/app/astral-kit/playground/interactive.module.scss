@@ -48,10 +48,6 @@
     margin-block-start: 1px; /* border alignment */
   }
 
-  & + & {
-    margin-block-start: t.$space-6;
-  }
-
   & > label {
     @include t.font(11, 11, 0.1);
     color: var(--label-color);
@@ -75,6 +71,10 @@
 }
 
 .prompt {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-6;
+
   @include t.device(lt) {
     .playground.has-input:not(.has-system) > & {
       grid-column: 1 / -1;
@@ -118,7 +118,7 @@
   @extend .editable-section;
 
   @include t.device(lt) {
-    margin-block-start: t.$space-3;
+    margin-block-start: t.$space-3; /* alignment with assistant */
   }
 }
 

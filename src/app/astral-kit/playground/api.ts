@@ -7,7 +7,6 @@ interface ChatParams {
   system?: string;
   temperature?: number;
   handleStream: (chunk: string) => void;
-  handleDone: () => void;
   abort?: AbortController;
 }
 
@@ -16,7 +15,6 @@ export const chat = async ({
   system,
   temperature = 0,
   handleStream,
-  handleDone,
   abort = new AbortController(),
 }: ChatParams) => {
   const params: Anthropic.MessageCreateParamsStreaming = {
@@ -69,8 +67,6 @@ export const chat = async ({
       abortErr = 'name' in e && e.name === 'AbortError';
     }
     if (!abortErr) throw err;
-  } finally {
-    handleDone();
   }
 };
 
@@ -81,7 +77,7 @@ interface ToolParams {
   abort?: AbortController;
 }
 
-export const tool = async <T>({
+export const tool = async <T,>({
   messages,
   tools,
   temperature = 0,

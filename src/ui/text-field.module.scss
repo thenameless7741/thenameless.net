@@ -1,0 +1,68 @@
+@use '@/styles/token' as t;
+
+.container {
+  --border-color: #{t.$purple-1};
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-1;
+  inline-size: 100%;
+
+  &:has(> .input[data-hovered]),
+  &:has(> .input[data-focused]),
+  &:has(> .input[data-focus-visible]) {
+    --border-color: #{t.$purple-2};
+  }
+}
+
+.input {
+  $pad: 12;
+
+  /* reset */
+  border: none;
+  @supports selector(&:focus-visible) {
+    &:focus {
+      outline: none;
+    }
+  }
+
+  @include t.outline(); /* include after support */
+  @include t.font(17, 25);
+
+  display: block;
+  inline-size: 100%;
+  padding: #{$pad}px;
+  border: 1px solid var(--border-color);
+  font-family: t.$font-body;
+  transition:
+    border-color 300ms,
+    t.$outline-transition,
+    opacity 150ms;
+
+  &[data-disabled] {
+    --border-color: #{t.$gray-1};
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
+
+.label {
+  @include t.font(16, 20);
+  cursor: pointer;
+  font-family: t.$font-body;
+
+  .container[data-disabled] > & {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
+
+.description {
+  @include t.font(14, 18);
+  margin-block-start: t.$space-1;
+  color: t.$gray-5;
+  font-family: t.$font-body;
+
+  .container[data-disabled] > & {
+    opacity: 0.4;
+  }
+}

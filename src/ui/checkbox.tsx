@@ -1,12 +1,29 @@
-import { Checkbox, CheckboxProps } from 'react-aria-components';
+import { useId } from 'react-aria';
+import {
+  Checkbox,
+  CheckboxContext,
+  CheckboxProps,
+} from 'react-aria-components';
 
 import s from './checkbox.module.scss';
 
 type Props = CheckboxProps & {
   children?: React.ReactNode; // override
+  description?: React.ReactNode;
 };
 
-const Component = ({ children, className, ...props }: Props) => {
+const Component = ({ description, ...props }: Props) => {
+  return description ? (
+    <DescriptionWrapper description={description}>
+      <Base {...props} />
+    </DescriptionWrapper>
+  ) : (
+    <Base {...props} />
+  );
+};
+export default Component;
+
+const Base = ({ children, className, ...props }: Props) => {
   return (
     <Checkbox {...props} className={[s.wrapper, className ?? ''].join(' ')}>
       <div className={s.checkbox} aria-hidden="true">
@@ -19,4 +36,23 @@ const Component = ({ children, className, ...props }: Props) => {
     </Checkbox>
   );
 };
-export default Component;
+
+interface DescriptionProps {
+  children: React.ReactNode;
+  description?: React.ReactNode;
+}
+const DescriptionWrapper = ({ description, children }: DescriptionProps) => {
+  const descriptionId = useId();
+
+  return (
+    <div className={s['description-wrapper']}>
+      <CheckboxContext.Provider value={{ 'aria-describedby': descriptionId }}>
+        {children}
+      </CheckboxContext.Provider>
+
+      <small id={descriptionId} className={s.description}>
+        {description}
+      </small>
+    </div>
+  );
+};

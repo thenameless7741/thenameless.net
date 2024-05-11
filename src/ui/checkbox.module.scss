@@ -22,6 +22,7 @@
   cursor: pointer;
 
   .checkbox {
+    @include t.outline-start;
     block-size: 1.143rem;
     inline-size: 1.143rem;
     display: flex;
@@ -92,9 +93,7 @@
   }
 
   &[data-focus-visible] .checkbox {
-    box-shadow:
-      0 0 0 2px white,
-      0 0 0 4px var(--selected);
+    @include t.outline-end;
   }
 
   &[data-disabled] {
@@ -106,4 +105,21 @@
 .label {
   @include t.font(16, 20);
   font-family: t.$font-body;
+}
+
+.description-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: t.$space-1;
+}
+
+.description {
+  @include t.font(14, 18);
+  color: t.$gray-5;
+  font-family: t.$font-body;
+
+  .wrapper[data-disabled] ~ & {
+    opacity: 0.4;
+  }
 }

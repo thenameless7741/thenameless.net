@@ -4,6 +4,7 @@ import Prism from 'react-syntax-highlighter/dist/esm/prism';
 
 import prism from '@/styles/prism';
 import IconLabelButton from '@/ui/icon-label-button';
+import store from '../store';
 import { PlaygroundProps as PP, Params } from './types';
 import s from './non-interactive.module.scss';
 
@@ -13,6 +14,8 @@ type Props = PP.Base &
   };
 
 const NonInteractive = (p: Props) => {
+  const hasKey = !!store(s => s.apiKey);
+
   let prompt = 'User: ' + p.user;
   if (p.prompt) {
     prompt = p.prompt
@@ -38,7 +41,7 @@ const NonInteractive = (p: Props) => {
         p.input ? s['has-input'] : '',
       ].join(' ')}
     >
-      <div className={s.header}>
+      {hasKey && <div className={s.header}>
         <IconLabelButton
           className={s.action}
           Icon={Cube}
@@ -46,7 +49,7 @@ const NonInteractive = (p: Props) => {
         >
           interactive mode
         </IconLabelButton>
-      </div>
+      </div>}
 
       {!!p.system && (
         <div className={s.system}>

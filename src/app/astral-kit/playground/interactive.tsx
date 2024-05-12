@@ -113,6 +113,13 @@ const Interactive = (p: Props) => {
 
       const messages = prompt.map((p) => ({ ...p })); // clone
 
+      input.length > 0 &&
+        Object.entries(input[0]).forEach(([k, v]) => {
+          messages.forEach((m) => {
+            m.content = m.content.replaceAll(`{{${k}}}`, v);
+          });
+        });
+
       await chat({
         messages,
         system,
@@ -271,7 +278,11 @@ const Interactive = (p: Props) => {
           <TextArea
             key={i}
             className={s.user}
-            isDisabled={!!p.exercise && questionFields.includes('prompt')}
+            isDisabled={
+              !!p.exercise &&
+              (questionFields.includes('prompt') ||
+                (prompt.length === 1 && questionFields.includes('user')))
+            }
             label={m.role || '(unspecified role)'}
             onChange={(content) => handleContentChange(content, i)}
             rows={5}

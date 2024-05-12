@@ -5,8 +5,14 @@ type: 'tutorial'
 stage: 'draft'
 topics: ['Anthropic', 'Prompt Engineering', 'Beginner']
 createdAt: '2024-04-19'
-updatedAt: '2024-05-06'
+updatedAt: '2024-05-12'
 ---
+
+## Setup
+
+This tutorial offers two modes: reader (default) and interactive (**recommended**). For a hands-on experience, switch to interactive mode by ticking the "Interactive mode" box below and entering your API key. Don't worry, you can always change the default mode by clicking the gear icon at the top of each page.
+
+<Settings />
 
 ## Lesson
 
@@ -16,10 +22,10 @@ The API can take several parameters:
 
 1. Your prompt
 2. The model name
-3. Max tokens <Info>The maximum number of tokens to generate before stopping. [What are tokens?](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them)</Info>
+3. Max tokens <Info>The maximum length of Claude's responses. [What are tokens?](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them)</Info>
 4. Any optional additional parameters, such as temperature, system prompt, etc.
 
-**Note:** Temperature correlates to the degree of variability in Claude's answer. For these exercises, we have set the "temperature" to 0. In Chapter 8, we'll dive deeper into temperature.
+**Note:** Temperature correlates to the degree of variability in Claude's answer. Higher generates more creative responses, lower produces more predictable responses. For this tutorial, we have set the "temperature" to 0. In Chapter 8, we'll dive deeper into temperature.
 
 Let's look a few examples of prompts sent to Messages API.
 
@@ -33,7 +39,10 @@ Let's take a look at how Claude responds to some <Mark>correctly-formatted promp
   labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 />
 
-**Note:** Claude's response may be much longer than it appears. To view the full response, scroll down the text box.
+**Tips for interactive mode**:
+
+1. Click the "Run" button to send a message to Claude
+2. You can switch between reader and interactive mode on any playground - just click on "Reader Mode" or "Interactive Mode" to toggle between the two.
 
 <Playground
   user={`Can you tell me the color of the ocean?`}
@@ -50,6 +59,9 @@ Let's take a look at how Claude responds to some <Mark>correctly-formatted promp
 In general though, the predominant color of the open ocean is a deep, rich blue. This is due to the way sunlight interacts with the water and the lack of suspended particles in the deeper parts of the ocean. But the ocean's color can definitely vary quite a bit depending on the specific conditions.`}
 labels={{ user: 'Prompt', assistant: "Claude's Response" }}
 />
+
+**Note:** Claude's response may be much longer than it appears. To view the full response, scroll down the text box.
+
 
 ---
 
@@ -134,10 +146,6 @@ For more information, visit our documentation on [how to use system prompts](htt
 If you're ready to try the chapter exercises, scroll down!
 
 ## Exercises
-
-**[the]nameless note:**
-
-This tutorial's still a work-in-progress, so these exercises aren't interactive yet. Stay tuned!
 
 ### Counting to Three
 

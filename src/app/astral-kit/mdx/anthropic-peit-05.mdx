@@ -102,7 +102,7 @@ If you're ready to try the chapter exercises, scroll down!
 
 Forced to make a choice, Claude designates Michael Jordan as the best basketball player of all time. Can we get Claude to pick someone else?
 
-Modify the ""best basketball player"" prompt in the highlighted template box and use the ""speaking for Claude"" technique (putting words after ""Assistant:"") to <Mark>compell Claude to make a detailed argument that the best basketball player of all time is **Stephen Curry**</Mark>. Claude's response will have a green check mark if your prompt produces the right answer.
+Modify the ""best basketball player"" prompt in the Assistant box and use the ""speaking for Claude"" technique (putting words after ""Assistant:"") to <Mark>compell Claude to make a detailed argument that the best basketball player of all time is **Stephen Curry**</Mark>. Claude's response will have a green check mark if your prompt produces the right answer.
 
 <Playground
   assistant={`- He is widely regarded as the best shooter in NBA history, revolutionizing the game with his incredible range and accuracy from the 3-point line. His shooting ability has transformed the way the game is played.
@@ -140,7 +140,7 @@ This exercise is looking for a response that includes any reason why Stephen Cur
 
 ### Two Haikus
 
-"Modify the haiku prompt in the highlighted template box below and <Mark>use XML tags so that Claude writes two haikus about the animal instead of just one</Mark>. It should be clear where one poem ends and the other begins.
+"Modify the haiku prompt in the User box below and <Mark>use XML tags so that Claude writes two haikus about the animal instead of just one</Mark>. It should be clear where one poem ends and the other begins.
 
 Claude's response will have a green check mark if your prompt produces the right answer."
 
@@ -182,7 +182,7 @@ This exercise is looking for a response that contains exactly two haikus.
 
 ### Two Haikus, Two Animals
 
-Modify the haiku prompt in the highlighted template box below so that <Mark>Claude produces two haikus about two different animals</Mark>.
+Modify the haiku prompt in the User box below so that <Mark>Claude produces two haikus about two different animals</Mark>.
 
 Use `{{ANIMAL1}}` as a stand-in for the first substitution, and `{{ANIMAL2}}` as a stand-in for the second substitution.
 
@@ -207,7 +207,7 @@ Faithful, loving dog.
   ]}
   exercise={{
     eval: '05-two-haikus-two-animals',
-    answers: ['prompt'],
+    answers: ['user'],
     initialPrompt: [
       { role: 'user', content: 'Please write a haiku about {{ANIMAL1}}. Put it in <haiku> tags.' },
     ]

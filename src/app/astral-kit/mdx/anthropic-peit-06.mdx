@@ -219,6 +219,18 @@ Claude's response will have a green check mark if your prompt yields the correct
 **Note:** Using substitutions, you can <Mark>easily check how well a prompt does in multiple contexts</Mark> by only modifying one prompt and yielding several responses from Claude as a result. Here, we evaluate the prompt across four instances, but you can easily expand this evaluation to as many rows as needed.
 
 <Playground
+  user={`Please classify this email into the following categories: {{EMAIL}}
+
+Do not include any extra words except the category. Think step by step before you answer.
+
+<categories>
+(A) Pre-sale question
+(B) Broken or defective item
+(C) Billing question
+(D) Other (please explain)
+</categories>
+
+Answer with only the letter of the answer wrapped in <answer> tags, such as <answer>B</answer>.`}
   assistant={[
     `Analyzing the email step-by-step:
 1. The email is about a problem with the Mixmaster4000 product, indicating a broken or defective item.
@@ -241,20 +253,6 @@ Based on the given information, the appropriate category is:
 
 <answer>D</answer>`,
   ]}
-  prompt={[
-    { role: 'user', content: `Please classify this email into the following categories: {{EMAIL}}
-
-Do not include any extra words except the category. Think step by step before you answer.
-
-<categories>
-(A) Pre-sale question
-(B) Broken or defective item
-(C) Billing question
-(D) Other (please explain)
-</categories>
-
-Answer with only the letter of the answer wrapped in <answer> tags, such as <answer>B</answer>.` },
-  ]}
   labels={{ user: 'Prompt Template', assistant: "Claude's Response" }}
   input={[
     { EMAIL: `Hi -- My Mixmaster4000 is producing a strange noise when I operate it. It also smells a bit smoky and plasticky, like burning electronics.  I need a replacement.` },
@@ -264,10 +262,8 @@ Answer with only the letter of the answer wrapped in <answer> tags, such as <ans
   ]}
   exercise={{
     eval: '06-email-classification-formatting',
-    answers: ['prompt'],
-    initialPrompt: [
-      { role: 'user', content: 'Please classify this email as either green or blue: {{EMAIL}}' },
-    ]
+    answers: ['user'],
+    initialUser: 'Please classify this email as either green or blue: {{EMAIL}}',
   }}
 />
 

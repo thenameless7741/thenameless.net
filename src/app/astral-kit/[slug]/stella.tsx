@@ -9,6 +9,7 @@ import TOC from '@/ui/mdx/toc';
 import { getHeadings } from '@/utils/mdx';
 import Playground from '../playground';
 import Header from './header';
+import Settings from './settings';
 import s from '@/ui/stella.module.scss';
 
 interface StellaProps {
@@ -25,6 +26,7 @@ const Stella = async ({ path }: StellaProps) => {
     components: {
       ...components,
       Playground,
+      Settings: (props) => <Settings {...props} standalone={false} />,
     },
     options: { parseFrontmatter: true },
   });

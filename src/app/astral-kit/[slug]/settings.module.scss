@@ -1,26 +1,32 @@
 @use '@/styles/token' as t;
 
 .settings {
-  position: fixed;
-  inset: 0;
-  block-size: 100%;
-  overflow-y: auto;
-  background-color: hsla(0deg, 0%, 100%, 0.75);
-  backdrop-filter: blur(8px);
   color: t.$gray-9;
+
+  &.standalone {
+    position: fixed;
+    inset: 0;
+    block-size: 100%;
+    overflow-y: auto;
+    background-color: hsla(0deg, 0%, 100%, 0.75);
+    backdrop-filter: blur(8px);
+  }
 }
 
 .wrapper {
   max-inline-size: 40rem;
   margin-inline: auto;
-  padding-block-end: t.$space-6;
 
-  /* sync with header */
-  @include t.device(ltb) {
-    padding-block-start: t.$space-2;
-  }
-  @include t.device(tb) {
-    padding-block-start: t.$space-12 + t.$space-2;
+  .standalone > & {
+    padding-block-end: t.$space-6;
+
+    /* sync with header */
+    @include t.device(ltb) {
+      padding-block-start: t.$space-2;
+    }
+    @include t.device(tb) {
+      padding-block-start: t.$space-12 + t.$space-2;
+    }
   }
 }
 

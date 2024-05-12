@@ -1,3 +1,5 @@
+'use client';
+
 import { TrashSimple, X } from '@phosphor-icons/react/dist/ssr';
 import { useState } from 'react';
 
@@ -13,9 +15,10 @@ import s from './settings.module.scss';
 
 interface Props {
   close: () => void;
+  standalone?: boolean;
 }
 
-const Settings = ({ close }: Props) => {
+const Settings = ({ close, standalone = true }: Props) => {
   const interactive = store((s) => s.interactive);
   const apiKey = store((s) => s.apiKey);
   const showMetric = store((s) => s.showMetric);
@@ -24,16 +27,23 @@ const Settings = ({ close }: Props) => {
   type KeyState = 'none' | 'validating' | 'invalid' | 'valid';
   const [keyState, setKeyState] = useState<KeyState>(apiKey ? 'valid' : 'none');
 
+  const maskedKey = `${apiKey.slice(0, 16)}...${apiKey.slice(-3)}`;
+
   return (
     <ToastProvider>
       {(toast) => {
         return (
-          <div className={s.settings}>
+          <div
+            key={`${interactive}-${maskedKey}-${showMetric}`} /* force re-render */
+            className={[s.settings, standalone ? s.standalone : ''].join(' ')}
+          >
             <div className={s.wrapper}>
-              <header className={s.header}>
-                <h1 className={s.title}>settings</h1>
-                <IconButton className={s.close} Icon={X} onPress={close} />
-              </header>
+              {standalone && (
+                <header className={s.header}>
+                  <h1 className={s.title}>settings</h1>
+                  <IconButton className={s.close} Icon={X} onPress={close} />
+                </header>
+              )}
 
               <main className={s.main}>
                 <Checkbox
@@ -47,7 +57,7 @@ const Settings = ({ close }: Props) => {
                   defaultSelected={interactive}
                   onChange={(interactive) => store.setState({ interactive })}
                 >
-                  Interactive playground
+                  Interactive mode
                 </Checkbox>
 
                 <fieldset className={s.fields}>
@@ -55,7 +65,7 @@ const Settings = ({ close }: Props) => {
                     <div className={s['key-view']}>
                       <div className={s['key-view-label']}>API key</div>
                       <div className={s['key-view-value']}>
-                        {`${apiKey.slice(0, 16)}...${apiKey.slice(-3)}`}
+                        {maskedKey}
                         <TooltipTrigger>
                           <IconButton
                             className={s['key-view-remove']}

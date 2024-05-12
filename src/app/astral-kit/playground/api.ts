@@ -7,6 +7,7 @@ interface ChatParams {
   system?: string;
   temperature?: number;
   handleStream: (chunk: string) => void;
+  apiKey?: string;
   abort?: AbortController;
 }
 
@@ -16,6 +17,7 @@ export const chat = async ({
   temperature = 0,
   handleStream,
   abort = new AbortController(),
+  apiKey = store.getState().apiKey,
 }: ChatParams) => {
   const params: Anthropic.MessageCreateParamsStreaming = {
     max_tokens: 2048,
@@ -33,7 +35,7 @@ export const chat = async ({
     const res = await fetch(`${baseUrl}/api/chat/anthropic`, {
       body: JSON.stringify({
         params,
-        apiKey: '', // TODO: implement UI for storing user's API key
+        apiKey,
         metric: showMetric,
       }),
       headers: {
@@ -74,6 +76,7 @@ interface ToolParams {
   messages: Anthropic.Beta.Tools.ToolsBetaMessageParam[];
   tools: Anthropic.Beta.Tools.Tool[];
   temperature?: number;
+  apiKey?: string;
   abort?: AbortController;
 }
 
@@ -81,6 +84,7 @@ export const tool = async <T,>({
   messages,
   tools,
   temperature = 0,
+  apiKey = store.getState().apiKey,
   abort = new AbortController(),
 }: ToolParams): Promise<T> => {
   const params: Anthropic.Beta.Tools.MessageCreateParamsNonStreaming = {
@@ -93,9 +97,10 @@ export const tool = async <T,>({
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
     const res = await fetch(`${baseUrl}/api/tool/anthropic`, {
       body: JSON.stringify({
-        apiKey: '', // TODO: implement UI for storing user's API key
+        apiKey,
         params,
       }),
       headers: {

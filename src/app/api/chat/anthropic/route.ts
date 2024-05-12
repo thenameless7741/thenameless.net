@@ -11,15 +11,14 @@ interface Payload {
 
 export const POST = async (req: NextRequest) => {
   const { params, apiKey, metric }: Payload = await req.json();
-  // if (!apiKey) {
-  //   return NextResponse.json(
-  //     { error: 'Anthropic API key is required' },
-  //     { status: 400 },
-  //   );
-  // }
+  if (!apiKey) {
+    return NextResponse.json(
+      { error: 'Anthropic API key is required' },
+      { status: 400 },
+    );
+  }
 
-  // TODO: remove apiKey when a form for storing API key is implemented
-  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  const anthropic = new Anthropic({ apiKey });
 
   const textEncoder = new TextEncoder();
   const stream = anthropic.messages.stream(params);

@@ -25,11 +25,22 @@
 }
 
 .header {
-  display: flex;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+}
+
+.title {
+  grid-column: 2 / 3;
+  justify-self: center;
+  @include t.font(14, 14, 0.1);
+  font-family: t.$font-label;
+  text-transform: uppercase;
 }
 
 .close {
+  grid-column: 3 / 4;
+  justify-self: end;
   position: relative; /* sync with header's preferences icon */
 
   @media (min-width: 40em) and (max-width: 74.99em) {
@@ -41,6 +52,10 @@
 }
 
 .main {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-3;
+  padding-block: t.$space-12;
   padding-inline: var(--pad);
 
   /* sync with layout */
@@ -54,6 +69,71 @@
 
 .heading {
   @include t.font(22, 28);
-  margin-block: t.$space-6;
+  margin-block: t.$space-12 t.$space-6;
   font-family: t.$font-title;
+  letter-spacing: -0.02em;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-6;
+  padding-block-start: t.$space-2; /* alignment */
+  padding-block-end: t.$space-3;
+  padding-inline: var(--inline-pad);
+  border: none;
+  border-inline-start: 1px solid t.$gray-1;
+
+  @include t.device(llt) {
+    --inline-pad: #{t.$space-3};
+  }
+  @include t.device(lt) {
+    --inline-pad: #{t.$space-6};
+  }
+}
+
+.key-edit {
+  position: relative;
+}
+
+.key-view {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: t.$space-1;
+
+  &-label {
+    @include t.font(16, 20);
+    font-family: t.$font-body;
+  }
+
+  &-value {
+    @include t.font(14, 16);
+    position: relative;
+    margin-block-start: t.$space-3;
+    font-family: t.$font-code;
+  }
+  &-remove {
+    position: absolute;
+    top: 50%;
+    right: -1 * t.$space-12;
+    transform: translateY(-50%);
+  }
+}
+
+.status {
+  @include t.font(10, 10, 0.1);
+  position: absolute;
+  top: 5px;
+  right: 0;
+  font-family: t.$font-label;
+  text-transform: uppercase;
+}
+.validating {
+  @extend .status;
+  color: t.$gray-5;
+}
+.invalid {
+  @extend .status;
+  color: #ec798b; /* red-3 */
 }

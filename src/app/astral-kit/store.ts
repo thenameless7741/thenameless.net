@@ -7,6 +7,7 @@ import { Metric } from './playground/types';
 
 interface Props {
   interactive: boolean;
+  apiKey: string;
   showMetric: boolean;
 }
 
@@ -16,12 +17,14 @@ const store = create<State>()(
   persist(
     (set, get) => ({
       interactive: false, // TODO: revert to true
+      apiKey: '',
       showMetric: false,
     }),
     {
       name: 'astral-kit',
-      partialize: ({ interactive, showMetric }) => ({
+      partialize: ({ interactive, apiKey, showMetric }) => ({
         interactive,
+        apiKey,
         showMetric,
       }),
     },

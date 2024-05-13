@@ -17,7 +17,7 @@ type Props = TextFieldProps & {
   label?: string;
   placeholder?: string;
   spellCheck?: InputProps['spellCheck'];
-  description?: string;
+  description?: React.ReactNode;
   errorMessage?: string | ((validation: ValidationResult) => string);
 };
 

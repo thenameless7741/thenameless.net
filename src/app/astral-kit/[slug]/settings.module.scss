@@ -102,6 +102,13 @@
   position: relative;
 }
 
+.key-input {
+  /* description */
+  & > span > p + p {
+    margin-block-start: 1.5 * t.$space-1;
+  }
+}
+
 .key-view {
   display: flex;
   flex-direction: column;

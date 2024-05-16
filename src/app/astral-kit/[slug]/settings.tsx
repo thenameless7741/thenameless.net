@@ -84,7 +84,23 @@ const Settings = ({ close, standalone = true }: Props) => {
                       <TextField
                         className={s['key-input']}
                         autoComplete="off"
-                        description="Your API key is stored locally in your browser and will never be shared with anyone else. As a general security best practice, consider creating a new key just for this tutorial, and delete it once you're done."
+                        description=<>
+                          <p>
+                            Your API key is stored locally in your browser and
+                            will never be shared or used for any other purpose.
+                            To learn more about how the API key is handled,
+                            check out the{' '}
+                            <Link href="https://github.com/thenameless7741/thenameless.net?tab=readme-ov-file#faq">
+                              open source project
+                            </Link>
+                            .
+                          </p>
+                          <p>
+                            As a general security best practice, consider
+                            creating a new key just for this tutorial, and
+                            delete it once you{`'`}re done.
+                          </p>
+                        </>
                         isDisabled={!interactive || keyState === 'validating'}
                         label="API key"
                         placeholder="Paste your key here, e.g., sk-ant-apixx-xxx"

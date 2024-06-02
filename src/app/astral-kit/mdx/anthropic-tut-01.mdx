@@ -19,7 +19,7 @@ updatedAt: '2024-06-01'
 
 Tool use, also known as function calling, refers to the ability to extend Claude's capabilities by defining and invoking external tools or functions. We can give Claude access to a set of predefined tools that it can invoke at any point.  Tools allow us to write code that can perform specific tasks or computations that Claude wouldn't be able to do otherwise. In short: tool use is a way of enhancing Claude's functionality.
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/01-01.avif" width={1920} height={1080} />
 
 ## Why does this matter?
 
@@ -70,7 +70,7 @@ Let's turn our attention to how tool use actually works. The most important thin
 
 Note that Claude does not have access to any built-in server-side tools. All tools must be explicitly provided by you, the user, in each API request. This means that you define the available tools, with clear descriptions and input schemas, as well as implements and executes the tool logic, such as running a specific function or querying an API at Claude's request. This gives you full control and flexibility over the tools Claude can use.
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/01-02.avif" width={1920} height={1080} />
 
 Specifically, using tools with Claude involves the following steps:
 
@@ -101,7 +101,7 @@ Of course, Claude doesn't know what stock market conditions and prices are at an
 
 Here's a simple diagram showing the flow of information between our app and Claude:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/01-03.avif" width={1920} height={1080} />
 
 ### Detailed breakdown of the process
 

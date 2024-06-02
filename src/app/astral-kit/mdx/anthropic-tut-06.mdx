@@ -20,15 +20,15 @@ This chatbot will be quite limited, but it demonstrates some key pieces of worki
 
 Here's an image showcasing an example interaction with the chatbot.
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/06-01.avif" width={2730} height={1256} />
 
 Here's another interaction with the chatbot where we've explicitly printed out a message any time Claude uses a tool, to make it easier to understand what's happening behind the scenes:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/06-02.avif" width={2732} height={1222} />
 
 Here's a diagram showing the flow of information for a potential single chat message:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/06-03.avif" width={1920} height={1080} />
 
 **Important note: this chatbot is extremely simple and allows anyone to cancel an order as long as they have the username or email of the user who placed the order. This implementation is for educational purposes and should not be integrated into a real codebase without alteration!**
 
@@ -793,7 +793,7 @@ def simple_chat():
 
 Here's an example conversation:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/06-04.avif" width={2756} height={1098} />
 
 As you can see, the chatbot is calling the correct tools when needed, but the actual chat responses are not ideal. We probably don't want a customer-facing chatbot telling users about the specific tools it's going to call!
 
@@ -815,7 +815,7 @@ Don't forget to pass this prompt into the `system` parameter when making request
 
 Here's a sample conversation after adding in the above system prompt details:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/06-05.avif" width={2740} height={658} />
 
 Notice that the assistant knows it is a support bot for TechNova, and it no longer tells the user about its tools.  It might also be worth explicitly telling Claude not to reference tools at all.
 
@@ -823,7 +823,7 @@ Notice that the assistant knows it is a support bot for TechNova, and it no long
 
 If you play with this script enough, you'll likely notice other issues. One very obvious and very problematic issue is illustrated by the following exchange:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/06-06.avif" width={2728} height={446} />
 
 The screenshot above shows the entire conversation. The user asks for help canceling an order and states that they don't know the order ID. Claude should follow up and ask for the customer's email, phone number, or username to look up the customer and then find the matching orders. Instead, Claude just decides to call the `get_user` tool without actually knowing any information about the user. Claude made up an email address and tried to use it, but of course didn't find a matching customer.
 
@@ -842,7 +842,7 @@ Do not call any of the tools unless you have the required data from a user.
 
 Here's a screenshot of a conversation with the assistant that uses the updated system prompt:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/06-07.avif" width={2758} height={998} />
 
 Much better!
 
@@ -850,7 +850,7 @@ Much better!
 
 When working with Opus and tools, the model often outputs its thoughts in `<thinking>` or `<reflection>` tags before actually responding to a user.  You can see an example of this in the screenshot below:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/06-08.avif" width={2736} height={1082} />
 
 This thinking process tends to lead to better results, but it obviously makes for a terrible user experience. We don't want to expose that thinking logic to a user! The easiest fix here is to explicitly ask the model output its user-facing response in a particular set of XML tags. We start by updating the system prompt:
 
@@ -871,7 +871,7 @@ It's important to place all user-facing conversational responses in <reply></rep
 
 Take a look at an example conversation output:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/06-08.avif" width={2736} height={1520} />
 
 Claude is now responding with `<reply>` tags around the actual user-facing response.  All we need to do now is extract the content between those tags and make sure that's the only part of the response we actually print to the user.  Here's an updated `start_chat` function that does exactly that!
 
@@ -955,13 +955,13 @@ def simple_chat():
 
 Here's a screenshot showing the impact of the above change:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/06-10.avif" width={2766} height={762} />
 
 ## Final version
 
 Here's a screenshot of a longer conversation with a version of this script that colorizes the output.
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/06-11.avif" width={2882} height={1606} />
 
 ## Closing notes
 

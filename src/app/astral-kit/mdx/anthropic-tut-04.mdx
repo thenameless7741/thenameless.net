@@ -38,11 +38,11 @@ In this lesson, we'll go through the entire process.
 
 Here's a diagram with a general overview of the process:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/04-01.avif" width={1920} height={1080} />
 
 Here's a diagram explaining how our script will work:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/04-02.avif" width={1920} height={1080} />
 
 Here are some real exchanges that illustrate the end result we're hoping to achieve:
 
@@ -70,7 +70,7 @@ If we ask Claude a question that it can answer without needing to use our tool, 
 
 Here's a look at what the `messages` list looks like by the end of this process:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/04-03.avif" width={1920} height={1080} />
 
 The main new topic in this lesson is how to properly format our `tool_result` user message when responding to Claude's `tool_use` message.
 
@@ -321,14 +321,9 @@ Our `messages` list now looks like this:
 
 Here's a diagram that illustrates this.
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/04-04.avif" width={1920} height={1080} />
 
 Note that the initial `id` matches the `tool_use_id` in our follow up user message
-
-```python
-```
-
-**TODO: PLAYGROUND**
 
 ### 6. Claude uses the tool result to formulate a response: (API response)
 
@@ -681,7 +676,7 @@ Can you update this code so that it fulfills the following requirements:
 
 Here's a screenshot of an example conversation session:
 
-**TODO: IMAGE**
+<Image path="anthropic-tut/04-05.avif" width={2068} height={686} />
 
 <Pagination
   prev={{

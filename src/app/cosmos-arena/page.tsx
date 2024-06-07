@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const Page = async () => {
-  const updatedAt = new Date().toISOString().slice(0, 10);
+  const updatedAt = '2024-06-07 (archive)';
   const hfModels = await loadHFModels();
   const lmsysModels: LMSYS.Model[] = await loadLMSYSModel();
 

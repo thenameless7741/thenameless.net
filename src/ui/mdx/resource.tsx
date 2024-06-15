@@ -40,11 +40,14 @@ const Resource = (r: Props) => {
         <div className={s.metadata}>
           {!!r.author &&
             (r.author?.url ? (
-              <Link className={s.author} href={r.author.url}>
-                {r.author.text}
-              </Link>
+              <span>
+                by:&nbsp;
+                <Link className={s.author} href={r.author.url}>
+                  {r.author.text}
+                </Link>
+              </span>
             ) : (
-              <span className={s.author}>{r.author.text}</span>
+              <span className={s.author}>by: {r.author.text}</span>
             ))}
 
           {!!r.tags && (

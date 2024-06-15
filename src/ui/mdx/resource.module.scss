@@ -5,7 +5,6 @@
   flex-direction: column;
   align-items: flex-start;
   margin-block-end: t.$space-3;
-  color: #{t.$gray-5};
 }
 
 .main {
@@ -16,6 +15,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: t.$space-2;
+  color: #{t.$gray-5};
 }
 
 .author {

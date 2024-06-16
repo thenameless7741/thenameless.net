@@ -15,10 +15,7 @@ interface Props {
 const StellulaTrigger = ({ path, title, children }: Props) => {
   return (
     <DialogTrigger>
-      <Button className={s.trigger}>
-        <Border />
-        {children}
-      </Button>
+      <Button className={s.trigger}>{children}</Button>
 
       <Modal>
         <Dialog>
@@ -31,14 +28,3 @@ const StellulaTrigger = ({ path, title, children }: Props) => {
   );
 };
 export default StellulaTrigger;
-
-const Border = () => {
-  return (
-    <span aria-hidden={true} className={s.border}>
-      <div className={s['gap-1']} />
-      <div className={s['gap-2']} />
-      <div className={s['gap-3']} />
-      <div className={s['gap-4']} />
-    </span>
-  );
-};
